@@ -74,7 +74,7 @@ def generate():
     wms_fee = 0 if is_open_yard or not include_wms else 1500 * months
     total_fee = round(storage_fee + wms_fee, 2)
 
-    # Placeholder mapping
+    # Replace placeholders in Word
     placeholders = {
         "{{STORAGE_TYPE}}": storage_type,
         "{{DAYS}}": str(days),
@@ -127,14 +127,15 @@ def generate():
         delete_block(doc, "[VAS_CHEMICAL]", "[/VAS_CHEMICAL]")
         delete_block(doc, "[VAS_OPENYARD]", "[/VAS_OPENYARD]")
 
-    # Save to Downloads folder (server-side)
+    # ✅ Save inside /generated folder (Render-friendly)
+    os.makedirs("generated", exist_ok=True)  # Create folder if not exists
     filename = f"Quotation_{email.split('@')[0]}.docx"
-    output_path = os.path.join(os.path.expanduser("~"), "Downloads", filename)
+    output_path = os.path.join("generated", filename)
     doc.save(output_path)
 
     return send_file(output_path, as_attachment=True)
 
-# ✅ Render-compatible run block
+# ✅ Use PORT and 0.0.0.0 for Render deployment
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
