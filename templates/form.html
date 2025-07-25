@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DSV Quotation Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #002c77;
+            color: white;
+            padding: 2rem;
+        }
+        h1 {
+            color: #fff;
+        }
+        label {
+            display: block;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            border-radius: 4px;
+            border: none;
+            font-size: 1rem;
+        }
+        button {
+            background-color: white;
+            color: #002c77;
+            font-weight: bold;
+            margin-top: 2rem;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #00389b;
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        img.logo {
+            width: 150px;
+            display: block;
+            margin: 0 auto 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='dsv_logo.png') }}" alt="DSV Logo" class="logo">
+        <h1>DSV Quotation Generator</h1>
+        <form action="/generate" method="post">
+            <label for="storage_type">Storage Type</label>
+            <select name="storage_type" id="storage_type" required>
+                <option value="">-- Select --</option>
+                <option value="AC">AC</option>
+                <option value="Non-AC">Non-AC</option>
+                <option value="Open Shed">Open Shed</option>
+                <option value="Open Yard - Mussafah">Open Yard - Mussafah</option>
+                <option value="Open Yard - KIZAD">Open Yard - KIZAD</option>
+                <option value="Chemicals AC">Chemicals AC</option>
+                <option value="Chemicals Non-AC">Chemicals Non-AC</option>
+            </select>
+
+            <label for="volume">Volume (CBM or SQM)</label>
+            <input type="number" name="volume" id="volume" required>
+
+            <label for="days">Duration (Days)</label>
+            <input type="number" name="days" id="days" required>
+
+            <label for="wms">Include WMS?</label>
+            <select name="wms" id="wms" required>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label for="email">Recipient Email</label>
+            <input type="email" name="email" id="email" required>
+
+            <button type="submit">Generate Quotation</button>
+        </form>
+    </div>
+</body>
+</html>
