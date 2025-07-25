@@ -2,47 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DSV Quotation Generator</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
             background-color: #002c77;
             color: white;
-            padding: 2rem;
-        }
-        h1 {
-            color: #fff;
-        }
-        label {
-            display: block;
-            margin-top: 1rem;
-            font-weight: bold;
-        }
-        input, select, button {
+            height: 100%;
             width: 100%;
-            padding: 0.5rem;
-            margin-top: 0.5rem;
-            border-radius: 4px;
-            border: none;
-            font-size: 1rem;
         }
-        button {
-            background-color: white;
-            color: #002c77;
-            font-weight: bold;
-            margin-top: 2rem;
-        }
+
         .container {
-            max-width: 400px;
-            margin: 0 auto;
-            background: #00389b;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             padding: 2rem;
-            border-radius: 8px;
+            max-width: 400px;
+            margin: auto;
+            background: #00389b;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
+
         img.logo {
             width: 150px;
             display: block;
-            margin: 0 auto 1rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        label {
+            margin-top: 1rem;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 0.4rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            margin-top: 1.8rem;
+            background-color: white;
+            color: #002c77;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                width: 100%;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
