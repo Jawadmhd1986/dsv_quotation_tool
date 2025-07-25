@@ -56,12 +56,12 @@ def generate():
         rate = 125
         unit = "SQM"
         rate_unit = "SQM / YEAR"
-        storage_fee = volume * days * (rate/356)
+        storage_fee = volume * days * (rate / 356)
     elif "mussafah" in storage_type.lower():
         rate = 160
         unit = "SQM"
         rate_unit = "SQM / YEAR"
-        storage_fee = volume * days * (rate/356)
+        storage_fee = volume * days * (rate / 356)
     else:
         rate = 0
         storage_fee = 0
@@ -127,12 +127,14 @@ def generate():
         delete_block(doc, "[VAS_CHEMICAL]", "[/VAS_CHEMICAL]")
         delete_block(doc, "[VAS_OPENYARD]", "[/VAS_OPENYARD]")
 
-    # Save to Downloads
+    # Save to Downloads folder (server-side)
     filename = f"Quotation_{email.split('@')[0]}.docx"
     output_path = os.path.join(os.path.expanduser("~"), "Downloads", filename)
     doc.save(output_path)
 
     return send_file(output_path, as_attachment=True)
 
+# ✅ Render-compatible run block
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
