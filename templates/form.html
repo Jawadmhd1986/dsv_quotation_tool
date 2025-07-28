@@ -46,7 +46,6 @@
       cursor: pointer;
     }
 
-    /* Chat Styling */
     #chat-box {
       display: none;
       position: fixed;
@@ -88,7 +87,8 @@
       background: #002c77;
       color: white;
       border: none;
-      padding: 8px 14px;
+      padding: 8px 10px;
+      font-size: 14px;
     }
     .chat-toggle {
       position: fixed;
@@ -98,7 +98,7 @@
       color: white;
       border: none;
       border-radius: 50%;
-      padding: 14px 16px;
+      padding: 10px;
       font-size: 18px;
     }
   </style>
@@ -147,7 +147,7 @@
     <header>DSV Assistant</header>
     <div id="chat-messages"></div>
     <footer>
-      <input id="chat-input" type="text" placeholder="Type your message..." onkeydown="if(event.key==='Enter') sendMessage()">
+      <input id="chat-input" type="text" placeholder="Type your message..." onkeydown="if(event.key==='Enter') sendMessage()" style="flex: 1">
       <button id="chat-send" onclick="sendMessage()">Send</button>
     </footer>
   </div>
