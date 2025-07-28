@@ -5,6 +5,10 @@ import requests
 
 app = Flask(__name__)
 
+# Hugging Face API config
+HF_API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
+HF_API_KEY = os.environ.get("HF_API_KEY")
+
 @app.route("/", methods=["GET"])
 def index():
     return render_template("form.html")
@@ -30,36 +34,44 @@ def generate():
         rate = 2.5
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Non-AC":
         rate = 2.0
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Open Shed":
         rate = 1.8
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Chemicals AC":
         rate = 3.5
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Chemicals Non-AC":
         rate = 2.7
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif "kizad" in storage_type.lower():
         rate = 125
         unit = "SQM"
         rate_unit = "SQM / YEAR"
+        storage_fee = volume * days * (rate / 356)
     elif "mussafah" in storage_type.lower():
         rate = 160
         unit = "SQM"
         rate_unit = "SQM / YEAR"
+        storage_fee = volume * days * (rate / 356)
     else:
         rate = 0
+        storage_fee = 0
         unit = "CBM"
         rate_unit = "CBM / DAY"
 
-    storage_fee = round(volume * days * (rate if "CBM" in unit else rate / 356), 2)
+    storage_fee = round(storage_fee, 2)
     months = max(1, days // 30)
     is_open_yard = "open yard" in storage_type.lower()
     wms_fee = 0 if is_open_yard or not include_wms else 1500 * months
@@ -132,25 +144,29 @@ def chat():
     if not message:
         return jsonify({"reply": "No message received."})
 
-    prompt = f"""
-You are a helpful assistant for DSV specializing in warehousing, logistics, storage pricing in UAE.
-Answer clearly and professionally.
-User: {message}
-Assistant:
+    prompt = f"""You are a helpful assistant for DSV, UAE. You specialize in warehousing, Autostores, logistics, fleet ops, and value-added services.
+The customer said: {message}
+Answer in a clear, accurate and helpful way.
 """
 
     try:
-        response = requests.post(
-            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2",
-            headers={"Authorization": f"Bearer {os.getenv('HF_API_KEY')}"},
-            json={"inputs": prompt}
-        )
+        headers = {
+            "Authorization": f"Bearer {HF_API_KEY}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "inputs": prompt,
+            "parameters": {
+                "max_new_tokens": 200,
+                "temperature": 0.3,
+                "return_full_text": False
+            }
+        }
+        response = requests.post(HF_API_URL, headers=headers, json=payload)
         result = response.json()
-        if isinstance(result, list):
-            reply = result[0]['generated_text'].split("Assistant:")[-1].strip()
-        else:
-            reply = result.get("error", "Sorry, I couldn't respond.")
-        return jsonify({"reply": reply})
+        if isinstance(result, dict) and "error" in result:
+            return jsonify({"reply": f"DSV Bot Error: {result['error']}"})
+        return jsonify({"reply": result[0]["generated_text"]})
     except Exception as e:
         return jsonify({"reply": f"DSV Bot Error: {str(e)}"})
 
