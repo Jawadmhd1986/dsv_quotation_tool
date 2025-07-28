@@ -4,9 +4,9 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 
-# ✅ Load API key securely from Render secret file path
-load_dotenv("/etc/secrets/.env")
-client = OpenAI()
+# ✅ Load .env for local, and pass key explicitly for Render
+load_dotenv("/etc/secrets/.env")  # Render's secure secret path
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = Flask(__name__)
 
@@ -139,7 +139,7 @@ def generate():
 
     return send_file(output_path, as_attachment=True)
 
-# ✅ Chatbot Route with updated OpenAI v1 syntax
+# ✅ Chatbot route with secure API key usage
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
