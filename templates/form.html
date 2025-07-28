@@ -69,6 +69,78 @@
       .container { width: 100%; padding: 1.5rem; }
       h1 { font-size: 1.3rem; }
     }
+
+    /* Chatbot styles */
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      background-color: white;
+      color: #002c77;
+      border: none;
+      padding: 0.7rem 1rem;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    #chatbot-window {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 350px;
+      height: 500px;
+      background-color: white;
+      color: black;
+      border-radius: 10px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+
+    #chatbot-header {
+      background-color: #002c77;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    #chatbot-body {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-family: sans-serif;
+      font-size: 0.9rem;
+    }
+
+    #chatbot-input {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ccc;
+    }
+
+    #chatbot-input input {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #chatbot-input button {
+      margin-left: 5px;
+      background-color: #002c77;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -107,7 +179,25 @@
     </form>
   </div>
 
-  <!-- Load chatbot script if needed -->
+  <!-- Chatbot Button & Window -->
+  <button id="chatbot-toggle" onclick="toggleChat()">Chat with DSV</button>
+
+  <div id="chatbot-window">
+    <div id="chatbot-header">DSV Assistant</div>
+    <div id="chatbot-body"></div>
+    <div id="chatbot-input">
+      <input type="text" id="chatbot-text" placeholder="Ask me anything...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Load chatbot logic -->
   <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+  <script>
+    function toggleChat() {
+      const chatWindow = document.getElementById("chatbot-window");
+      chatWindow.style.display = chatWindow.style.display === "flex" ? "none" : "flex";
+    }
+  </script>
 </body>
 </html>
