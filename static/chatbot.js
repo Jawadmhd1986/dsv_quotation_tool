@@ -1,33 +1,36 @@
-let isOpen = false;
+let isChatOpen = false;
 
 function toggleChat() {
-  const box = document.getElementById("chat-box");
-  isOpen = !isOpen;
-  box.style.display = isOpen ? "flex" : "none";
+  const chatBox = document.getElementById("chat-box");
+  isChatOpen = !isChatOpen;
+  chatBox.style.display = isChatOpen ? "flex" : "none";
 }
 
 async function sendMessage() {
   const input = document.getElementById("chat-input");
-  const text = input.value.trim();
-  if (!text) return;
+  const message = input.value.trim();
+  if (!message) return;
 
-  appendMessage("You", text);
+  appendMessage("You", message);
   input.value = "";
 
-  const res = await fetch("/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
-  });
-
-  const data = await res.json();
-  appendMessage("DSV Bot", data.reply);
+  try {
+    const res = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    });
+    const data = await res.json();
+    appendMessage("DSV Bot", data.reply);
+  } catch {
+    appendMessage("DSV Bot", "Error getting response.");
+  }
 }
 
-function appendMessage(sender, msg) {
-  const container = document.getElementById("chat-messages");
+function appendMessage(sender, text) {
+  const msgBox = document.getElementById("chat-messages");
   const div = document.createElement("div");
-  div.innerHTML = `<strong>${sender}:</strong> ${msg}`;
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
+  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  msgBox.appendChild(div);
+  msgBox.scrollTop = msgBox.scrollHeight;
 }
