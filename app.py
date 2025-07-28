@@ -16,13 +16,13 @@ def generate():
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
-    message = data.get("message", "")
+    message = data.get("message", "").strip()
     if not message:
         return jsonify({"reply": "No message received."})
 
     hf_token = os.environ.get("HF_API_KEY")
     if not hf_token:
-        return jsonify({"reply": "Hugging Face API key not found."})
+        return jsonify({"reply": "❌ Hugging Face API key not configured."})
 
     headers = {
         "Authorization": f"Bearer {hf_token}",
@@ -32,8 +32,10 @@ def chat():
     payload = {
         "inputs": f"<s>[INST] {message} [/INST]",
         "parameters": {
-            "temperature": 0.5,
-            "max_new_tokens": 250,
+            "temperature": 0.4,
+            "max_new_tokens": 300,
+            "top_p": 0.95,
+            "repetition_penalty": 1.1,
             "return_full_text": False
         }
     }
@@ -46,12 +48,12 @@ def chat():
             timeout=30
         )
         response.raise_for_status()
-        data = response.json()
+        result = response.json()
 
-        if isinstance(data, list) and "generated_text" in data[0]:
-            reply = data[0]["generated_text"].strip()
+        if isinstance(result, list) and "generated_text" in result[0]:
+            reply = result[0]["generated_text"].strip()
         else:
-            reply = data.get("error", "No valid response received.")
+            reply = result.get("error", "No valid response received.")
 
         return jsonify({"reply": reply})
 
@@ -59,4 +61,5 @@ def chat():
         return jsonify({"reply": f"DSV Bot Error: {str(e)}"})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
