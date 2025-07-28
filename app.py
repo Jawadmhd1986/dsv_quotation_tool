@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request, send_file, jsonify
 from docx import Document
 import os
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 
-# ✅ Load .env for local, and pass key explicitly for Render
-load_dotenv("/etc/secrets/.env")  # Render's secure secret path
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# ✅ Load .env from local or Render secret path
+load_dotenv("/etc/secrets/.env")  # Use this path for Render
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
 
@@ -139,7 +139,7 @@ def generate():
 
     return send_file(output_path, as_attachment=True)
 
-# ✅ Chatbot route with secure API key usage
+# ✅ Chatbot route using openai.ChatCompletion
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
@@ -165,7 +165,7 @@ Be accurate, clear, and professional.
 """
 
     try:
-        response = client.chat.completions.create(
+        response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": system_prompt},
@@ -173,7 +173,7 @@ Be accurate, clear, and professional.
             ],
             temperature=0.3
         )
-        reply = response.choices[0].message.content
+        reply = response["choices"][0]["message"]["content"]
         return jsonify({"reply": reply})
     except Exception as e:
         return jsonify({"reply": f"Error: {str(e)}"})
