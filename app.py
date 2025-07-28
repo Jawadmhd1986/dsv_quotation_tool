@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, send_file, jsonify
 from docx import Document
 import os
-import openai
+from openai import OpenAI
 
-# ✅ Read OpenAI key from Render environment
+# ✅ Secure API key from environment variable
 api_key = os.environ.get("OPENAI_API_KEY")
-openai.api_key = api_key
+client = OpenAI(api_key=api_key)
 
 app = Flask(__name__)
 
@@ -21,7 +21,6 @@ def generate():
     include_wms = request.form["wms"] == "Yes"
     email = request.form.get("email", "")
 
-    # Choose template
     if "chemical" in storage_type.lower():
         template_path = "templates/Chemical VAS.docx"
     elif "open yard" in storage_type.lower():
@@ -31,49 +30,40 @@ def generate():
 
     doc = Document(template_path)
 
-    # Pricing logic
     if storage_type == "AC":
         rate = 2.5
         unit = "CBM"
         rate_unit = "CBM / DAY"
-        storage_fee = volume * days * rate
     elif storage_type == "Non-AC":
         rate = 2.0
         unit = "CBM"
         rate_unit = "CBM / DAY"
-        storage_fee = volume * days * rate
     elif storage_type == "Open Shed":
         rate = 1.8
         unit = "CBM"
         rate_unit = "CBM / DAY"
-        storage_fee = volume * days * rate
     elif storage_type == "Chemicals AC":
         rate = 3.5
         unit = "CBM"
         rate_unit = "CBM / DAY"
-        storage_fee = volume * days * rate
     elif storage_type == "Chemicals Non-AC":
         rate = 2.7
         unit = "CBM"
         rate_unit = "CBM / DAY"
-        storage_fee = volume * days * rate
     elif "kizad" in storage_type.lower():
         rate = 125
         unit = "SQM"
         rate_unit = "SQM / YEAR"
-        storage_fee = volume * days * (rate / 356)
     elif "mussafah" in storage_type.lower():
         rate = 160
         unit = "SQM"
         rate_unit = "SQM / YEAR"
-        storage_fee = volume * days * (rate / 356)
     else:
         rate = 0
-        storage_fee = 0
         unit = "CBM"
         rate_unit = "CBM / DAY"
 
-    storage_fee = round(storage_fee, 2)
+    storage_fee = round(volume * days * rate / 356 if "yard" in storage_type.lower() else volume * days * rate, 2)
     months = max(1, days // 30)
     is_open_yard = "open yard" in storage_type.lower()
     wms_fee = 0 if is_open_yard or not include_wms else 1500 * months
@@ -163,15 +153,15 @@ Be accurate, clear, and professional.
 """
 
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+        response = client.chat.completions.create(
+            model="gpt-4",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": message}
             ],
             temperature=0.3
         )
-        reply = response["choices"][0]["message"]["content"]
+        reply = response.choices[0].message.content
         return jsonify({"reply": reply})
     except Exception as e:
         return jsonify({"reply": f"Error: {str(e)}"})
