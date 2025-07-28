@@ -3,7 +3,7 @@ from docx import Document
 import os
 from openai import OpenAI
 
-# ✅ Secure API key from environment variable
+# ✅ Secure OpenAI API key from environment
 api_key = os.environ.get("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
 
@@ -21,6 +21,7 @@ def generate():
     include_wms = request.form["wms"] == "Yes"
     email = request.form.get("email", "")
 
+    # Select template
     if "chemical" in storage_type.lower():
         template_path = "templates/Chemical VAS.docx"
     elif "open yard" in storage_type.lower():
@@ -30,6 +31,7 @@ def generate():
 
     doc = Document(template_path)
 
+    # Storage rate logic
     if storage_type == "AC":
         rate = 2.5
         unit = "CBM"
@@ -63,7 +65,7 @@ def generate():
         unit = "CBM"
         rate_unit = "CBM / DAY"
 
-    storage_fee = round(volume * days * rate / 356 if "yard" in storage_type.lower() else volume * days * rate, 2)
+    storage_fee = round(volume * days * (rate / 356 if "YEAR" in rate_unit else rate), 2)
     months = max(1, days // 30)
     is_open_yard = "open yard" in storage_type.lower()
     wms_fee = 0 if is_open_yard or not include_wms else 1500 * months
@@ -93,8 +95,6 @@ def generate():
                         if key in cell.text:
                             cell.text = cell.text.replace(key, val)
 
-    replace_placeholders(doc, placeholders)
-
     def delete_block(doc, start_tag, end_tag):
         inside = False
         to_delete = []
@@ -110,6 +110,8 @@ def generate():
         for i in reversed(to_delete):
             doc.paragraphs[i]._element.getparent().remove(doc.paragraphs[i]._element)
 
+    replace_placeholders(doc, placeholders)
+
     if "open yard" in storage_type.lower():
         delete_block(doc, "[VAS_STANDARD]", "[/VAS_STANDARD]")
         delete_block(doc, "[VAS_CHEMICAL]", "[/VAS_CHEMICAL]")
@@ -122,34 +124,24 @@ def generate():
 
     os.makedirs("generated", exist_ok=True)
     filename_prefix = email.split('@')[0] if email else "quotation"
-    filename = f"Quotation_{filename_prefix}.docx"
-    output_path = os.path.join("generated", filename)
+    output_path = os.path.join("generated", f"Quotation_{filename_prefix}.docx")
     doc.save(output_path)
 
     return send_file(output_path, as_attachment=True)
 
+# ✅ Chat endpoint for chatbot.js
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
-    message = data.get("message", "")
-
-    if not message:
-        return jsonify({"reply": "No message received."})
+    user_msg = data.get("message", "").strip()
+    if not user_msg:
+        return jsonify({"reply": "Please enter a question."})
 
     system_prompt = """
-You are a helpful assistant for DSV. You specialize in warehousing, logistics, fleet operations, Autostores, and value-added services in the UAE and globally.
-You also know all storage types, pricing and VAS logic as follows:
-- AC: 2.5 AED / CBM / Day
-- Non-AC: 2.0 AED / CBM / Day
-- Open Shed: 1.8 AED / CBM / Day
-- Chemicals AC: 3.5 AED / CBM / Day
-- Chemicals Non-AC: 2.7 AED / CBM / Day
-- Open Yard - Mussafah: 160 AED / SQM / YEAR
-- Open Yard - KIZAD: 125 AED / SQM / YEAR
-- WMS fee: 1500 AED/month, excluded from Open Yard
-- Minimum monthly storage fee: 3500 AED
-- All VAS categories (Standard, Chemical, Open Yard) are available — explain any if asked.
-Be accurate, clear, and professional.
+You are a helpful DSV assistant. You answer questions related to:
+- Warehousing, logistics, Autostores, fleet, DSV UAE/global.
+- Storage types: AC, Non-AC, Open Yard, Chemical.
+- Pricing logic (CBM/SQM/day/year), VAS logic, and WMS fees.
 """
 
     try:
@@ -157,14 +149,14 @@ Be accurate, clear, and professional.
             model="gpt-4",
             messages=[
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": message}
+                {"role": "user", "content": user_msg}
             ],
             temperature=0.3
         )
-        reply = response.choices[0].message.content
+        reply = response.choices[0].message.content.strip()
         return jsonify({"reply": reply})
     except Exception as e:
-        return jsonify({"reply": f"Error: {str(e)}"})
+        return jsonify({"reply": f"DSV Bot Error: {str(e)}"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
