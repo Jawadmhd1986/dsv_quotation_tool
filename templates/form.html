@@ -36,4 +36,78 @@
     }
 
     h1 {
-      t
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    label {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.4rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      margin-top: 1.8rem;
+      background-color: white;
+      color: #002c77;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 480px) {
+      body { padding: 1rem; }
+      .container { width: 100%; padding: 1.5rem; }
+      h1 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="{{ url_for('static', filename='dsv_logo.png') }}" alt="DSV Logo" class="logo"/>
+    <h1>DSV Quotation Generator</h1>
+    <form action="/generate" method="post">
+      <label for="storage_type">Storage Type</label>
+      <select name="storage_type" id="storage_type" required>
+        <option value="">-- Select --</option>
+        <option value="AC">AC</option>
+        <option value="Non-AC">Non-AC</option>
+        <option value="Open Shed">Open Shed</option>
+        <option value="Open Yard - Mussafah">Open Yard - Mussafah</option>
+        <option value="Open Yard - KIZAD">Open Yard - KIZAD</option>
+        <option value="Chemicals AC">Chemicals AC</option>
+        <option value="Chemicals Non-AC">Chemicals Non-AC</option>
+      </select>
+
+      <label for="volume">Volume (CBM or SQM)</label>
+      <input type="number" name="volume" id="volume" required>
+
+      <label for="days">Duration (Days)</label>
+      <input type="number" name="days" id="days" required>
+
+      <label for="wms">Include WMS?</label>
+      <select name="wms" id="wms" required>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+
+      <label for="email">Recipient Email (optional)</label>
+      <input type="email" name="email" id="email">
+
+      <button type="submit">Generate Quotation</button>
+    </form>
+  </div>
+
+  <!-- Load chatbot script if needed -->
+  <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+</body>
+</html>
