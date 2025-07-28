@@ -1,11 +1,7 @@
 from flask import Flask, render_template, request, send_file, jsonify
 from docx import Document
 import os
-from openai import OpenAI
-
-# ✅ Securely load OpenAI key from Render’s Environment Variables
-api_key = os.environ.get("OPENAI_API_KEY")
-client = OpenAI(api_key=api_key)
+import requests
 
 app = Flask(__name__)
 
@@ -21,7 +17,6 @@ def generate():
     include_wms = request.form["wms"] == "Yes"
     email = request.form.get("email", "")
 
-    # Select template
     if "chemical" in storage_type.lower():
         template_path = "templates/Chemical VAS.docx"
     elif "open yard" in storage_type.lower():
@@ -31,25 +26,40 @@ def generate():
 
     doc = Document(template_path)
 
-    # Rate logic
     if storage_type == "AC":
-        rate, unit, rate_unit = 2.5, "CBM", "CBM / DAY"
+        rate = 2.5
+        unit = "CBM"
+        rate_unit = "CBM / DAY"
     elif storage_type == "Non-AC":
-        rate, unit, rate_unit = 2.0, "CBM", "CBM / DAY"
+        rate = 2.0
+        unit = "CBM"
+        rate_unit = "CBM / DAY"
     elif storage_type == "Open Shed":
-        rate, unit, rate_unit = 1.8, "CBM", "CBM / DAY"
+        rate = 1.8
+        unit = "CBM"
+        rate_unit = "CBM / DAY"
     elif storage_type == "Chemicals AC":
-        rate, unit, rate_unit = 3.5, "CBM", "CBM / DAY"
+        rate = 3.5
+        unit = "CBM"
+        rate_unit = "CBM / DAY"
     elif storage_type == "Chemicals Non-AC":
-        rate, unit, rate_unit = 2.7, "CBM", "CBM / DAY"
+        rate = 2.7
+        unit = "CBM"
+        rate_unit = "CBM / DAY"
     elif "kizad" in storage_type.lower():
-        rate, unit, rate_unit = 125, "SQM", "SQM / YEAR"
+        rate = 125
+        unit = "SQM"
+        rate_unit = "SQM / YEAR"
     elif "mussafah" in storage_type.lower():
-        rate, unit, rate_unit = 160, "SQM", "SQM / YEAR"
+        rate = 160
+        unit = "SQM"
+        rate_unit = "SQM / YEAR"
     else:
-        rate, unit, rate_unit = 0, "CBM", "CBM / DAY"
+        rate = 0
+        unit = "CBM"
+        rate_unit = "CBM / DAY"
 
-    storage_fee = round(volume * days * (rate / 356 if "SQM" in unit else rate), 2)
+    storage_fee = round(volume * days * (rate if "CBM" in unit else rate / 356), 2)
     months = max(1, days // 30)
     is_open_yard = "open yard" in storage_type.lower()
     wms_fee = 0 if is_open_yard or not include_wms else 1500 * months
@@ -96,7 +106,7 @@ def generate():
         for i in reversed(to_delete):
             doc.paragraphs[i]._element.getparent().remove(doc.paragraphs[i]._element)
 
-    if is_open_yard:
+    if "open yard" in storage_type.lower():
         delete_block(doc, "[VAS_STANDARD]", "[/VAS_STANDARD]")
         delete_block(doc, "[VAS_CHEMICAL]", "[/VAS_CHEMICAL]")
     elif "chemical" in storage_type.lower():
@@ -108,7 +118,8 @@ def generate():
 
     os.makedirs("generated", exist_ok=True)
     filename_prefix = email.split('@')[0] if email else "quotation"
-    output_path = os.path.join("generated", f"Quotation_{filename_prefix}.docx")
+    filename = f"Quotation_{filename_prefix}.docx"
+    output_path = os.path.join("generated", filename)
     doc.save(output_path)
 
     return send_file(output_path, as_attachment=True)
@@ -121,32 +132,24 @@ def chat():
     if not message:
         return jsonify({"reply": "No message received."})
 
-    system_prompt = """
-You are a helpful assistant for DSV. You specialize in warehousing, logistics, fleet operations, Autostores, and value-added services in the UAE and globally.
-You also know all storage types, pricing and VAS logic as follows:
-- AC: 2.5 AED / CBM / Day
-- Non-AC: 2.0 AED / CBM / Day
-- Open Shed: 1.8 AED / CBM / Day
-- Chemicals AC: 3.5 AED / CBM / Day
-- Chemicals Non-AC: 2.7 AED / CBM / Day
-- Open Yard - Mussafah: 160 AED / SQM / YEAR
-- Open Yard - KIZAD: 125 AED / SQM / YEAR
-- WMS fee: 1500 AED/month, excluded from Open Yard
-- Minimum monthly storage fee: 3500 AED
-- All VAS categories (Standard, Chemical, Open Yard) are available — explain any if asked.
-Be accurate, clear, and professional.
+    prompt = f"""
+You are a helpful assistant for DSV specializing in warehousing, logistics, storage pricing in UAE.
+Answer clearly and professionally.
+User: {message}
+Assistant:
 """
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": message}
-            ],
-            temperature=0.3
+        response = requests.post(
+            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2",
+            headers={"Authorization": f"Bearer {os.getenv('HF_API_KEY')}"},
+            json={"inputs": prompt}
         )
-        reply = response.choices[0].message.content
+        result = response.json()
+        if isinstance(result, list):
+            reply = result[0]['generated_text'].split("Assistant:")[-1].strip()
+        else:
+            reply = result.get("error", "Sorry, I couldn't respond.")
         return jsonify({"reply": reply})
     except Exception as e:
         return jsonify({"reply": f"DSV Bot Error: {str(e)}"})
