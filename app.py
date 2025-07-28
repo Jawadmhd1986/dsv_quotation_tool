@@ -11,7 +11,6 @@ def index():
 
 @app.route("/generate", methods=["POST"])
 def generate():
-    # Your quotation logic (same as before, unchanged)
     return send_file("your-output-file.docx", as_attachment=True)
 
 @app.route("/chat", methods=["POST"])
@@ -21,21 +20,22 @@ def chat():
     if not message:
         return jsonify({"reply": "No message received."})
 
-    api_key = os.environ.get("HF_API_KEY")
-    if not api_key:
-        return jsonify({"reply": "Hugging Face API key not set."})
+    hf_token = os.environ.get("HF_API_KEY")
+    if not hf_token:
+        return jsonify({"reply": "Hugging Face API key not found."})
+
+    headers = {
+        "Authorization": f"Bearer {hf_token}",
+        "Content-Type": "application/json"
+    }
 
     payload = {
         "inputs": f"<s>[INST] {message} [/INST]",
         "parameters": {
-            "temperature": 0.7,
-            "max_new_tokens": 300
+            "temperature": 0.5,
+            "max_new_tokens": 250,
+            "return_full_text": False
         }
-    }
-
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
     }
 
     try:
@@ -46,13 +46,12 @@ def chat():
             timeout=30
         )
         response.raise_for_status()
-        hf_response = response.json()
+        data = response.json()
 
-        # Handle HF response format
-        if isinstance(hf_response, list) and "generated_text" in hf_response[0]:
-            reply = hf_response[0]["generated_text"].replace(f"<s>[INST] {message} [/INST]", "").strip()
+        if isinstance(data, list) and "generated_text" in data[0]:
+            reply = data[0]["generated_text"].strip()
         else:
-            reply = hf_response.get("error", "No response received.")
+            reply = data.get("error", "No valid response received.")
 
         return jsonify({"reply": reply})
 
