@@ -3,8 +3,9 @@ from docx import Document
 import os
 import openai
 
-# ✅ Load OpenAI API key from environment variable
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+# ✅ Read OpenAI key from Render environment
+api_key = os.environ.get("OPENAI_API_KEY")
+openai.api_key = api_key
 
 app = Flask(__name__)
 
@@ -20,6 +21,7 @@ def generate():
     include_wms = request.form["wms"] == "Yes"
     email = request.form.get("email", "")
 
+    # Choose template
     if "chemical" in storage_type.lower():
         template_path = "templates/Chemical VAS.docx"
     elif "open yard" in storage_type.lower():
@@ -29,43 +31,47 @@ def generate():
 
     doc = Document(template_path)
 
+    # Pricing logic
     if storage_type == "AC":
         rate = 2.5
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Non-AC":
         rate = 2.0
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Open Shed":
         rate = 1.8
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Chemicals AC":
         rate = 3.5
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Chemicals Non-AC":
         rate = 2.7
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif "kizad" in storage_type.lower():
         rate = 125
         unit = "SQM"
         rate_unit = "SQM / YEAR"
+        storage_fee = volume * days * (rate / 356)
     elif "mussafah" in storage_type.lower():
         rate = 160
         unit = "SQM"
         rate_unit = "SQM / YEAR"
-    else:
-        rate = 0
-        unit = "CBM"
-        rate_unit = "CBM / DAY"
-
-    if "yard" in storage_type.lower():
         storage_fee = volume * days * (rate / 356)
     else:
-        storage_fee = volume * days * rate
+        rate = 0
+        storage_fee = 0
+        unit = "CBM"
+        rate_unit = "CBM / DAY"
 
     storage_fee = round(storage_fee, 2)
     months = max(1, days // 30)
@@ -97,6 +103,8 @@ def generate():
                         if key in cell.text:
                             cell.text = cell.text.replace(key, val)
 
+    replace_placeholders(doc, placeholders)
+
     def delete_block(doc, start_tag, end_tag):
         inside = False
         to_delete = []
@@ -112,8 +120,6 @@ def generate():
         for i in reversed(to_delete):
             doc.paragraphs[i]._element.getparent().remove(doc.paragraphs[i]._element)
 
-    replace_placeholders(doc, placeholders)
-
     if "open yard" in storage_type.lower():
         delete_block(doc, "[VAS_STANDARD]", "[/VAS_STANDARD]")
         delete_block(doc, "[VAS_CHEMICAL]", "[/VAS_CHEMICAL]")
@@ -126,7 +132,8 @@ def generate():
 
     os.makedirs("generated", exist_ok=True)
     filename_prefix = email.split('@')[0] if email else "quotation"
-    output_path = os.path.join("generated", f"Quotation_{filename_prefix}.docx")
+    filename = f"Quotation_{filename_prefix}.docx"
+    output_path = os.path.join("generated", filename)
     doc.save(output_path)
 
     return send_file(output_path, as_attachment=True)
@@ -157,7 +164,7 @@ Be accurate, clear, and professional.
 
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # temporarily fallback to supported model
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": message}
