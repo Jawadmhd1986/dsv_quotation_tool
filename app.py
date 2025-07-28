@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, send_file, jsonify
 from docx import Document
 import os
-import openai  # switched from OpenAI client to legacy interface
+import openai
 
 # ✅ Load OpenAI API key from environment variable
 openai.api_key = os.environ.get("OPENAI_API_KEY")
@@ -157,7 +157,7 @@ Be accurate, clear, and professional.
 
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-3.5-turbo",  # temporarily fallback to supported model
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": message}
