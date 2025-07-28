@@ -150,7 +150,7 @@ def chat():
         return jsonify({"reply": "Please close this chat and enter the storage type, volume, and duration in the Quotation Generator form to get an official proposal."})
 
     # Greetings and small talk
-    if match([r"how.?are.?you", r"how.?s.?it.?going", r"what.?s.?up", r"bhow.?are.?u"]):
+    if match([r"how.?are.?you", r"how.?are.?u", r"how.?s.?it.?going", r"what.?s.?up", r"bhow.?are.?u"]):
         return jsonify({"reply": "I'm doing well, thank you! How can I assist you with DSV services today?"})
     if match([r"\bhello\b", r"\bhi\b", r"\bhey\b"]):
         return jsonify({"reply": "Hello! I'm here to help you with DSV logistics, warehousing, or transport inquiries."})
