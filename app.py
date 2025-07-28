@@ -5,7 +5,7 @@ import requests
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET"])
+@app.route("/")
 def index():
     return render_template("form.html")
 
@@ -17,7 +17,6 @@ def generate():
     include_wms = request.form["wms"] == "Yes"
     email = request.form.get("email", "")
 
-    # Select template based on storage type
     if "chemical" in storage_type.lower():
         template_path = "templates/Chemical VAS.docx"
     elif "open yard" in storage_type.lower():
@@ -27,45 +26,47 @@ def generate():
 
     doc = Document(template_path)
 
-    # Determine storage rate
     if storage_type == "AC":
         rate = 2.5
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Non-AC":
         rate = 2.0
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Open Shed":
         rate = 1.8
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Chemicals AC":
         rate = 3.5
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif storage_type == "Chemicals Non-AC":
         rate = 2.7
         unit = "CBM"
         rate_unit = "CBM / DAY"
+        storage_fee = volume * days * rate
     elif "kizad" in storage_type.lower():
         rate = 125
         unit = "SQM"
         rate_unit = "SQM / YEAR"
+        storage_fee = volume * days * (rate / 356)
     elif "mussafah" in storage_type.lower():
         rate = 160
         unit = "SQM"
         rate_unit = "SQM / YEAR"
+        storage_fee = volume * days * (rate / 356)
     else:
         rate = 0
+        storage_fee = 0
         unit = "CBM"
         rate_unit = "CBM / DAY"
 
-    # Calculate fees
-    if "yard" in storage_type.lower():
-        storage_fee = volume * days * (rate / 356)
-    else:
-        storage_fee = volume * days * rate
     storage_fee = round(storage_fee, 2)
     months = max(1, days // 30)
     is_open_yard = "open yard" in storage_type.lower()
@@ -96,6 +97,8 @@ def generate():
                         if key in cell.text:
                             cell.text = cell.text.replace(key, val)
 
+    replace_placeholders(doc, placeholders)
+
     def delete_block(doc, start_tag, end_tag):
         inside = False
         to_delete = []
@@ -111,9 +114,6 @@ def generate():
         for i in reversed(to_delete):
             doc.paragraphs[i]._element.getparent().remove(doc.paragraphs[i]._element)
 
-    replace_placeholders(doc, placeholders)
-
-    # VAS logic
     if "open yard" in storage_type.lower():
         delete_block(doc, "[VAS_STANDARD]", "[/VAS_STANDARD]")
         delete_block(doc, "[VAS_CHEMICAL]", "[/VAS_CHEMICAL]")
@@ -132,7 +132,6 @@ def generate():
 
     return send_file(output_path, as_attachment=True)
 
-# ✅ Chat endpoint using Hugging Face - flan-t5-large
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
@@ -145,9 +144,10 @@ def chat():
         return jsonify({"reply": "Hugging Face API key not set."})
 
     payload = {
-        "inputs": message,
+        "inputs": f"<|system|>You are a helpful assistant for DSV UAE.<|user|>{message}<|assistant|>",
         "parameters": {
-            "max_new_tokens": 100
+            "temperature": 0.7,
+            "max_new_tokens": 300
         }
     }
 
@@ -158,7 +158,7 @@ def chat():
 
     try:
         response = requests.post(
-            "https://api-inference.huggingface.co/models/google/flan-t5-large",
+            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2",
             headers=headers,
             json=payload,
             timeout=30
@@ -167,11 +167,9 @@ def chat():
         hf_response = response.json()
 
         if isinstance(hf_response, list) and "generated_text" in hf_response[0]:
-            reply = hf_response[0]["generated_text"].strip()
-        elif isinstance(hf_response, dict) and "error" in hf_response:
-            reply = hf_response["error"]
+            reply = hf_response[0]["generated_text"].split("<|assistant|>")[-1].strip()
         else:
-            reply = "No response received from model."
+            reply = hf_response.get("error", "No response received.")
 
         return jsonify({"reply": reply})
 
