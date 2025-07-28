@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, send_file, jsonify
 from docx import Document
 import os
-import openai
+from openai import OpenAI
 
-# ✅ Secure: Read API key from Render Environment Variable
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# ✅ New OpenAI client setup for SDK >= 1.0
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = Flask(__name__)
 
@@ -162,7 +162,7 @@ Be accurate, clear, and professional.
 """
 
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": system_prompt},
@@ -170,7 +170,7 @@ Be accurate, clear, and professional.
             ],
             temperature=0.3
         )
-        reply = response["choices"][0]["message"]["content"]
+        reply = response.choices[0].message.content
         return jsonify({"reply": reply})
     except Exception as e:
         return jsonify({"reply": f"Error: {str(e)}"})
