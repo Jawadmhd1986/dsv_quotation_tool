@@ -3,114 +3,196 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DSV Quotation Generator</title>
+  <title>Quotation Generator</title>
   <style>
-    * { box-sizing: border-box; }
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
       font-family: Arial, sans-serif;
       background-color: #002c77;
       color: white;
-      height: 100%;
-      width: 100%;
-    }
-    .container {
       display: flex;
-      flex-direction: column;
       justify-content: center;
+    }
+
+    .wrapper {
+      display: flex;
+      width: 1200px;
       padding: 2rem;
-      max-width: 400px;
-      margin: auto;
-      background: #00389b;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      justify-content: space-between;
     }
-    img.logo {
-      width: 150px;
+
+    .form-container {
+      background-color: #00389b;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 48%;
+    }
+
+    .form-container img {
       display: block;
-      margin: 0 auto 1.5rem;
+      margin: 0 auto 1rem;
+      width: 180px; /* Increased logo size */
     }
-    h1 {
+
+    .form-container h1 {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
+
     label {
-      margin: 0.5rem 0 0.2rem;
       font-weight: bold;
     }
+
     input, select {
       width: 100%;
       padding: 0.5rem;
-      margin-bottom: 1rem;
-      border-radius: 5px;
+      margin: 0.5rem 0 1rem;
+      border-radius: 4px;
       border: none;
     }
+
     button {
+      width: 100%;
+      padding: 0.7rem;
       background-color: #002c77;
       color: white;
-      padding: 0.7rem;
       border: none;
       border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #001f55;
+    }
+
+    .chat-container {
+      width: 48%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    #chat-box {
+      background: #f4f4f4;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 500px;
+    }
+
+    #chat-header {
+      background: #002c77;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+    }
+
+    #chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      color: #000;
+    }
+
+    #chat-input-area {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    #chat-input {
+      flex: 1;
+      padding: 8px;
+      border: none;
+    }
+
+    #send-button {
+      padding: 8px 16px;
+      background: #002c77;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #chat-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #002c77;
+      color: white;
+      font-size: 20px;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+
+    #chat-box.fixed {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      display: none;
+      z-index: 9999;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="{{ url_for('static', filename='dsv_logo.png') }}" alt="DSV Logo" class="logo">
-    <h1>DSV Quotation Generator</h1>
-    <form action="/generate" method="post">
-      <label for="storage_type">Storage Type</label>
-      <select id="storage_type" name="storage_type" required>
-        <option value="">-- Select --</option>
-        <option>AC</option>
-        <option>Non-AC</option>
-        <option>Open Shed</option>
-        <option>Chemicals AC</option>
-        <option>Chemicals Non-AC</option>
-        <option>Open Yard - KIZAD</option>
-        <option>Open Yard - Mussafah</option>
-      </select>
+  <div class="wrapper">
+    <div class="form-container">
+      <img src="{{ url_for('static', filename='dsv_logo.png') }}" alt="DSV Logo">
+      <h1>Quotation Generator</h1>
+      <form action="/generate" method="POST">
+        <label>Storage Type</label>
+        <select name="storage_type" required>
+          <option value="">-- Select --</option>
+          <option>AC</option>
+          <option>Non-AC</option>
+          <option>Open Shed</option>
+          <option>Chemicals AC</option>
+          <option>Chemicals Non-AC</option>
+          <option>Open Yard - KIZAD</option>
+          <option>Open Yard - Mussafah</option>
+        </select>
 
-      <label for="volume">Volume (CBM or SQM)</label>
-      <input type="number" step="0.01" name="volume" required>
+        <label>Volume (CBM or SQM)</label>
+        <input type="number" name="volume" step="0.01" required>
 
-      <label for="days">Duration (Days)</label>
-      <input type="number" name="days" required>
+        <label>Duration (Days)</label>
+        <input type="number" name="days" required>
 
-      <label for="wms">Include WMS?</label>
-      <select name="wms" required>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
+        <label>Include WMS?</label>
+        <select name="wms" required>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
 
-      <label for="email">Recipient Email (optional)</label>
-      <input type="email" name="email">
+        <label>Recipient Email (optional)</label>
+        <input type="email" name="email">
 
-      <button type="submit">Generate Quotation</button>
-    </form>
-  </div>
-
-  <!-- Chat Widget -->
-  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
-    <button onclick="toggleChat()" style="background-color: #002c77; color: white; border: none; padding: 12px 18px; border-radius: 50%; font-size: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">💬</button>
-  </div>
-
-  <div id="chat-box" style="display:none; position: fixed; bottom: 80px; right: 20px; width: 300px; background-color: #fff; color: #000; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); flex-direction: column; font-family: Arial, sans-serif;">
-    <div style="background: #002c77; color: white; padding: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px; font-weight: bold;">
-      DSV Assistant
+        <button type="submit">Generate Quotation</button>
+      </form>
     </div>
-    <div id="chat-messages" style="padding: 10px; height: 200px; overflow-y: auto; background: #f9f9f9;"></div>
-    <div style="display: flex; border-top: 1px solid #ccc;">
-      <input id="chat-input" type="text" placeholder="Type your message..." style="flex: 1; border: none; padding: 8px;" onkeydown="if(event.key==='Enter') sendMessage()"/>
-      <button onclick="sendMessage()" style="background: #002c77; color: white; border: none; padding: 8px 12px;">Send</button>
+
+    <div class="chat-container">
+      <div id="chat-box">
+        <div id="chat-header">DSV Assistant</div>
+        <div id="chat-messages"></div>
+        <div id="chat-input-area">
+          <input id="chat-input" type="text" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendMessage()">
+          <button id="send-button" onclick="sendMessage()">Send</button>
+        </div>
+      </div>
     </div>
   </div>
+
+  <button id="chat-toggle" onclick="toggleChat()">💬</button>
 
   <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
 </body>
