@@ -4,6 +4,7 @@ function toggleChat() {
   const box = document.getElementById("chat-box");
   isChatOpen = !isChatOpen;
   box.style.display = isChatOpen ? "flex" : "none";
+  box.style.flexDirection = "column";
 }
 
 async function sendMessage() {
