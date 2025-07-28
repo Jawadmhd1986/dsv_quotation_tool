@@ -5,7 +5,7 @@ import requests
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
     return render_template("form.html")
 
@@ -17,6 +17,7 @@ def generate():
     include_wms = request.form["wms"] == "Yes"
     email = request.form.get("email", "")
 
+    # Select correct template
     if "chemical" in storage_type.lower():
         template_path = "templates/Chemical VAS.docx"
     elif "open yard" in storage_type.lower():
@@ -26,6 +27,7 @@ def generate():
 
     doc = Document(template_path)
 
+    # Determine rate logic
     if storage_type == "AC":
         rate = 2.5
         unit = "CBM"
@@ -73,6 +75,7 @@ def generate():
     wms_fee = 0 if is_open_yard or not include_wms else 1500 * months
     total_fee = round(storage_fee + wms_fee, 2)
 
+    # Replace placeholders in document
     placeholders = {
         "{{STORAGE_TYPE}}": storage_type,
         "{{DAYS}}": str(days),
@@ -144,7 +147,7 @@ def chat():
         return jsonify({"reply": "Hugging Face API key not set."})
 
     payload = {
-        "inputs": f"<s>[INST] {message} [/INST]",
+        "inputs": f"<|system|>You are a helpful assistant for DSV UAE.<|user|>{message}<|assistant|>",
         "parameters": {
             "temperature": 0.7,
             "max_new_tokens": 300
@@ -158,7 +161,7 @@ def chat():
 
     try:
         response = requests.post(
-            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2",
+            "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta",
             headers=headers,
             json=payload,
             timeout=30
@@ -167,7 +170,7 @@ def chat():
         hf_response = response.json()
 
         if isinstance(hf_response, list) and "generated_text" in hf_response[0]:
-            reply = hf_response[0]["generated_text"].replace(f"<s>[INST] {message} [/INST]", "").strip()
+            reply = hf_response[0]["generated_text"].split("<|assistant|>")[-1].strip()
         else:
             reply = hf_response.get("error", "No response received.")
 
