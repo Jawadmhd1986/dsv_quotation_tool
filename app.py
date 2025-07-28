@@ -2,10 +2,8 @@ from flask import Flask, render_template, request, send_file, jsonify
 from docx import Document
 import os
 import openai
-from dotenv import load_dotenv
 
-# ✅ Load .env from local or Render secret path
-load_dotenv("/etc/secrets/.env")  # Use this path for Render
+# ✅ Secure: Read API key from Render Environment Variable
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
@@ -139,7 +137,6 @@ def generate():
 
     return send_file(output_path, as_attachment=True)
 
-# ✅ Chatbot route using openai.ChatCompletion
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
