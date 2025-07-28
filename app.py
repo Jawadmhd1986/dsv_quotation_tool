@@ -17,7 +17,6 @@ def generate():
     include_wms = request.form["wms"] == "Yes"
     email = request.form.get("email", "")
 
-    # Select template
     if "chemical" in storage_type.lower():
         template_path = "templates/Chemical VAS.docx"
     elif "open yard" in storage_type.lower():
@@ -27,7 +26,6 @@ def generate():
 
     doc = Document(template_path)
 
-    # Rate logic
     if storage_type == "AC":
         rate = 2.5
         unit = "CBM"
@@ -134,7 +132,6 @@ def generate():
 
     return send_file(output_path, as_attachment=True)
 
-# ✅ SMART OFFLINE CHATBOT
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
@@ -143,6 +140,7 @@ def chat():
     def match(patterns):
         return any(re.search(p, message) for p in patterns)
 
+    # 🟡 FIRST check if it's a quotation request
     if match([
         r"(give|send|share).*quote",
         r"(i )?(need|want).*(quotation|proposal)",
@@ -151,25 +149,29 @@ def chat():
     ]):
         return jsonify({"reply": "Please close this chat and enter the storage type, volume, and duration in the Quotation Generator form to get an official proposal."})
 
-    if match([r"\bhow are you\b", r"\bhow's it going\b", r"\bwhat's up\b"]):
+    # Greetings and small talk
+    if match([r"how.?are.?you", r"how.?s.?it.?going", r"what.?s.?up", r"bhow.?are.?u"]):
         return jsonify({"reply": "I'm doing well, thank you! How can I assist you with DSV services today?"})
     if match([r"\bhello\b", r"\bhi\b", r"\bhey\b"]):
         return jsonify({"reply": "Hello! I'm here to help you with DSV logistics, warehousing, or transport inquiries."})
     if match([r"\bthank(s| you)\b", r"\bappreciate\b"]):
         return jsonify({"reply": "You're most welcome! 😊"})
 
+    # DSV info
     if match([r"\bwhat is dsv\b", r"\babout dsv\b", r"\bdsv overview\b"]):
-        return jsonify({"reply": "DSV is a global logistics and transport company operating in over 80 countries, offering services in air, sea, road freight, and contract logistics."})
+        return jsonify({"reply": "DSV is a global logistics and transport company operating in over 80 countries, offering air, sea, road freight, and warehousing services."})
     if match([r"\bdsv abu dhabi\b", r"\bdsv uae\b", r"where is dsv located"]):
         return jsonify({"reply": "DSV Solutions PJSC is located in Mussafah Industrial Area, Abu Dhabi. The warehouse includes AC, non-AC, open shed, and open yard storage zones."})
     if match([r"warehouse size", r"how big.*warehouse", r"capacity.*warehouse"]):
         return jsonify({"reply": "DSV Abu Dhabi facility includes over 25,000+ SQM of covered space and 40,000+ SQM open yard capacity."})
 
+    # 3PL / 4PL
     if match([r"\b3pl\b", r"third party logistics"]):
-        return jsonify({"reply": "3PL (Third-Party Logistics) refers to outsourcing logistics operations like warehousing, transport, and distribution to companies like DSV."})
+        return jsonify({"reply": "3PL refers to outsourcing logistics like warehousing and transport to a provider like DSV."})
     if match([r"\b4pl\b", r"fourth party logistics"]):
-        return jsonify({"reply": "4PL (Fourth-Party Logistics) involves managing and integrating multiple supply chain providers — DSV can act as a 4PL for large enterprises."})
+        return jsonify({"reply": "4PL involves DSV managing multiple logistics providers and supply chain integrations."})
 
+    # Storage types
     if match([r"\bac storage\b", r"air ?conditioned", r"ac warehouse"]):
         return jsonify({"reply": "AC storage is 2.5 AED per CBM per day."})
     if match([r"\bnon[- ]?ac\b", r"non air", r"non ac storage"]):
@@ -185,9 +187,11 @@ def chat():
     if match([r"open yard.*mussafah"]):
         return jsonify({"reply": "Open Yard in Mussafah is 160 AED per SQM per year."})
 
+    # WMS
     if match([r"\bwms\b", r"warehouse management", r"system charge"]):
         return jsonify({"reply": "WMS (Warehouse Management System) is 1500 AED/month unless excluded for Open Yard."})
 
+    # VAS
     if match([r"\bvas\b", r"value added", r"handling charges", r"loading", r"offloading", r"pallet", r"carton", r"documentation"]):
         if "chemical" in message:
             return jsonify({"reply": "Chemical VAS includes 20 AED/CBM for handling palletized, 25 AED/CBM for loose, 85 AED/CBM for packing with wooden pallet, etc."})
@@ -196,12 +200,15 @@ def chat():
         else:
             return jsonify({"reply": "Standard VAS includes 20 AED/CBM for handling, 12 AED/pallet, 125 AED/document, and more."})
 
+    # Equipment
     if match([r"forklift", r"reach ?truck", r"\bvna\b", r"very narrow aisle", r"crane", r"equipment", r"machinery"]):
         return jsonify({"reply": "Available equipment includes forklifts (3T–15T), reach trucks, VNAs, and cranes (50T–80T) for all types of cargo handling."})
 
+    # Trucks
     if match([r"flatbed", r"double trailer", r"small truck", r"transport", r"fleet", r"truck types"]):
         return jsonify({"reply": "DSV operates flatbed trucks, double trailers, and city trucks for UAE-wide deliveries and port movements."})
 
+    # Containers
     if match([r"20ft", r"20.*container"]):
         return jsonify({"reply": "20ft container: 6.1m, 28,000kg capacity, used for standard cargo."})
     if match([r"40ft", r"40.*container"]):
@@ -209,6 +216,7 @@ def chat():
     if match([r"reefer", r"refrigerated container"]):
         return jsonify({"reply": "Reefer containers are temperature-controlled, used for food and pharmaceuticals."})
 
+    # Distances
     if match([r"jebel ali.*mussafah"]):
         return jsonify({"reply": "Distance from Jebel Ali Port to Mussafah is around 125 km."})
     if match([r"jebel ali.*abu dhabi"]):
