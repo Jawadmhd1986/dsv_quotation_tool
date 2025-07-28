@@ -161,7 +161,7 @@ def chat():
 
     try:
         response = requests.post(
-            "https://api-inference.huggingface.co/models/tiiuae/falcon-rw-1b",
+            "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta",
             headers=headers,
             json=payload,
             timeout=30
