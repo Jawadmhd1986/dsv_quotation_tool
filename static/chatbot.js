@@ -1,30 +1,36 @@
-function sendMessage() {
-  const input = document.getElementById("chatbot-text");
-  const text = input.value.trim();
-  if (!text) return;
+let isChatOpen = false;
 
-  addMessage("You", text);
-  input.value = "";
-
-  fetch("/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
-  })
-    .then(res => res.json())
-    .then(data => {
-      addMessage("DSV Bot", data.reply || "No response.");
-    })
-    .catch(err => {
-      addMessage("DSV Bot", "Error: " + err.message);
-    });
+function toggleChat() {
+  const box = document.getElementById("chat-box");
+  isChatOpen = !isChatOpen;
+  box.style.display = isChatOpen ? "flex" : "none";
 }
 
-function addMessage(sender, text) {
-  const chatBody = document.getElementById("chatbot-body");
-  const msg = document.createElement("div");
-  msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
-  msg.style.margin = "10px 0";
-  chatBody.appendChild(msg);
-  chatBody.scrollTop = chatBody.scrollHeight;
+async function sendMessage() {
+  const input = document.getElementById("chat-input");
+  const message = input.value.trim();
+  if (!message) return;
+
+  appendMessage("You", message);
+  input.value = "";
+
+  try {
+    const res = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    });
+    const data = await res.json();
+    appendMessage("DSV Bot", data.reply);
+  } catch (err) {
+    appendMessage("DSV Bot", "Error getting response.");
+  }
+}
+
+function appendMessage(sender, text) {
+  const container = document.getElementById("chat-messages");
+  const div = document.createElement("div");
+  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
 }
