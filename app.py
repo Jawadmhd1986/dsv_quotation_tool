@@ -139,48 +139,71 @@ def chat():
     data = request.get_json()
     message = data.get("message", "").lower().strip()
 
-    keywords = {
+    synonyms = {
+        "ac storage": ["ac", "air conditioned", "ac storage rate", "rate for ac"],
+        "non-ac storage": ["non ac", "non-ac", "non ac rate"],
+        "open shed": ["shed", "open shed rate"],
+        "chemical ac": ["chemical ac", "chemical air conditioned", "chem ac"],
+        "chemical non-ac": ["chemical non ac", "chem non ac"],
+        "open yard mussafah": ["open yard mussafah", "mussafah yard"],
+        "open yard kizad": ["open yard kizad", "kizad yard"],
+        "wms": ["wms", "warehouse management", "system charge"],
+        "flatbed": ["flatbed truck", "flatbed"],
+        "double trailer": ["double trailer", "2 trailers"],
+        "small truck": ["small truck", "delivery truck", "city truck"],
+        "forklift": ["forklift", "fork lift"],
+        "reachtruck": ["reachtruck", "reach truck"],
+        "vna": ["vna", "very narrow aisle"],
+        "container 20": ["20ft", "20 foot", "small container"],
+        "container 40": ["40ft", "40 foot", "large container"],
+        "reefer": ["reefer", "refrigerated container"],
+        "who are you": ["who are you", "what is your name"],
+        "hello": ["hello", "hi", "hey"],
+        "thank you": ["thanks", "thank you", "appreciate it"],
+        "what is dsv": ["what is dsv", "about dsv"],
+        "dsv services": ["dsv services", "what does dsv offer"],
+        "contact": ["contact", "how can i reach dsv"],
+        "distance jebel ali to mussafah": ["jebel ali to mussafah"],
+        "distance jebel ali to abu dhabi": ["jebel ali to abu dhabi"],
+        "distance dubai to sharjah": ["dubai to sharjah"]
+    }
+
+    responses = {
         "ac storage": "AC storage is charged at 2.5 AED per CBM per day.",
         "non-ac storage": "Non-AC storage is 2.0 AED per CBM per day.",
         "open shed": "Open Shed storage is 1.8 AED per CBM per day.",
         "chemical ac": "Chemical AC storage is 3.5 AED per CBM per day.",
         "chemical non-ac": "Chemical Non-AC is 2.7 AED per CBM per day.",
-        "open yard mussafah": "Open Yard in Mussafah is charged at 160 AED per SQM per year.",
-        "open yard kizad": "Open Yard in KIZAD is charged at 125 AED per SQM per year.",
-        "wms": "WMS (Warehouse Management System) is charged at 1500 AED per month unless it's Open Yard.",
-        "flatbed": "Flatbed trucks at DSV are used for palletized and container transport with 12-14m beds.",
-        "double trailer": "Double trailers carry large volume loads, often cross-emirates or to ports.",
+        "open yard mussafah": "Open Yard in Mussafah is 160 AED per SQM per year.",
+        "open yard kizad": "Open Yard in KIZAD is 125 AED per SQM per year.",
+        "wms": "WMS is charged at 1500 AED per month, unless it's Open Yard (excluded).",
+        "flatbed": "Flatbed trucks are used for pallets/containers with 12-14m beds.",
+        "double trailer": "Double trailers transport large loads, usually between emirates or ports.",
         "small truck": "Small trucks are used for city deliveries and last-mile logistics.",
-        "forklift": "Forklifts are used for moving pallets, lifting up to 3 tons.",
-        "reachtruck": "Reach trucks are narrow-aisle vehicles for racking up to 11 meters high.",
-        "vna": "VNA (Very Narrow Aisle) trucks are for automated and high-density storage solutions.",
-        "container 20": "20-foot containers are 6.1m long and used for general cargo (up to 28,000 kg).",
-        "container 40": "40-foot containers are 12.2m long and ideal for high-volume cargo (up to 30,400 kg).",
-        "reefer": "Reefer containers are refrigerated for perishable goods and temperature-sensitive cargo.",
-        "who are you": "I am DSV Assistant. I can help you with warehousing, transport, storage, and DSV services.",
-        "hello": "Hello! How can I assist you today?",
-        "hi": "Hi there! Ask me anything about DSV warehousing or logistics.",
-        "thank you": "You're welcome!",
-        "thanks": "Happy to help!",
-        "what is dsv": "DSV is a global logistics company offering transport, storage, and supply chain solutions across over 80 countries.",
-        "dsv services": "DSV offers freight forwarding, warehousing, customs clearance, local and international transport, and supply chain solutions.",
-        "contact": "You can reach DSV UAE through the official website or call the Abu Dhabi/Mussafah office.",
-        "distance jebel ali to mussafah": "The distance from Jebel Ali Port to Mussafah is approximately 125 km.",
-        "distance jebel ali to abu dhabi": "The distance from Jebel Ali to Abu Dhabi is about 140 km.",
-        "distance dubai to sharjah": "The distance from Dubai to Sharjah is around 30 km."
+        "forklift": "Forklifts move pallets and lift up to 3 tons.",
+        "reachtruck": "Reach trucks operate in narrow aisles, reaching 11 meters high.",
+        "vna": "VNA (Very Narrow Aisle) trucks are used in automated warehouses with tight racking.",
+        "container 20": "20ft containers are 6.1m long, carry 28,000kg, used for general cargo.",
+        "container 40": "40ft containers are 12.2m long, for high-volume cargo up to 30,400kg.",
+        "reefer": "Reefer containers are refrigerated for perishable goods.",
+        "who are you": "I'm the DSV Assistant. Ask me anything about our logistics or warehousing.",
+        "hello": "Hello! How can I assist you with DSV services?",
+        "thank you": "You're very welcome! 😊",
+        "what is dsv": "DSV is a global logistics company operating in over 80 countries.",
+        "dsv services": "DSV offers warehousing, transport, customs clearance, and global freight solutions.",
+        "contact": "You can reach DSV UAE via the official website or contact our Mussafah or Jebel Ali offices.",
+        "distance jebel ali to mussafah": "Distance from Jebel Ali Port to Mussafah is approximately 125 km.",
+        "distance jebel ali to abu dhabi": "Distance from Jebel Ali to Abu Dhabi is about 140 km.",
+        "distance dubai to sharjah": "Distance from Dubai to Sharjah is around 30 km."
     }
 
-    # Smart matching by keyword presence
-    reply = "I'm sorry, I didn't understand that. Please ask about storage types, transport, DSV, or logistics."
+    for tag, variants in synonyms.items():
+        for variant in variants:
+            if variant in message:
+                return jsonify({"reply": responses[tag]})
 
-    for key, response in keywords.items():
-        if key in message:
-            reply = response
-            break
+    return jsonify({"reply": "I'm sorry, I didn't understand that. Please ask about DSV storage, logistics, trucks, or transport."})
 
-    return jsonify({"reply": reply})
-
-# ✅ RENDER DEPLOYMENT FIX
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
