@@ -802,16 +802,18 @@ def chat():
     if match([r"forklift|reach truck|vna truck|warehouse equipment"]):
         return jsonify({"reply": "Forklifts (3T–15T), Reach trucks for 11m racks, VNA trucks for 1.95m aisles are available in DSV sites."})
 
-    # --- Services & 3PL/4PL ---
+        # --- Services & 3PL/4PL ---
     if match([r"\b3pl\b|third party logistics|order fulfillment"]):
         return jsonify({"reply": "DSV provides 3PL services: storage, inventory, picking, packing, labeling, delivery, returns."})
+    
     if match([r"\b4pl\b|control tower|supply chain orchestrator"]):
         return jsonify({"reply": "As a 4PL provider, DSV coordinates multiple vendors to manage your end-to-end logistics strategy."})
+    
     if match([r"\bhello\b", r"\bhi\b", r"\bhey\b", r"good morning", r"good evening"]):
         return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
 
-# --- Final Fallback (only if no previous match triggered) ---
-return jsonify({"reply": "I'm trained on everything related to DSV logistics, warehousing, storage types, VAS, projects, and transport. Can you please rephrase or specify your topic?"})
+    # --- Final Fallback (only if no previous match triggered) ---
+    return jsonify({"reply": "I'm trained on everything related to DSV logistics, warehousing, storage types, VAS, projects, and transport. Can you please rephrase or specify your topic?"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
