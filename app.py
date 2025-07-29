@@ -168,6 +168,126 @@ def chat():
         return jsonify({"reply": "Chemical AC storage is 3.5 AED/CBM/day. Chemical VAS applies: 20–25 AED/CBM handling, 150 AED docs."})
     if match([r"chemical non.?ac"]):
         return jsonify({"reply": "Chemical Non-AC storage is 2.7 AED/CBM/day. Chemical VAS applies."})
+    # --- UAE Transportation Distance Responses ---
+    if match([r"abu dhabi.*dubai|dubai.*abu dhabi"]):
+        return jsonify({"reply": "The distance between Abu Dhabi and Dubai is approximately 140 km by road."})
+    if match([r"abu dhabi.*sharjah|sharjah.*abu dhabi"]):
+        return jsonify({"reply": "The distance between Abu Dhabi and Sharjah is about 160 km."})
+    if match([r"abu dhabi.*ajman|ajman.*abu dhabi"]):
+        return jsonify({"reply": "The distance between Abu Dhabi and Ajman is approximately 170 km."})
+    if match([r"abu dhabi.*ras al khaimah|rak.*abu dhabi"]):
+        return jsonify({"reply": "The road distance from Abu Dhabi to Ras Al Khaimah is about 240 km."})
+    if match([r"abu dhabi.*fujairah|fujairah.*abu dhabi"]):
+        return jsonify({"reply": "Abu Dhabi to Fujairah is approximately 250 km by road."})
+    if match([r"dubai.*sharjah|sharjah.*dubai"]):
+        return jsonify({"reply": "Dubai to Sharjah is just around 30 km — very close and commonly traveled."})
+    if match([r"dubai.*ajman|ajman.*dubai"]):
+        return jsonify({"reply": "Dubai to Ajman is approximately 40 km by road."})
+    if match([r"dubai.*rak|ras al khaimah.*dubai"]):
+        return jsonify({"reply": "The distance between Dubai and Ras Al Khaimah is around 120 km."})
+    if match([r"dubai.*fujairah|fujairah.*dubai"]):
+        return jsonify({"reply": "Dubai to Fujairah is approximately 130 km."})
+    if match([r"sharjah.*ajman|ajman.*sharjah"]):
+        return jsonify({"reply": "Sharjah and Ajman are extremely close — only about 15 km apart."})
+    if match([r"sharjah.*fujairah|fujairah.*sharjah"]):
+        return jsonify({"reply": "Sharjah to Fujairah is roughly 110 km."})
+    if match([r"sharjah.*rak|ras al khaimah.*sharjah"]):
+        return jsonify({"reply": "Sharjah to Ras Al Khaimah is approximately 100 km."})
+    # --- DSV Temperature-Controlled Storage Zones ---
+    if match([r"temperature controlled|climate control|ambient temp|controlled storage|18.*25"]):
+        return jsonify({"reply": "DSV's temperature-controlled zones are maintained between +18°C to +25°C — ideal for dry food, electronics, and general goods that require stable ambient conditions."})
+
+    if match([r"cold room|cold storage|chilled|2.*8 degree|refrigerated warehouse"]):
+        return jsonify({"reply": "Our cold room zones are kept between +2°C and +8°C — perfect for medicines, vaccines, and fresh food items that require refrigeration."})
+
+    if match([r"freezer|deep freeze|minus 22|negative storage|frozen room|below zero"]):
+        return jsonify({"reply": "We offer deep freezer rooms set at –22°C for frozen goods like food, pharmaceuticals, and sensitive biotech products."})
+    # --- QHSE & Warehouse Safety Training ---
+    if match([r"qhse|hse|health and safety|quality control|warehouse safety|safety policy|safety audit"]):
+        return jsonify({"reply": "DSV warehouses follow strict QHSE protocols including ISO-certified processes, ADNOC HSE standards, regular audits, PPE enforcement, and safety drills. We uphold a zero-incident culture and ensure compliance with all local and client-specific safety standards."})
+
+    if match([r"safety training|warehouse training|fire drill|manual handling|staff safety|employee training|toolbox talk"]):
+        return jsonify({"reply": "DSV staff undergo regular training in fire safety, first aid, manual handling, emergency response, and site induction. We also conduct toolbox talks and refresher sessions to maintain safety awareness and operational excellence."})
+    # --- DSV & ADNOC Relationship ---
+    if match([r"adnoc|adnoc project|dsv.*adnoc|oil and gas project|dsv support.*adnoc|logistics for adnoc"]):
+        return jsonify({"reply": "DSV has an active relationship with ADNOC and its group companies, supporting logistics for Oil & Gas projects across Abu Dhabi. This includes warehousing of chemicals, fleet transport to remote sites, 3PL for EPC contractors, and marine logistics for ADNOC ISLP and offshore projects. All operations are QHSE compliant and meet ADNOC’s safety and performance standards."})
+    # --- UAE Summer Midday Break ---
+    if match([r"summer break|midday break|working hours summer|12.*3.*break|uae heat ban|no work afternoon|hot season schedule"]):
+        return jsonify({"reply": "DSV complies with UAE summer working hour restrictions. From June 15 to September 15, all outdoor work (including open yard and transport loading) is paused daily between 12:30 PM and 3:30 PM. This ensures staff safety and follows MOHRE guidelines."})
+    # --- DSV Abu Dhabi Facility Sizes ---
+    if match([r"plot size|abu dhabi total area|site size|facility size|total sqm|how big|yard size|open yard area"]):
+        return jsonify({"reply": "DSV Abu Dhabi's main logistics plot spans 481,000 sqm, including 100,000 sqm allocated for service roads and utilities, 360,000 sqm of open yard, and a 21,000 sqm warehouse (21K)."})
+
+    if match([r"sub warehouse|m44|m45|al markaz|abu dhabi warehouse total|all warehouses"]):
+        return jsonify({"reply": "In addition to the main 21K warehouse, DSV operates sub-warehouses in Abu Dhabi: M44 (5,760 sqm), M45 (5,000 sqm), and Al Markaz (12,000 sqm). Combined with 21K, the total covered warehouse area in Abu Dhabi is approximately 44,000 sqm."})
+    # --- RMS: Record Management System in 21K ---
+    if match([r"rms|record management system|document storage|file archive|document center|records store|rms 21k"]):
+        return jsonify({"reply": "DSV’s 21K warehouse in Mussafah includes an RMS (Record Management System) facility. It is designed for secure storage of client documentation, with barcode indexing, controlled access, and retrieval tracking — ideal for businesses needing long-term document archiving."})
+    if match([r"terms and conditions|quotation policy|billing cycle|operation timing|payment terms|quotation validity"]):
+        return jsonify({"reply": "DSV quotations include the following terms: Monthly billing, final settlement before vacating, 15-day quotation validity, subject to space availability. The depot operates Monday–Friday 8:30 AM to 5:30 PM. Insurance is not included by default. An environmental fee of 0.15% is added to all invoices. Non-moving cargo over 3 months may incur extra storage tariff."})
+    if match([r"standard vas detail|what is included in standard vas|normal storage service charges"]):
+        return jsonify({"reply": "Standard VAS includes: 20 AED/CBM for in/out handling, 12 AED/pallet loading, 125 AED per document, 2.5 AED for case picking, 85 AED for packing with pallet, and 3000 AED/event for inventory counts:contentReference[oaicite:0]{index=0}."})
+    if match([r"chemical vas detail|chemical value added services|hazmat handling|chemical storage rates"]):
+        return jsonify({"reply": "Chemical VAS includes: 20 AED/CBM for in/out palletized cargo, 25 AED/CBM for loose cargo, 3.5 AED for inner bag picking, 150 AED per documentation set, and 85 AED/CBM for packing with wooden pallet:contentReference[oaicite:1]{index=1}."})
+    if match([r"open yard vas detail|yard service charges|container lift rates|equipment rates yard"]):
+        return jsonify({"reply": "Open Yard VAS includes: forklift charges from 90–320 AED/hr (3T–15T), mobile cranes from 250–450 AED/hr (50T–80T), container stripping 20ft = 1200 AED/hr, container lifting 250 AED/lift (20ft/40ft):contentReference[oaicite:2]{index=2}."})
+    # --- DSV Staffing Overview ---
+    if match([r"how many staff|number of employees|team size|manpower|dsv people|dsv workers|dsv staff|uae staff|abu dhabi team"]):
+        return jsonify({"reply": "DSV employs approximately 160,000 staff globally across 90+ countries. In the UAE, we have around 1,200 employees covering transport, warehousing, and freight. In Abu Dhabi, DSV operates with about 400 personnel across 21K, KIZAD, Airport Freezone, and administrative support teams."})
+    # --- DSV Heavy Lift Projects & Capabilities ---
+    if match([r"heavy lift|heavy cargo|over dimensional|odc|lowbed project|heavy logistics|crane transport|multi axle|project cargo"]):
+        return jsonify({"reply": "DSV provides heavy lift and project logistics for over-dimensional and high-weight cargo. We use lowbed trailers, cranes, and multi-axle units. DSV has completed major projects for ADNOC and industrial clients — including transformer moves, skid-mounted modules, and heavy equipment delivery up to 100+ tons."})
+    # --- 21K Warehouse Chambers Breakdown ---
+    if match([r"chambers|warehouse sections|how many chambers|storage zones|warehouse division|client chambers|rooms in warehouse"]):
+        return jsonify({"reply": "The 21K warehouse in Mussafah contains 7 chambers: Chamber 1 – Khalifa University; Chamber 2 – PSN; Chamber 3 – Food clients & fast-moving items; Chamber 4 – MCC, TR, and ADNOC; Chamber 5 – PSN; Chamber 6 – ZARA & TR; Chamber 7 – Civil Defense and the RMS (Record Management System). Each chamber is segregated for dedicated client needs and service flow."})
+    # --- VVIP Clients Overview ---
+    if match([r"vvip clients|important clients|key accounts|premium customers|special clients|top clients|confidential clients"]):
+        return jsonify({"reply": "DSV works with several VVIP clients including ADNOC, PSN (Federal Authority of Protocol and Strategic Narrative), Civil Defense, Khalifa University, ZARA, and strategic EPCs. These clients are managed with strict SLAs, confidentiality protocols, and customized logistics — including private chambers, secured document storage, and dedicated transport services."})
+    # --- DSV Technology: Autostore & Digital Onboarding ---
+    if match([r"autostore|automation|robotics|automated warehouse|high density storage|robot picking|warehouse robots"]):
+        return jsonify({"reply": "DSV offers Autostore technology — a robotic cube storage system that enables high-density storage and fast picking. It is ideal for e-commerce, small parts, and fast-moving SKUs, with minimal floor space and maximum efficiency."})
+
+    if match([r"technology platform|onboarding apps|client system|customized app|erp|integration|application onboarding|digital process"]):
+        return jsonify({"reply": "DSV tailors onboarding platforms and digital workflows to match each client's operations. Whether it's B2B bulk shipment, retail, or API-driven e-commerce, we integrate with ERPs, offer KPI dashboards, and deploy mobile RF systems for full visibility and control."})
+    # --- RFID Solutions: Tracking, Gates, Asset Management ---
+    if match([r"rfid|asset tracking|track items|inventory automation|rfid gate|tool management|scan tags|live tracking"]):
+        return jsonify({"reply": "DSV provides advanced RFID solutions including fixed RFID gates at entry/exit points, handheld readers for bulk scans, and asset tracking systems. These are used for tool management, returnable packaging, and high-value item tracking — all integrated into client-specific dashboards for real-time visibility and control."})
+    # --- Open Yard Occupancy Contact ---
+    if match([r"open yard.*occupancy|yard availability|yard space|yard capacity|open yard full|yard rental|yard booking"]):
+        return jsonify({"reply": "For open yard occupancy inquiries, please contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})
+    # --- Electric Vehicle (EV) Trucks ---
+    if match([r"ev truck|electric vehicle|zero emission truck|sustainable transport|electric trailer|green logistics"]):
+        return jsonify({"reply": "DSV Abu Dhabi operates electric trucks capable of hauling 40ft containers, including double-trailer combinations. These EV units have a range of up to 250–300 km per charge and are used for port shuttles, inter-emirate transport, and emission-free delivery — supporting DSV’s green logistics strategy."})
+    # --- DSV Sustainability & Green Logistics ---
+    if match([r"sustainability|green logistics|carbon footprint|environment vision|eco friendly|zero emission|climate goal|green strategy"]):
+        return jsonify({"reply": "DSV’s global sustainability vision focuses on reducing carbon emissions, introducing electric vehicles, enabling circular logistics (reuse, returns, refurbishment), and optimizing infrastructure for energy efficiency. DSV also helps clients reduce Scope 3 emissions and align with global sustainability goals."})
+    # --- Pallet Types and Dimensions ---
+    if match([r"pallet size|pallet type|standard pallet|euro pallet|wooden pallet|plastic pallet|chemical pallet|cp pallet|pallet dimension"]):
+        return jsonify({"reply": "DSV uses standard wooden pallets (1.2m x 1.0m), plastic pallets for food/pharma, and CP pallets for chemicals. Load capacity ranges up to 1,200 kg. Custom oversized pallets are also used for special cargo like machinery or large crates."})
+    # --- DSV Relocation Services & Packing Materials ---
+    if match([r"relocation|moving service|shifting|pack and move|relocate|office move|machine relocation|furniture relocation"]):
+        return jsonify({"reply": "DSV’s relocation division handles full scope moves: offices, furniture, machinery, labs, and sensitive equipment. We provide professional packing, dismantling, loading, transport, and reassembly — across UAE and beyond."})
+
+    if match([r"packing material|what material do you use for packing|box type|relocation packing|bubble wrap|carton box|wood crate"]):
+        return jsonify({"reply": "DSV uses professional packing materials including double-ply cartons, bubble wrap, stretch film, blankets, corrugated sheets, and custom wooden crates for machines. All materials are industry-approved for safe relocation."})
+    # --- Formula 1 Logistics Scope ---
+    if match([r"formula 1|f1 logistics|grand prix|race logistics|f1 cargo|f1 shipping|yas marina|motorsport logistics"]):
+        return jsonify({"reply": "Every year, DSV manages logistics for the Formula 1 Grand Prix — including air, sea, and road transport of race cars, pit equipment, team gear, and hospitality setups. We support the Abu Dhabi Grand Prix at Yas Marina with timed deliveries, customs handling, and re-export services."})
+    # --- Packing Material Consumption Details ---
+    if match([r"shrink wrap usage|stretch film per pallet|how many rolls|packing capacity|strapping details|buckle usage|wrap quantity"]):
+        return jsonify({"reply": "Each box of shrink/stretch film contains 6 rolls. Each roll can wrap up to 20 pallets (1.5m height). Each strapping roll secures 20 pallets. A box of strap buckles contains 1,000 pieces and supports up to 250 pallets. These materials are used by DSV for secure packing in relocation and warehouse operations."})
+    # --- Housekeeping and Security ---
+    if match([r"housekeeping|cleanliness|cleaning staff|hygiene standard|warehouse cleaning|facility maintenance"]):
+        return jsonify({"reply": "DSV maintains strict housekeeping standards across all facilities. We have dedicated teams for daily cleaning, pest control, waste segregation, and aisle organization. All practices follow ISO standards for hygiene and operational safety."})
+
+    if match([r"security|guards|gates|entry check|warehouse security|chamber access|cctv|surveillance|gate control"]):
+        return jsonify({"reply": "DSV facilities are protected by 24/7 manned security gates, warehouse access control, and CCTV monitoring. Security guards are stationed at all entry points and inside chambers for sensitive client areas. Access is controlled and logged in line with client confidentiality and HSE standards."})
+    # --- Certifications & Access Control ---
+    if match([r"gdsp certified|certifications|certified facility|warehouse standard|compliance|facility certification"]):
+        return jsonify({"reply": "Yes, all DSV UAE facilities, including our Mussafah 21K warehouse, are GDSP certified — ensuring compliance with global safety, documentation, and operational protocols."})
+
+    if match([r"access control|entry control|badge access|security system|who can enter|restricted area"]):
+        return jsonify({"reply": "Access to DSV warehouses and chambers is controlled via secure gate systems and badge-based access control. Only authorized personnel can enter storage zones or sensitive areas such as VVIP chambers or RMS."})
 
     # --- VAS Category Triggers ---
     if match([r"standard vas|normal vas|handling charges|pallet charges"]):
@@ -176,10 +296,95 @@ def chat():
         return jsonify({"reply": "Chemical VAS: 20–25 AED/CBM handling, 3.5 AED inner bags, 150 AED documentation, 85 AED/CBM pallet packing."})
     if match([r"open yard vas|forklift|crane|yard charges"]):
         return jsonify({"reply": "Open Yard VAS includes forklift (90–320 AED/hr), crane (250–450 AED/hr), and container lift (250 AED/lift)."})
+    # --- Container Types ---
+    if match([r"20ft container|20 foot|small container|twenty foot"]):
+        return jsonify({"reply": "A 20ft container is 6.1m long, holds ~28,000 kg of cargo, and is used for general shipping. It's ideal for compact or heavy loads."})
+    if match([r"40ft container|40 foot|forty foot|large container"]):
+        return jsonify({"reply": "A 40ft container is 12.2m long, holds up to ~30,400 kg. Commonly used for high-volume goods like furniture, textiles, and pallets."})
+    if match([r"high cube|40ft high cube|hc container"]):
+        return jsonify({"reply": "40ft High Cube containers are 1 foot taller than standard 40ft units (2.9m high). Used for tall or lightweight bulky cargo."})
+    if match([r"reefer|refrigerated container|chiller|cold storage"]):
+        return jsonify({"reply": "Reefer containers maintain temperature for perishable goods like food or pharmaceuticals. Available in 20ft and 40ft sizes."})
+    if match([r"open top container|open roof|no roof container"]):
+        return jsonify({"reply": "Open Top containers are used for cargo that exceeds normal height or needs crane loading — like machinery, timber, or scrap metal."})
+    if match([r"flat rack|no sides container|machinery transport"]):
+        return jsonify({"reply": "Flat Racks have no sides or roof. Ideal for oversized loads: vehicles, generators, industrial equipment, etc."})
+    # --- Truck Types & Specifications ---
+    if match([r"flatbed|flat bed truck|open trailer"]):
+        return jsonify({"reply": "Flatbed trucks have no sides or roof and are ideal for pallets, containers, machinery, or timber. Typical size: 12–14m length, 2.5m width. Easy access for cranes or forklifts."})
+
+    if match([r"double trailer|articulated truck|2 trailers|twin trailer"]):
+        return jsonify({"reply": "Double-trailer trucks consist of two linked 40ft trailers (or equivalent volume), used for inter-emirate or GCC transport. Total length: ~25–28 meters. Payload: up to 60 tons combined."})
+
+    if match([r"curtain side|box truck|enclosed truck|side loader|covered truck"]):
+        return jsonify({"reply": "Curtainside or box trucks are enclosed for dust/weather protection. Common dimensions: 7–10m length, 2.5m width. Used for general cargo, retail, palletized goods."})
+
+    if match([r"refrigerated truck|reefer truck|chiller|cold delivery|fridge truck"]):
+        return jsonify({"reply": "Refrigerated trucks (reefers) maintain cargo temperatures from -20°C to +25°C. Available in 1–3 ton small trucks and 40ft trailers. Used for perishables, pharma, frozen food."})
+
+    if match([r"small truck|city truck|van delivery|1 ton truck|last mile"]):
+        return jsonify({"reply": "City delivery trucks are compact (3–5m length), typically 1–3 ton capacity. Perfect for last-mile drops inside Abu Dhabi, Dubai, or Sharjah."})
+
+    if match([r"lowbed|low bed trailer|highbed|project cargo trailer"]):
+        return jsonify({"reply": "Lowbed trailers are used for transporting construction machinery, transformers, and other heavy/oversized items. Deck height: ~0.8–1.0m. Load height clearance: up to 3.8m."})
+
+    if match([r"tipper|dump truck|bulk material truck|gravel truck|sand truck"]):
+        return jsonify({"reply": "Tippers (dump trucks) transport loose materials like sand, gravel, or debris. Typical capacity: 12–20 CBM. Feature rear or side hydraulic tipping."})
+    # --- DSV Abu Dhabi Managing Director ---
+    if match([r"abu dhabi md|managing director|who leads abu dhabi|dsv uae head|hossam mahmoud"]):
+        return jsonify({"reply": "Mr. Hossam Mahmoud is the Managing Director of DSV Abu Dhabi. With over 20 years of experience in regional logistics and supply chain management, he has led major operations for industrial, oil & gas, and government clients. Under his leadership, DSV expanded its footprint across Mussafah, KIZAD, and Airport Freezone, introducing advanced 4PL, EV trucking, and marine logistics services."})
+    # --- 2PL, 3PL, 4PL Services & UAE Use Cases ---
+    if match([r"\b2pl\b|second party logistics|space rental|basic logistics"]):
+        return jsonify({"reply": "2PL (Second-Party Logistics) at DSV includes basic storage and transportation. Clients typically lease warehouse space and manage their own inventory. In UAE, DSV offers 2PL to industrial suppliers storing long-term equipment in Mussafah."})
+
+    if match([r"\b3pl\b|third party logistics|inventory management|value added service"]):
+        return jsonify({"reply": "3PL (Third-Party Logistics) involves full operational outsourcing: storage, order processing, inventory, kitting, labeling, and delivery. DSV provides 3PL to e-commerce clients in KIZAD and healthcare distributors in Abu Dhabi Airport Freezone."})
+
+    if match([r"\b4pl\b|fourth party logistics|control tower|orchestration|logistics strategy"]):
+        return jsonify({"reply": "4PL (Fourth-Party Logistics) means DSV acts as a strategic control tower — managing your full supply chain, including multiple vendors, IT integration, and transport optimization. In the UAE, DSV serves oil & gas clients under 4PL to manage marine charters, warehousing, and compliance across multiple regions."})
+
+    # --- Warehouse Occupancy Inquiries ---
+    if match([r"(occupancy|space availability|warehouse full|rented|utilization|available space)"]):
+        return jsonify({"reply": "For warehouse occupancy inquiries, please contact Biju Krishnan at biju.krishnan@dsv.com."})
+
+    # --- Transport Rates & Availability ---
+    if match([r"(transport|delivery|trucking|fleet|trailer|truck|flatbed|refrigerated|reefer|lowbed|availability|booking).*rate"]):
+        return jsonify({"reply": "For transport rates and availability, please contact the OCC team: Ronnell Toring at ronnell.toring@dsv.com."})
+
+    if match([r"(transport availability|truck availability|trailer availability|flatbed available|can you deliver|book a truck|need a truck|truck timing)"]):
+        return jsonify({"reply": "For any transportation needs or vehicle availability, kindly reach out to Ronnell Toring at ronnell.toring@dsv.com (DSV OCC team)."})
 
     # --- Mussafah 21K Warehouse Info ---
     if match([r"21k|main warehouse|mussafah warehouse|dsv warehouse abu dhabi"]):
         return jsonify({"reply": "DSV’s 21K warehouse in Mussafah is 21,000 SQM, 15m clear height. Rack types: Selective (2.95–3.3m aisles), VNA (1.95m), Drive-in (2.0m)."})
+    # --- DSV GLOBAL OVERVIEW ---
+    if match([r"what is dsv|about dsv|dsv overview|who.*dsv|dsv company|dsv info|dsv profile|dsv background|dsv global"]):
+        return jsonify({"reply": "DSV is a global logistics company founded in 1976 in Denmark. It operates in 90+ countries with over 160,000 employees, offering Air & Sea, Road, and Contract Logistics services. DSV is listed on Nasdaq Copenhagen and follows an asset-light model relying on subcontractors."})
+
+    if match([r"dsv.*headquarter|dsv.*location|where is dsv from|dsv based in|dsv hq"]):
+        return jsonify({"reply": "DSV's global headquarters is in Hedehusene, Denmark. It started as a Danish haulier group and grew through major acquisitions including UTi, Panalpina, Agility, and DB Schenker."})
+
+    if match([r"dsv.*structure|business model|divisions|organization|dsv.*departments"]):
+        return jsonify({"reply": "DSV is structured into three divisions: Air & Sea (freight forwarding), Road (domestic/international trucking), and Solutions (warehousing, 3PL, and 4PL contract logistics)."})
+
+    if match([r"stock|public company|nasdaq|listed|c25 index"]):
+        return jsonify({"reply": "Yes, DSV is publicly traded on the Nasdaq Copenhagen exchange, part of the C25 index, with 100% free float and no majority shareholder."})
+
+    if match([r"growth|merger|acquisition|panalpina|agility|uti|schenker"]):
+        return jsonify({"reply": "DSV has expanded globally via acquisitions: UTi in 2016, Panalpina in 2019, Agility in 2021, and DB Schenker in 2025 — becoming the world's largest logistics provider."})
+
+    # --- DSV ABU DHABI OVERVIEW ---
+    if match([r"abu dhabi|uae.*branch|mussafah.*warehouse|where is 21k|dsv in abu dhabi|dsv mussafah|dsv kizad|dsv airport site"]):
+        return jsonify({"reply": "DSV Abu Dhabi operates from three sites: (1) Mussafah 21K warehouse (21,000 SQM, 15m high, with selective, VNA, and drive-in racks), (2) KIZAD (KHIA6‑3_4), and (3) Abu Dhabi Airport Freezone. Services include storage, 3PL/4PL, marine logistics, EV transport, drone inspection, and customs clearance."})
+
+    if match([r"21k|main warehouse|rack type|aisle|clear height"]):
+        return jsonify({"reply": "DSV’s main 21K warehouse in Mussafah is 21,000 SQM with 15m clear height. It includes Selective racks (2.95–3.3m aisle), VNA racks (1.95m), and Drive-in racks (2.0m)."})
+
+    if match([r"contact|reach.*dsv|phone number|email.*dsv|support number|how.*call.*dsv"]):
+        return jsonify({"reply": "You can reach DSV Abu Dhabi at +971 2 509 9599 or AE.AUHSales@ae.dsv.com. Fax: +971 2 551 4833. Our team can assist with warehousing, transport, and logistics."})
+
+    if match([r"working hours|timing|when open|opening hours|dsv.*open"]):
+        return jsonify({"reply": "DSV Abu Dhabi offices operate Monday to Friday from 08:00 AM to 5:00 PM. Saturday operations are limited and subject to request."})
 
     # --- Transport & Equipment ---
     if match([r"flatbed|double trailer|small truck|delivery truck"]):
