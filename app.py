@@ -151,7 +151,16 @@ def chat():
     message = normalize(message)
 
     def match(patterns):
-        return any(re.search(p, message) for p in patterns)
+    return any(re.search(p, message) for p in patterns)
+
+# ✅ FRIENDLY CHAT BLOCK SHOULD BE HERE
+    if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
+        return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
+    if match([r"how.?are.?you|how.?s.?it.?going|whats.?up"]):
+        return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
+    if match([r"\bthank(s| you)?\b|thx|appreciate"]):
+        return jsonify({"reply": "You're very welcome! 😊"})
+
 # --- Handling Math Questions like Packing Calculations ---
     if match([r"calculate.*packing.*pallet", r"how much.*pallet.*packing", r"cost.*packing.*pallet", r"packing with pallet for \d+ pallet"]):
         match_pallets = re.search(r"(\d+)\s*pallet", message)
@@ -808,14 +817,6 @@ def chat():
         return jsonify({"reply": "DSV provides 3PL services: storage, inventory, picking, packing, labeling, delivery, returns."})
     if match([r"\b4pl\b|control tower|supply chain orchestrator"]):
         return jsonify({"reply": "As a 4PL provider, DSV coordinates multiple vendors to manage your end-to-end logistics strategy."})
-
-    # --- Friendly Chat ---
-    if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
-        return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
-    if match([r"how.?are.?you|how.?s.?it.?going|whats.?up"]):
-        return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
-    if match([r"\bthank(s| you)?\b|thx|appreciate"]):
-        return jsonify({"reply": "You're very welcome! 😊"})
 
     # --- Fallback (never ask to rephrase) ---
     return jsonify({"reply": "I'm trained on everything related to DSV storage, transport, VAS, Mussafah warehouse, and services. Can you try asking again with more detail?"})
