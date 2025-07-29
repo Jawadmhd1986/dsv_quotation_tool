@@ -203,11 +203,11 @@ def chat():
     if match([r"healthcare|pharma|pharmaceutical|medical storage|health logistics|cold chain|hospital delivery"]):
         return jsonify({"reply": "DSV provides healthcare and pharmaceutical logistics through cold chain storage (+2°C to +8°C), ambient storage (+18°C to +25°C), and deep freezer options (–22°C). We support inventory management, batch tracking, cold room compliance, and last-mile delivery to clinics, pharmacies, and hospitals. Healthcare clients are supported in Airport Freezone and KIZAD facilities."})
 # --- DSV E-commerce Logistics ---
-if match([r"ecommerce|e-commerce|online retail|ecom|dsv online|shop logistics|online order|fulfillment center"]):
-    return jsonify({"reply": "DSV provides end-to-end e-commerce logistics including warehousing, order fulfillment, pick & pack, returns handling, last-mile delivery, and integration with Shopify, Magento, and custom APIs. Our Autostore and WMS systems enable fast, accurate processing of online orders from our UAE hubs including KIZAD and Airport Freezone."})
+    if match([r"ecommerce|e-commerce|online retail|ecom|dsv online|shop logistics|online order|fulfillment center"]):
+        return jsonify({"reply": "DSV provides end-to-end e-commerce logistics including warehousing, order fulfillment, pick & pack, returns handling, last-mile delivery, and integration with Shopify, Magento, and custom APIs. Our Autostore and WMS systems enable fast, accurate processing of online orders from our UAE hubs including KIZAD and Airport Freezone."})
 # --- DSV Machinery Handling & Relocation ---
-if match([r"machinery|machines|equipment move|machine relocation|heavy machine|industrial equipment|machinery storage|dsv machineries"]):
-    return jsonify({"reply": "DSV specializes in handling, relocating, and storing machinery and industrial equipment. We offer secure storage, packing, dismantling, loading, transport (including lowbeds and cranes), and reinstallation. Machinery logistics are handled under strict QHSE protocols using specialized staff and equipment."})
+    if match([r"machinery|machines|equipment move|machine relocation|heavy machine|industrial equipment|machinery storage|dsv machineries"]):
+        return jsonify({"reply": "DSV specializes in handling, relocating, and storing machinery and industrial equipment. We offer secure storage, packing, dismantling, loading, transport (including lowbeds and cranes), and reinstallation. Machinery logistics are handled under strict QHSE protocols using specialized staff and equipment."})
 
     if match([r"cold room|cold storage|chilled|2.*8 degree|refrigerated warehouse"]):
         return jsonify({"reply": "Our cold room zones are kept between +2°C and +8°C — perfect for medicines, vaccines, and fresh food items that require refrigeration."})
@@ -246,14 +246,14 @@ if match([r"machinery|machines|equipment move|machine relocation|heavy machine|i
     if match([r"open yard vas|yard charges|vas for open yard"]):
         return jsonify({"reply": "Open Yard VAS includes:\n- Forklift (3T–7T): 90 AED/hr\n- Forklift (10T): 200 AED/hr\n- Forklift (15T): 320 AED/hr\n- Mobile Crane (50T): 250 AED/hr\n- Mobile Crane (80T): 450 AED/hr\n- Container Lifting (20ft & 40ft): 250 AED/lift\n- Container Stripping 20ft: 1,200 AED/hr"})
 # --- DSV Meaning / Full Form ---
-if match([r"\bwhat does dsv mean\b", r"\bmeaning of dsv\b", r"dsv full form", r"what is dsv", r"expand dsv", r"who.*dsv", r"dsv stands for"]):
-    return jsonify({"reply": "DSV stands for 'De Sammensluttede Vognmænd' in Danish, which means 'The United Hauliers'. It was founded in 1976 in Denmark and has grown into a global logistics and transport company."})
+    if match([r"\bwhat does dsv mean\b", r"\bmeaning of dsv\b", r"dsv full form", r"what is dsv", r"expand dsv", r"who.*dsv", r"dsv stands for"]):
+        return jsonify({"reply": "DSV stands for 'De Sammensluttede Vognmænd' in Danish, which means 'The United Hauliers'. It was founded in 1976 in Denmark and has grown into a global logistics and transport company."})
 # --- FMCG Explanation ---
-if match([r"\bfmcg\b", r"fast moving consumer goods", r"fmcg logistics", r"fmcg meaning", r"what is fmcg", r"fmcg storage", r"fmcg warehouse"]):
-    return jsonify({"reply": "FMCG stands for Fast Moving Consumer Goods — products that sell quickly at relatively low cost such as food, beverages, toiletries, and over-the-counter drugs. DSV provides warehousing, order fulfillment, and last-mile delivery for FMCG clients, including temperature-controlled and ambient storage options."})
+    if match([r"\bfmcg\b", r"fast moving consumer goods", r"fmcg logistics", r"fmcg meaning", r"what is fmcg", r"fmcg storage", r"fmcg warehouse"]):
+        return jsonify({"reply": "FMCG stands for Fast Moving Consumer Goods — products that sell quickly at relatively low cost such as food, beverages, toiletries, and over-the-counter drugs. DSV provides warehousing, order fulfillment, and last-mile delivery for FMCG clients, including temperature-controlled and ambient storage options."})
 # --- WMS (Warehouse Management System) ---
-if match([r"\bwms\b", r"warehouse management system", r"what is wms", r"how does wms work", r"dsv wms", r"wms software"]):
-    return jsonify({"reply": "WMS stands for Warehouse Management System. It's the software DSV uses to track inventory, manage warehouse operations, ensure order accuracy, and provide real-time visibility. DSV’s WMS integrates with client ERPs and supports barcode scanning, inventory alerts, and KPI reporting."})
+    if match([r"\bwms\b", r"warehouse management system", r"what is wms", r"how does wms work", r"dsv wms", r"wms software"]):
+        return jsonify({"reply": "WMS stands for Warehouse Management System. It's the software DSV uses to track inventory, manage warehouse operations, ensure order accuracy, and provide real-time visibility. DSV’s WMS integrates with client ERPs and supports barcode scanning, inventory alerts, and KPI reporting."})
 # --- DSV Core System: INFOR ---
     if match([r"name of the system", r"system used in dsv", r"dsv system name", r"what erp", r"main software", r"which platform", r"dsv infor"]):
         return jsonify({"reply": "DSV uses INFOR as its core system for warehouse and logistics management. INFOR integrates with WMS, TMS, and client ERPs to streamline operations, provide real-time tracking, and support advanced reporting and automation."})
