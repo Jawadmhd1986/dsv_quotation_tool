@@ -268,33 +268,29 @@ def chat():
     # --- General Equipment Inquiry ---
     if match([r"\bequipment\b", r"warehouse equipment", r"tools", r"machinery", r"what equipment do you use", r"material handling", r"forklift info", r"reach truck info"]):
         return jsonify({"reply": "DSV uses a full range of equipment across its facilities including forklifts (3T–15T), reach trucks for 11m high racks, VNA (Very Narrow Aisle) trucks for 1.95m aisles, manual pallet jacks, and mobile cranes for yard operations. All equipment is safety-certified and maintained under strict QHSE protocols."})
-if match([r"(transport availability|truck availability|trailer availability|flatbed available|can you deliver|book a truck|need a truck|truck timing)"]):
-    return jsonify({"reply": "For any transportation needs or vehicle availability, kindly reach out to Ronnell Toring at ronnell.toring@dsv.com (DSV OCC team)."})
-# --- Packing Material Consumption Details ---
-if match([
+    if match([r"(transport availability|truck availability|trailer availability|flatbed available|can you deliver|book a truck|need a truck|truck timing)"]):
+        return jsonify({"reply": "For any transportation needs or vehicle availability, kindly reach out to Ronnell Toring at ronnell.toring@dsv.com (DSV OCC team)."})
+    # --- Packing Material Consumption Details ---
+    if match([
     r"shrink wrap usage", r"stretch film per pallet", r"how many rolls", r"wrap quantity",
     r"packing capacity", r"strapping details", r"buckle usage",
     r"how many pallet.*(stretch|shrink|wrap|film)",
     r"(stretch|shrink|wrap).*how many pallet",
     r"(how many|usage).*shrink wrap", r"(how many|usage).*stretch film",
-    r"(how many|usage).*strapping roll", r"(how many|usage).*strap buckle"
-]):
-    return jsonify({"reply": "Each box of shrink/stretch film contains 6 rolls. Each roll can wrap up to 20 pallets (1.5m height). Each strapping roll secures 20 pallets. A box of strap buckles contains 1,000 pieces and supports up to 250 pallets. These materials are used by DSV for secure packing in relocation and warehouse operations."})
-# --- DSV Abu Dhabi Managing Director ---
-if match([
+    r"(how many|usage).*strapping roll", r"(how many|usage).*strap buckle"]):
+        return jsonify({"reply": "Each box of shrink/stretch film contains 6 rolls. Each roll can wrap up to 20 pallets (1.5m height). Each strapping roll secures 20 pallets. A box of strap buckles contains 1,000 pieces and supports up to 250 pallets. These materials are used by DSV for secure packing in relocation and warehouse operations."})
+    # --- DSV Abu Dhabi Managing Director ---
+    if match([
     r"hossam", r"hossam mahmoud", r"who is hossam", r"abu dhabi md", r"managing director",
-    r"who leads abu dhabi", r"dsv uae head", r"head of dsv abu dhabi", r"boss of dsv"
-]):
-    return jsonify({"reply": "Mr. Hossam Mahmoud is the Managing Director of DSV Abu Dhabi. With over 20 years of experience in regional logistics and supply chain management, he has led major operations for industrial, oil & gas, and government clients. Under his leadership, DSV expanded its footprint across Mussafah, KIZAD, and Airport Freezone, introducing advanced 4PL, EV trucking, and marine logistics services."})
-# --- DSV KIZAD Site Info ---
-if match([
+    r"who leads abu dhabi", r"dsv uae head", r"head of dsv abu dhabi", r"boss of dsv"]):
+        return jsonify({"reply": "Mr. Hossam Mahmoud is the Managing Director of DSV Abu Dhabi. With over 20 years of experience in regional logistics and supply chain management, he has led major operations for industrial, oil & gas, and government clients. Under his leadership, DSV expanded its footprint across Mussafah, KIZAD, and Airport Freezone, introducing advanced 4PL, EV trucking, and marine logistics services."})
+    # --- DSV KIZAD Site Info ---
+    if match([
     r"\bkizad\b", r"khalifa industrial", r"khalifa zone", r"khalifa port area",
-    r"warehouse in kizad", r"dsv kizad site", r"dsv in kizad", r"abu dhabi kizad"
-]):
-    return jsonify({"reply": "DSV operates a major facility in KIZAD (Khalifa Industrial Zone, Abu Dhabi) known as KHIA6‑3_4. It supports 3PL/4PL warehousing, industrial logistics, and cross-docking. This site complements our Mussafah 21K and Airport Freezone operations and is strategically positioned for port access and long-term projects."})
-if match([r"rms|record management system|document storage|file archive|document center|records store|rms 21k"]):
-    return jsonify({"reply": "DSV’s 21K warehouse in Mussafah includes an RMS (Record Management System) facility for secure storage of client documentation. It features barcode indexing, controlled access, and retrieval tracking. The fire suppression system inside the RMS uses FM200 (clean agent gas) instead of water, ensuring sensitive records and paper files are protected from damage during emergencies."})
-
+    r"warehouse in kizad", r"dsv kizad site", r"dsv in kizad", r"abu dhabi kizad"]):
+        return jsonify({"reply": "DSV operates a major facility in KIZAD (Khalifa Industrial Zone, Abu Dhabi) known as KHIA6‑3_4. It supports 3PL/4PL warehousing, industrial logistics, and cross-docking. This site complements our Mussafah 21K and Airport Freezone operations and is strategically positioned for port access and long-term projects."})
+    if match([r"rms|record management system|document storage|file archive|document center|records store|rms 21k"]):
+        return jsonify({"reply": "DSV’s 21K warehouse in Mussafah includes an RMS (Record Management System) facility for secure storage of client documentation. It features barcode indexing, controlled access, and retrieval tracking. The fire suppression system inside the RMS uses FM200 (clean agent gas) instead of water, ensuring sensitive records and paper files are protected from damage during emergencies."})
     if match([r"technology platform|onboarding apps|client system|customized app|erp|integration|application onboarding|digital process"]):
         return jsonify({"reply": "DSV tailors onboarding platforms and digital workflows to match each client's operations. Whether it's B2B bulk shipment, retail, or API-driven e-commerce, we integrate with ERPs, offer KPI dashboards, and deploy mobile RF systems for full visibility and control."})
     # --- RFID Solutions: Tracking, Gates, Asset Management ---
