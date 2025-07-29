@@ -152,17 +152,6 @@ def chat():
 
     def match(patterns):
         return any(re.search(p, message) for p in patterns)
-
-# FRIENDLY CHAT BLOCK SHOULD BE HERE
-    if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
-        return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
-    if match([r"how.?are.?you|how.?s.?it.?going|whats.?up"]):
-        return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
-    if match([r"\bthank(s| you)?\b|thx|appreciate"]):
-        return jsonify({"reply": "You're very welcome! 😊"})
-        
-    def match(patterns):
-        return any(re.search(p, message) for p in patterns)
         
 # --- Handling Math Questions like Packing Calculations ---
     if match([r"calculate.*packing.*pallet", r"how much.*pallet.*packing", r"cost.*packing.*pallet", r"packing with pallet for \d+ pallet"]):
@@ -827,6 +816,13 @@ def chat():
         return jsonify({"reply": "Chemical VAS includes:\n- Handling (Palletized): 20 AED/CBM\n- Handling (Loose): 25 AED/CBM\n- Documentation: 150 AED/set\n- Packing with pallet: 85 AED/CBM\n- Inventory Count: 3,000 AED/event\n- Inner Bag Picking: 3.5 AED/bag\n- Sticker Labeling: 1.5 AED/label\n- Shrink Wrapping: 6 AED/pallet"})
     if match([r"storage rate|storage cost|storage fee|rate for storage|how much.*storage|storage price"]):
         return jsonify({"reply": "Storage rates:\n- AC: 2.5 AED/CBM/day\n- Non-AC: 2.0 AED/CBM/day\n- Open Shed: 1.8 AED/CBM/day\n- Chemical AC: 3.5 AED/CBM/day\n- Chemical Non-AC: 2.7 AED/CBM/day\n- Open Yard Mussafah: 160 AED/SQM/year\n- Open Yard KIZAD: 125 AED/SQM/year"})
+        # FRIENDLY CHAT BLOCK SHOULD BE HERE
+    if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
+        return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
+    if match([r"how.?are.?you|how.?s.?it.?going|whats.?up"]):
+        return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
+    if match([r"\bthank(s| you)?\b|thx|appreciate"]):
+        return jsonify({"reply": "You're very welcome! 😊"})
     # --- Fallback (never ask to rephrase) ---
     return jsonify({"reply": "I'm trained on everything related to DSV storage, transport, VAS, Mussafah warehouse, and services. Can you try asking again with more detail?"})
 
