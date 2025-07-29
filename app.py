@@ -334,8 +334,7 @@ if match([
     r"(chemical|hazmat).*quotation.*need.*(info|details|data)",
     r"if i.*store.*chemical.*what.*you need",
     r"chemical.*storage.*quotation.*requirement",
-    r"(quotation|quote).*for.*chemicals.*what.*needed"
-]):
+    r"(quotation|quote).*for.*chemicals.*what.*needed"]):
     return jsonify({"reply": (
         "To provide a quotation for chemical storage, we need:\n"
         "- Material Safety Data Sheet (MSDS)\n"
@@ -345,8 +344,7 @@ if match([
         "- Packaging type (palletized or loose)\n"
         "- Any special handling or temperature requirements\n"
         "- Delivery/pickup expectations or transport support\n"
-        "Once we have these details, we can prepare a tailored quotation with appropriate VAS."
-    )})
+        "Once we have these details, we can prepare a tailored quotation with appropriate VAS.")})
 
     if match([r"abu dhabi.*sharjah|sharjah.*abu dhabi"]):
         return jsonify({"reply": "The distance between Abu Dhabi and Sharjah is about 160 km."})
@@ -632,13 +630,12 @@ if match([
 
     # --- Warehouse Occupancy Inquiries ---
     # --- Warehouse Occupancy Inquiries ---
-if match([
+    if match([
     r"(do you have )?space( in)? (the )?(warehouse|facility|storage)",
     r"(warehouse|storage|facility).*(availability|space|capacity|vacancy)",
     r"(available space|free space|can i store|is there room)",
-    r"(storage full|warehouse full|occupied|rented out|storage status)"
-]):
-    return jsonify({"reply": "For warehouse occupancy inquiries, please contact Biju Krishnan at biju.krishnan@dsv.com."})
+    r"(storage full|warehouse full|occupied|rented out|storage status)"]):
+        return jsonify({"reply": "For warehouse occupancy inquiries, please contact Biju Krishnan at biju.krishnan@dsv.com."})
 
     # --- Transport Rates & Availability ---
     if match([r"(transport|delivery|trucking|fleet|trailer|truck|flatbed|refrigerated|reefer|lowbed|availability|booking).*rate"]):
