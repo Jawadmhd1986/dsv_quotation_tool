@@ -339,6 +339,42 @@ def chat():
 
     if match([r"\b3pl\b|third party logistics|inventory management|value added service"]):
         return jsonify({"reply": "3PL (Third-Party Logistics) involves full operational outsourcing: storage, order processing, inventory, kitting, labeling, and delivery. DSV provides 3PL to e-commerce clients in KIZAD and healthcare distributors in Abu Dhabi Airport Freezone."})
+    if match([r"formula ?1|f1|f 1|grand prix|yas marina|race logistics|motorsport"]):
+        return jsonify({"reply": "Every year, DSV manages logistics for the Formula 1 Grand Prix — including air, sea, and road transport of race cars, pit equipment, team gear, and hospitality setups. We support the Abu Dhabi Grand Prix at Yas Marina with timed deliveries, customs handling, and re-export services."})
+
+    # --- DSV ABU DHABI OVERVIEW ---
+    if match([r"mussafah|abu dhabi|uae.*branch|dsv facilities|dsv warehouse|dsv mussafah|dsv kizad|dsv airport site|where is 21k"]):
+        return jsonify({"reply": "DSV Abu Dhabi operates from three sites: (1) Mussafah 21K warehouse (21,000 SQM, 15m high, with selective, VNA, and drive-in racks), (2) KIZAD (KHIA6‑3_4), and (3) Abu Dhabi Airport Freezone. Services include storage, 3PL/4PL, marine logistics, EV transport, drone inspection, and customs clearance."})
+    # --- Rack Types in 21K Warehouse ---
+    if match([r"rack type|types of rack|racks in warehouse|vna rack|selective rack|drive in rack|aisle width|racking layout|rack system|warehouse racks|rack tyoes|rak types"]):
+        return jsonify({"reply": "DSV’s 21K warehouse in Mussafah includes multiple rack systems: Selective racks with 2.95–3.3m aisle width, VNA (Very Narrow Aisle) racks with 1.95m width, and Drive-in racks with 2.0m width. These systems support high-density and selective storage operations."})
+    # --- PSN Identification ---
+    if match([r"\bpsn\b|who is psn|what is psn|psn client|psn authority|psn abu dhabi"]):
+        return jsonify({"reply": "PSN refers to the Federal Authority of Protocol and Strategic Narrative — a VVIP client served by DSV Abu Dhabi through dedicated warehouse chambers, secure handling, and confidentiality-aligned logistics protocols."})
+    # --- DSV Completed Projects ---
+    if match([r"dsv projects|completed work|client case study|project reference|what projects have you done|logistics projects|recent work|handled jobs"]):
+        return jsonify({"reply": "DSV has completed a wide range of projects including Formula 1 logistics, heavy lift deliveries for ADNOC, relocation of full factories, and asset-based 3PL/4PL implementations across the UAE. We specialize in high-complexity logistics, EPC support, and critical timed deliveries."})
+    # --- DSV Al Markaz Facility ---
+    if match([r"almarkaz|al markaz|markaz warehouse|almarkaz warehouse|sub warehouse.*markaz"]):
+        return jsonify({"reply": "DSV operates a sub-warehouse in Al Markaz, Abu Dhabi, with a total covered area of 12,000 sqm. It supports general storage, 3PL activities, and overflow for large-scale industrial clients. Al Markaz complements our main 21K and M44/M45 sites."})
+    # --- Single-word and broad DSV Mussafah match ---
+    if match([r"\bmussafah\b"]):
+        return jsonify({"reply": "DSV's main operations in Mussafah include the 21K warehouse (21,000 SQM, 15m high), sub-warehouses M44 and M45, and our open yard of 360,000 SQM. Services provided include 3PL, 4PL, chemical storage, RMS documentation handling, and project cargo logistics."})
+    # --- General Transportation Distance Inquiry ---
+    if match([r"destination distance|destinations distances|how far|distance between emirates|transport distances|travel km|uae road distance"]):
+        return jsonify({"reply": "Here are some sample transportation distances: Abu Dhabi → Dubai: 140 km, Abu Dhabi → RAK: 240 km, Dubai → Fujairah: 130 km, Sharjah → Ajman: 15 km. Let me know which route you're interested in and I can provide the approximate distance."})
+    # --- General Temperature Inquiry ---
+    if match([r"\btemperature\b|storage temperature|temp range|how cold|how hot|temperature zones"]):
+        return jsonify({"reply": "DSV offers three types of temperature-controlled storage: (1) Ambient zones maintained at +18°C to +25°C, (2) Cold rooms at +2°C to +8°C, and (3) Freezer zones set at –22°C. These options support food, pharmaceuticals, and sensitive cargo."})
+    # --- General Truck Types Inquiry ---
+    if match([r"truck types|types of trucks|transport fleet|available trucks|transport vehicles|vehicle types"]):
+        return jsonify({"reply": "DSV operates a wide range of truck types including flatbeds, double trailers, box trucks, reefers, city trucks, lowbeds, and tippers — each designed to handle different cargo types, delivery zones, and operational needs."})
+    # --- General Storage Inquiry ---
+    if match([r"\bstorage\b|storage options|warehouse storage|what storage do you offer|types of storage|available storage"]):
+        return jsonify({"reply": "DSV offers multiple storage types across Abu Dhabi including AC storage (2.5 AED/CBM/day), Non-AC (2.0), Open Shed (1.8), Chemical AC and Non-AC, and Open Yard (125–160 AED/SQM/year). We also provide temperature-controlled zones, cold rooms, freezers, and full VAS support."})
+    # --- VNA Racking System ---
+    if match([r"\bvna\b|very narrow aisle|vna rack|narrow aisle rack|vna trucks|vna system|vna setup"]):
+        return jsonify({"reply": "VNA stands for Very Narrow Aisle. At DSV’s 21K warehouse in Mussafah, VNA racking offers 1.95m aisle widths for high-density storage and is serviced by specialized VNA forklifts. It's ideal for maximizing pallet positions in limited space."})
 
     if match([r"\b4pl\b|fourth party logistics|control tower|orchestration|logistics strategy"]):
         return jsonify({"reply": "4PL (Fourth-Party Logistics) means DSV acts as a strategic control tower — managing your full supply chain, including multiple vendors, IT integration, and transport optimization. In the UAE, DSV serves oil & gas clients under 4PL to manage marine charters, warehousing, and compliance across multiple regions."})
@@ -385,7 +421,6 @@ def chat():
 
     if match([r"working hours|timing|when open|opening hours|dsv.*open"]):
         return jsonify({"reply": "DSV Abu Dhabi offices operate Monday to Friday from 08:00 AM to 5:00 PM. Saturday operations are limited and subject to request."})
-
     # --- Transport & Equipment ---
     if match([r"flatbed|double trailer|small truck|delivery truck"]):
         return jsonify({"reply": "DSV operates flatbeds, double trailers, and small city trucks for transport within UAE and GCC."})
