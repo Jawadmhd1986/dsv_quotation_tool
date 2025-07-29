@@ -151,9 +151,9 @@ def chat():
     message = normalize(message)
 
     def match(patterns):
-    return any(re.search(p, message) for p in patterns)
+        return any(re.search(p, message) for p in patterns)
 
-# ✅ FRIENDLY CHAT BLOCK SHOULD BE HERE
+# FRIENDLY CHAT BLOCK SHOULD BE HERE
     if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
         return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
     if match([r"how.?are.?you|how.?s.?it.?going|whats.?up"]):
