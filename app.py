@@ -141,14 +141,11 @@ def chat():
     data = request.get_json()
     message = data.get("message", "").lower().strip()
 
-    # Debug print
-    print("DEBUG MESSAGE:", message)
-
     def normalize(text):
         text = re.sub(r"\bu\b", "you", text)
         text = re.sub(r"\bur\b", "your", text)
         text = re.sub(r"\br\b", "are", text)
-        text = re.sub(r"[^\w\s]", "", text)  # keep letters, numbers, underscores, spaces
+        text = re.sub(r"[^a-z0-9\s]", "", text)
         return text
 
     message = normalize(message)
@@ -754,6 +751,7 @@ def chat():
         return jsonify({"reply": "4PL (Fourth-Party Logistics) means DSV acts as a strategic control tower — managing your full supply chain, including multiple vendors, IT integration, and transport optimization. In the UAE, DSV serves oil & gas clients under 4PL to manage marine charters, warehousing, and compliance across multiple regions."})
 
     # --- Warehouse Occupancy Inquiries ---
+    # --- Warehouse Occupancy Inquiries ---
     if match([
     r"(do you have )?space( in)? (the )?(warehouse|facility|storage)",
     r"(warehouse|storage|facility).*(availability|space|capacity|vacancy)",
@@ -805,20 +803,23 @@ def chat():
     if match([r"forklift|reach truck|vna truck|warehouse equipment"]):
         return jsonify({"reply": "Forklifts (3T–15T), Reach trucks for 11m racks, VNA trucks for 1.95m aisles are available in DSV sites."})
 
-        # --- Services & 3PL/4PL ---
+    # --- Services & 3PL/4PL ---
     if match([r"\b3pl\b|third party logistics|order fulfillment"]):
         return jsonify({"reply": "DSV provides 3PL services: storage, inventory, picking, packing, labeling, delivery, returns."})
-    
     if match([r"\b4pl\b|control tower|supply chain orchestrator"]):
         return jsonify({"reply": "As a 4PL provider, DSV coordinates multiple vendors to manage your end-to-end logistics strategy."})
-     # --------------------------------------------
-    if match([r"\bhello\b", r"\bhi\b", r"\bhey\b", r"good morning", r"good evening"]):
+
+    # --- Friendly Chat ---
+    if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
         return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
+    if match([r"how.?are.?you|how.?s.?it.?going|whats.?up"]):
+        return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
+    if match([r"\bthank(s| you)?\b|thx|appreciate"]):
+        return jsonify({"reply": "You're very welcome! 😊"})
 
-    # Final fallback (always last inside chat())
-    return jsonify({"reply": "I'm trained on everything related to DSV logistics, warehousing, storage types, VAS, projects, and transport. Can you please rephrase or specify your topic?"})
+    # --- Fallback (never ask to rephrase) ---
+    return jsonify({"reply": "I'm trained on everything related to DSV storage, transport, VAS, Mussafah warehouse, and services. Can you try asking again with more detail?"})
 
-# Run the Flask app
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
