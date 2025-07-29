@@ -152,12 +152,169 @@ def chat():
 
     def match(patterns):
         return any(re.search(p, message) for p in patterns)
+# --- Handling Math Questions like Packing Calculations ---
+    if match([r"calculate.*packing.*pallet", r"how much.*pallet.*packing", r"cost.*packing.*pallet", r"packing with pallet for \d+ pallet"]):
+        match_pallets = re.search(r"(\d+)\s*pallet", message)
+        if match_pallets:
+            pallets = int(match_pallets.group(1))
+            rate = 85
+            total = pallets * rate
+            return jsonify({"reply": f"Packing with pallet for {pallets} pallets at 85 AED/CBM each = {total:,.2f} AED."})
+                # --- VAS Calculation: Detect quantity and item type ---
+    if match([r"calculate.*(handling|in.?out)", r"how much.*handling", r"cost.*handling.*cbm"]):
+        cbm_match = re.search(r"(\d+)\s*cbm", message)
+        if cbm_match:
+            cbm = int(cbm_match.group(1))
+            rate = 20
+            return jsonify({"reply": f"In/Out Handling for {cbm} CBM at 20 AED/CBM = {cbm * rate:,.2f} AED."})
+
+    if match([r"calculate.*pallet.*load", r"pallet.*loading.*\d+", r"loading.*unloading.*pallet"]):
+        pallet_match = re.search(r"(\d+)\s*pallet", message)
+        if pallet_match:
+            pallets = int(pallet_match.group(1))
+            return jsonify({"reply": f"Pallet loading/unloading for {pallets} pallets at 12 AED/pallet = {pallets * 12:,.2f} AED."})
+
+    if match([r"calculate.*documentation|doc charge|docs.*rate|how much.*doc"]):
+        sets_match = re.search(r"(\d+)\s*(sets|doc)", message)
+        sets = int(sets_match.group(1)) if sets_match else 1
+        return jsonify({"reply": f"Documentation for {sets} set(s) at 125 AED/set = {sets * 125:,.2f} AED."})
+
+    if match([r"calculate.*packing.*pallet", r"pallet.*packing.*\d+", r"how much.*packing"]):
+        pallet_match = re.search(r"(\d+)\s*pallet", message)
+        if pallet_match:
+            pallets = int(pallet_match.group(1))
+            return jsonify({"reply": f"Packing with pallet for {pallets} pallets at 85 AED/CBM = {pallets * 85:,.2f} AED."})
+
+    if match([r"inventory count", r"stock audit", r"inventory event", r"inventory.*charge"]):
+        return jsonify({"reply": "Inventory Count fee is 3,000 AED per event."})
+
+    if match([r"case picking.*\d+", r"carton.*picking", r"how much.*carton"]):
+        carton_match = re.search(r"(\d+)\s*carton", message)
+        if carton_match:
+            cartons = int(carton_match.group(1))
+            return jsonify({"reply": f"Case picking for {cartons} cartons at 2.5 AED/carton = {cartons * 2.5:,.2f} AED."})
+
+    if match([r"label.*sticker.*\d+", r"sticker.*label.*cost", r"label.*qty"]):
+        label_match = re.search(r"(\d+)\s*label", message)
+        if label_match:
+            labels = int(label_match.group(1))
+            return jsonify({"reply": f"Sticker labeling for {labels} labels at 1.5 AED/label = {labels * 1.5:,.2f} AED."})
+
+    if match([r"shrink wrap.*\d+", r"wrap.*pallet", r"how much.*wrap"]):
+        wrap_match = re.search(r"(\d+)\s*pallet", message)
+        if wrap_match:
+            pallets = int(wrap_match.group(1))
+            return jsonify({"reply": f"Shrink wrapping for {pallets} pallets at 6 AED/pallet = {pallets * 6:,.2f} AED."})
+
+    if match([r"vna usage.*\d+", r"very narrow aisle.*pallet", r"vna.*charge"]):
+        pallet_match = re.search(r"(\d+)\s*pallet", message)
+        if pallet_match:
+            pallets = int(pallet_match.group(1))
+            return jsonify({"reply": f"VNA usage for {pallets} pallets at 2.5 AED/pallet = {pallets * 2.5:,.2f} AED."})
+                # --- Chemical VAS Calculation ---
+    if match([r"chemical.*handling.*pallet|palletized.*chemical", r"handling.*chemical.*pallet"]):
+        cbm_match = re.search(r"(\d+)\s*cbm", message)
+        if cbm_match:
+            cbm = int(cbm_match.group(1))
+            return jsonify({"reply": f"Chemical handling (palletized) for {cbm} CBM at 20 AED/CBM = {cbm * 20:,.2f} AED."})
+
+    if match([r"chemical.*handling.*loose|loose.*chemical", r"handling.*chemical.*loose"]):
+        cbm_match = re.search(r"(\d+)\s*cbm", message)
+        if cbm_match:
+            cbm = int(cbm_match.group(1))
+            return jsonify({"reply": f"Chemical handling (loose) for {cbm} CBM at 25 AED/CBM = {cbm * 25:,.2f} AED."})
+
+    if match([r"chemical.*doc|chemical.*documentation|chemical.*paperwork"]):
+        sets_match = re.search(r"(\d+)\s*(sets|doc)", message)
+        sets = int(sets_match.group(1)) if sets_match else 1
+        return jsonify({"reply": f"Chemical documentation for {sets} set(s) at 150 AED/set = {sets * 150:,.2f} AED."})
+
+    if match([r"chemical.*packing.*pallet|chemical.*palletized", r"packing.*chemical.*cbm"]):
+        cbm_match = re.search(r"(\d+)\s*cbm", message)
+        if cbm_match:
+            cbm = int(cbm_match.group(1))
+            return jsonify({"reply": f"Chemical packing with pallet for {cbm} CBM at 85 AED/CBM = {cbm * 85:,.2f} AED."})
+
+    if match([r"chemical.*inventory|chemical.*stock|chemical.*audit"]):
+        return jsonify({"reply": "Chemical inventory count is charged at 3,000 AED per event."})
+
+    if match([r"chemical.*inner bag|inner bag picking|bag picking|bag.*pick.*\d+"]):
+        bag_match = re.search(r"(\d+)\s*bag", message)
+        if bag_match:
+            bags = int(bag_match.group(1))
+            return jsonify({"reply": f"Inner bag picking for {bags} bags at 3.5 AED/bag = {bags * 3.5:,.2f} AED."})
+
+    if match([r"chemical.*label|chemical.*sticker.*label|labeling.*chemical"]):
+        label_match = re.search(r"(\d+)\s*label", message)
+        if label_match:
+            labels = int(label_match.group(1))
+            return jsonify({"reply": f"Chemical sticker labeling for {labels} labels at 1.5 AED/label = {labels * 1.5:,.2f} AED."})
+
+    if match([r"chemical.*wrap|shrink wrap.*chemical|chemical.*shrink"]):
+        pallet_match = re.search(r"(\d+)\s*pallet", message)
+        if pallet_match:
+            pallets = int(pallet_match.group(1))
+            return jsonify({"reply": f"Chemical shrink wrapping for {pallets} pallets at 6 AED/pallet = {pallets * 6:,.2f} AED."})
+                # --- Open Yard VAS Calculation ---
+    if match([r"forklift.*3.*7|3t.*forklift|7t.*forklift"]):
+        hr_match = re.search(r"(\d+)\s*hour", message)
+        if hr_match:
+            hrs = int(hr_match.group(1))
+            return jsonify({"reply": f"Forklift (3T–7T) for {hrs} hour(s) at 90 AED/hr = {hrs * 90:,.2f} AED."})
+
+    if match([r"forklift.*10t|10t.*forklift"]):
+        hr_match = re.search(r"(\d+)\s*hour", message)
+        if hr_match:
+            hrs = int(hr_match.group(1))
+            return jsonify({"reply": f"Forklift (10T) for {hrs} hour(s) at 200 AED/hr = {hrs * 200:,.2f} AED."})
+
+    if match([r"forklift.*15t|15t.*forklift"]):
+        hr_match = re.search(r"(\d+)\s*hour", message)
+        if hr_match:
+            hrs = int(hr_match.group(1))
+            return jsonify({"reply": f"Forklift (15T) for {hrs} hour(s) at 320 AED/hr = {hrs * 320:,.2f} AED."})
+
+    if match([r"crane.*50t|50t.*crane|mobile crane.*50"]):
+        hr_match = re.search(r"(\d+)\s*hour", message)
+        if hr_match:
+            hrs = int(hr_match.group(1))
+            return jsonify({"reply": f"Mobile Crane (50T) for {hrs} hour(s) at 250 AED/hr = {hrs * 250:,.2f} AED."})
+
+    if match([r"crane.*80t|80t.*crane|mobile crane.*80"]):
+        hr_match = re.search(r"(\d+)\s*hour", message)
+        if hr_match:
+            hrs = int(hr_match.group(1))
+            return jsonify({"reply": f"Mobile Crane (80T) for {hrs} hour(s) at 450 AED/hr = {hrs * 450:,.2f} AED."})
+
+    if match([r"container.*lift|container lifting|lift.*container|20ft.*lift|40ft.*lift"]):
+        unit_match = re.search(r"(\d+)\s*(lift|container)", message)
+        lifts = int(unit_match.group(1)) if unit_match else 1
+        return jsonify({"reply": f"{lifts} container lift(s) at 250 AED/lift = {lifts * 250:,.2f} AED."})
+
+    if match([r"container.*strip|stripping.*20ft|20ft.*strip|strip.*container"]):
+        hr_match = re.search(r"(\d+)\s*hour", message)
+        if hr_match:
+            hrs = int(hr_match.group(1))
+            return jsonify({"reply": f"Container Stripping 20ft for {hrs} hour(s) at 1,200 AED/hr = {hrs * 1200:,.2f} AED."})
+
+
 
     # --- Storage Rate Matching ---
     if match([r"open yard.*mussafah"]):
         return jsonify({"reply": "Open Yard Mussafah storage is 160 AED/SQM/year. WMS is excluded. VAS includes forklifts, cranes, and container lifts."})
     if match([r"open yard.*kizad"]):
         return jsonify({"reply": "Open Yard KIZAD storage is 125 AED/SQM/year. WMS excluded. VAS includes forklift 90–320 AED/hr, crane 250–450 AED/hr."})
+        # --- Specific Chamber Questions ---
+    if match([r"who is in chamber 2|chamber 2.*client|client in chamber 2"]):
+        return jsonify({"reply": "Chamber 2 in the 21K warehouse is allocated to PSN (Federal Authority of Protocol and Strategic Narrative)."})
+
+    # --- MD recognition for abbreviation ---
+    if match([r"\bmd\b", r"who is the md", r"managing director", r"head of dsv abu dhabi"]):
+        return jsonify({"reply": "Mr. Hossam Mahmoud is the Managing Director of DSV Abu Dhabi."})
+
+    # --- 'what does DSV do' ---
+    if match([r"what.*dsv.*do", r"dsv.*services", r"what is dsv.*business", r"what.*offer.*dsv"]):
+        return jsonify({"reply": "DSV offers global logistics services including Air & Sea freight, Road transport, warehousing, 3PL/4PL solutions, and value-added services. In Abu Dhabi, we specialize in industrial, oil & gas, FMCG, healthcare, and government logistics."})
     if match([r"ac storage|air conditioned"]):
         return jsonify({"reply": "AC storage is 2.5 AED/CBM/day. Standard VAS applies: 20 AED/CBM handling, 125 AED documentation, etc."})
     if match([r"non.?ac storage|non air"]):
@@ -171,6 +328,26 @@ def chat():
     # --- UAE Transportation Distance Responses ---
     if match([r"abu dhabi.*dubai|dubai.*abu dhabi"]):
         return jsonify({"reply": "The distance between Abu Dhabi and Dubai is approximately 140 km by road."})
+        # --- Chemical Storage Quotation Requirements ---
+if match([
+    r"(what|which).*data.*(chemical|hazmat).*quote",
+    r"(chemical|hazmat).*quotation.*need.*(info|details|data)",
+    r"if i.*store.*chemical.*what.*you need",
+    r"chemical.*storage.*quotation.*requirement",
+    r"(quotation|quote).*for.*chemicals.*what.*needed"
+]):
+    return jsonify({"reply": (
+        "To provide a quotation for chemical storage, we need:\n"
+        "- Material Safety Data Sheet (MSDS)\n"
+        "- Type and classification of chemical (e.g. flammable, corrosive)\n"
+        "- Required volume in CBM\n"
+        "- Duration of storage (in days or months)\n"
+        "- Packaging type (palletized or loose)\n"
+        "- Any special handling or temperature requirements\n"
+        "- Delivery/pickup expectations or transport support\n"
+        "Once we have these details, we can prepare a tailored quotation with appropriate VAS."
+    )})
+
     if match([r"abu dhabi.*sharjah|sharjah.*abu dhabi"]):
         return jsonify({"reply": "The distance between Abu Dhabi and Sharjah is about 160 km."})
     if match([r"abu dhabi.*ajman|ajman.*abu dhabi"]):
@@ -454,8 +631,14 @@ def chat():
         return jsonify({"reply": "4PL (Fourth-Party Logistics) means DSV acts as a strategic control tower — managing your full supply chain, including multiple vendors, IT integration, and transport optimization. In the UAE, DSV serves oil & gas clients under 4PL to manage marine charters, warehousing, and compliance across multiple regions."})
 
     # --- Warehouse Occupancy Inquiries ---
-    if match([r"(occupancy|space availability|warehouse full|rented|utilization|available space)"]):
-        return jsonify({"reply": "For warehouse occupancy inquiries, please contact Biju Krishnan at biju.krishnan@dsv.com."})
+    # --- Warehouse Occupancy Inquiries ---
+if match([
+    r"(do you have )?space( in)? (the )?(warehouse|facility|storage)",
+    r"(warehouse|storage|facility).*(availability|space|capacity|vacancy)",
+    r"(available space|free space|can i store|is there room)",
+    r"(storage full|warehouse full|occupied|rented out|storage status)"
+]):
+    return jsonify({"reply": "For warehouse occupancy inquiries, please contact Biju Krishnan at biju.krishnan@dsv.com."})
 
     # --- Transport Rates & Availability ---
     if match([r"(transport|delivery|trucking|fleet|trailer|truck|flatbed|refrigerated|reefer|lowbed|availability|booking).*rate"]):
