@@ -389,24 +389,24 @@ def chat():
 # --- Handling Math Questions like Packing Calculations ---
     if match([r"calculate.*packing.*pallet", r"how much.*pallet.*packing", r"cost.*packing.*pallet", r"packing with pallet for \d+ pallet"]):
         match_pallets = re.search(r"(\d+)\s*pallet", message)
-    if match_pallets:
+        if match_pallets:
             pallets = int(match_pallets.group(1))
             rate = 85
             total = pallets * rate
-        return jsonify({"reply": f"Packing with pallet for {pallets} pallets at 85 AED/CBM each = {total:,.2f} AED."})
+            return jsonify({"reply": f"Packing with pallet for {pallets} pallets at 85 AED/CBM each = {total:,.2f} AED."})
                 # --- VAS Calculation: Detect quantity and item type ---
     if match([r"calculate.*(handling|in.?out)", r"how much.*handling", r"cost.*handling.*cbm"]):
         cbm_match = re.search(r"(\d+)\s*cbm", message)
-    if cbm_match:
+        if cbm_match:
             cbm = int(cbm_match.group(1))
             rate = 20
-        return jsonify({"reply": f"In/Out Handling for {cbm} CBM at 20 AED/CBM = {cbm * rate:,.2f} AED."})
+            return jsonify({"reply": f"In/Out Handling for {cbm} CBM at 20 AED/CBM = {cbm * rate:,.2f} AED."})
 
     if match([r"calculate.*pallet.*load", r"pallet.*loading.*\d+", r"loading.*unloading.*pallet"]):
         pallet_match = re.search(r"(\d+)\s*pallet", message)
-    if pallet_match:
+        if pallet_match:
             pallets = int(pallet_match.group(1))
-        return jsonify({"reply": f"Pallet loading/unloading for {pallets} pallets at 12 AED/pallet = {pallets * 12:,.2f} AED."})
+            return jsonify({"reply": f"Pallet loading/unloading for {pallets} pallets at 12 AED/pallet = {pallets * 12:,.2f} AED."})
 
     if match([r"calculate.*documentation|doc charge|docs.*rate|how much.*doc"]):
         sets_match = re.search(r"(\d+)\s*(sets|doc)", message)
@@ -415,48 +415,48 @@ def chat():
 
     if match([r"calculate.*packing.*pallet", r"pallet.*packing.*\d+", r"how much.*packing"]):
         pallet_match = re.search(r"(\d+)\s*pallet", message)
-    if pallet_match:
+        if pallet_match:
             pallets = int(pallet_match.group(1))
-        return jsonify({"reply": f"Packing with pallet for {pallets} pallets at 85 AED/CBM = {pallets * 85:,.2f} AED."})
+            return jsonify({"reply": f"Packing with pallet for {pallets} pallets at 85 AED/CBM = {pallets * 85:,.2f} AED."})
 
     if match([r"inventory count", r"stock audit", r"inventory event", r"inventory.*charge"]):
         return jsonify({"reply": "Inventory Count fee is 3,000 AED per event."})
 
     if match([r"case picking.*\d+", r"carton.*picking", r"how much.*carton"]):
         carton_match = re.search(r"(\d+)\s*carton", message)
-    if carton_match:
+        if carton_match:
             cartons = int(carton_match.group(1))
-        return jsonify({"reply": f"Case picking for {cartons} cartons at 2.5 AED/carton = {cartons * 2.5:,.2f} AED."})
+            return jsonify({"reply": f"Case picking for {cartons} cartons at 2.5 AED/carton = {cartons * 2.5:,.2f} AED."})
 
     if match([r"label.*sticker.*\d+", r"sticker.*label.*cost", r"label.*qty"]):
         label_match = re.search(r"(\d+)\s*label", message)
-    if label_match:
+        if label_match:
             labels = int(label_match.group(1))
-        return jsonify({"reply": f"Sticker labeling for {labels} labels at 1.5 AED/label = {labels * 1.5:,.2f} AED."})
+            return jsonify({"reply": f"Sticker labeling for {labels} labels at 1.5 AED/label = {labels * 1.5:,.2f} AED."})
 
     if match([r"shrink wrap.*\d+", r"wrap.*pallet", r"how much.*wrap"]):
         wrap_match = re.search(r"(\d+)\s*pallet", message)
-    if wrap_match:
+        if wrap_match:
             pallets = int(wrap_match.group(1))
-        return jsonify({"reply": f"Shrink wrapping for {pallets} pallets at 6 AED/pallet = {pallets * 6:,.2f} AED."})
+            return jsonify({"reply": f"Shrink wrapping for {pallets} pallets at 6 AED/pallet = {pallets * 6:,.2f} AED."})
 
     if match([r"vna usage.*\d+", r"very narrow aisle.*pallet", r"vna.*charge"]):
         pallet_match = re.search(r"(\d+)\s*pallet", message)
-    if pallet_match:
+        if pallet_match:
             pallets = int(pallet_match.group(1))
-        return jsonify({"reply": f"VNA usage for {pallets} pallets at 2.5 AED/pallet = {pallets * 2.5:,.2f} AED."})
+            return jsonify({"reply": f"VNA usage for {pallets} pallets at 2.5 AED/pallet = {pallets * 2.5:,.2f} AED."})
                 # --- Chemical VAS Calculation ---
     if match([r"chemical.*handling.*pallet|palletized.*chemical", r"handling.*chemical.*pallet"]):
         cbm_match = re.search(r"(\d+)\s*cbm", message)
-    if cbm_match:
+        if cbm_match:
             cbm = int(cbm_match.group(1))
-        return jsonify({"reply": f"Chemical handling (palletized) for {cbm} CBM at 20 AED/CBM = {cbm * 20:,.2f} AED."})
+            return jsonify({"reply": f"Chemical handling (palletized) for {cbm} CBM at 20 AED/CBM = {cbm * 20:,.2f} AED."})
 
     if match([r"chemical.*handling.*loose|loose.*chemical", r"handling.*chemical.*loose"]):
         cbm_match = re.search(r"(\d+)\s*cbm", message)
-    if cbm_match:
+        if cbm_match:
             cbm = int(cbm_match.group(1))
-        return jsonify({"reply": f"Chemical handling (loose) for {cbm} CBM at 25 AED/CBM = {cbm * 25:,.2f} AED."})
+            return jsonify({"reply": f"Chemical handling (loose) for {cbm} CBM at 25 AED/CBM = {cbm * 25:,.2f} AED."})
 
     if match([r"chemical.*doc|chemical.*documentation|chemical.*paperwork"]):
         sets_match = re.search(r"(\d+)\s*(sets|doc)", message)
@@ -465,60 +465,60 @@ def chat():
 
     if match([r"chemical.*packing.*pallet|chemical.*palletized", r"packing.*chemical.*cbm"]):
         cbm_match = re.search(r"(\d+)\s*cbm", message)
-    if cbm_match:
+        if cbm_match:
             cbm = int(cbm_match.group(1))
-        return jsonify({"reply": f"Chemical packing with pallet for {cbm} CBM at 85 AED/CBM = {cbm * 85:,.2f} AED."})
+            return jsonify({"reply": f"Chemical packing with pallet for {cbm} CBM at 85 AED/CBM = {cbm * 85:,.2f} AED."})
 
     if match([r"chemical.*inventory|chemical.*stock|chemical.*audit"]):
         return jsonify({"reply": "Chemical inventory count is charged at 3,000 AED per event."})
 
     if match([r"chemical.*inner bag|inner bag picking|bag picking|bag.*pick.*\d+"]):
         bag_match = re.search(r"(\d+)\s*bag", message)
-    if bag_match:
+        if bag_match:
             bags = int(bag_match.group(1))
-        return jsonify({"reply": f"Inner bag picking for {bags} bags at 3.5 AED/bag = {bags * 3.5:,.2f} AED."})
+            return jsonify({"reply": f"Inner bag picking for {bags} bags at 3.5 AED/bag = {bags * 3.5:,.2f} AED."})
 
     if match([r"chemical.*label|chemical.*sticker.*label|labeling.*chemical"]):
         label_match = re.search(r"(\d+)\s*label", message)
-    if label_match:
+        if label_match:
             labels = int(label_match.group(1))
-        return jsonify({"reply": f"Chemical sticker labeling for {labels} labels at 1.5 AED/label = {labels * 1.5:,.2f} AED."})
+            return jsonify({"reply": f"Chemical sticker labeling for {labels} labels at 1.5 AED/label = {labels * 1.5:,.2f} AED."})
 
     if match([r"chemical.*wrap|shrink wrap.*chemical|chemical.*shrink"]):
         pallet_match = re.search(r"(\d+)\s*pallet", message)
-    if pallet_match:
+        if pallet_match:
             pallets = int(pallet_match.group(1))
-        return jsonify({"reply": f"Chemical shrink wrapping for {pallets} pallets at 6 AED/pallet = {pallets * 6:,.2f} AED."})
+            return jsonify({"reply": f"Chemical shrink wrapping for {pallets} pallets at 6 AED/pallet = {pallets * 6:,.2f} AED."})
                 # --- Open Yard VAS Calculation ---
     if match([r"forklift.*3.*7|3t.*forklift|7t.*forklift"]):
         hr_match = re.search(r"(\d+)\s*hour", message)
-    if hr_match:
+        if hr_match:
             hrs = int(hr_match.group(1))
-        return jsonify({"reply": f"Forklift (3T–7T) for {hrs} hour(s) at 90 AED/hr = {hrs * 90:,.2f} AED."})
+            return jsonify({"reply": f"Forklift (3T–7T) for {hrs} hour(s) at 90 AED/hr = {hrs * 90:,.2f} AED."})
 
     if match([r"forklift.*10t|10t.*forklift"]):
         hr_match = re.search(r"(\d+)\s*hour", message)
-    if hr_match:
+        if hr_match:
             hrs = int(hr_match.group(1))
-        return jsonify({"reply": f"Forklift (10T) for {hrs} hour(s) at 200 AED/hr = {hrs * 200:,.2f} AED."})
+            return jsonify({"reply": f"Forklift (10T) for {hrs} hour(s) at 200 AED/hr = {hrs * 200:,.2f} AED."})
 
     if match([r"forklift.*15t|15t.*forklift"]):
         hr_match = re.search(r"(\d+)\s*hour", message)
-    if hr_match:
+        if hr_match:
             hrs = int(hr_match.group(1))
-        return jsonify({"reply": f"Forklift (15T) for {hrs} hour(s) at 320 AED/hr = {hrs * 320:,.2f} AED."})
+            return jsonify({"reply": f"Forklift (15T) for {hrs} hour(s) at 320 AED/hr = {hrs * 320:,.2f} AED."})
 
     if match([r"crane.*50t|50t.*crane|mobile crane.*50"]):
         hr_match = re.search(r"(\d+)\s*hour", message)
-    if hr_match:
+        if hr_match:
             hrs = int(hr_match.group(1))
-        return jsonify({"reply": f"Mobile Crane (50T) for {hrs} hour(s) at 250 AED/hr = {hrs * 250:,.2f} AED."})
+            return jsonify({"reply": f"Mobile Crane (50T) for {hrs} hour(s) at 250 AED/hr = {hrs * 250:,.2f} AED."})
 
     if match([r"crane.*80t|80t.*crane|mobile crane.*80"]):
         hr_match = re.search(r"(\d+)\s*hour", message)
-    if hr_match:
+        if hr_match:
             hrs = int(hr_match.group(1))
-        return jsonify({"reply": f"Mobile Crane (80T) for {hrs} hour(s) at 450 AED/hr = {hrs * 450:,.2f} AED."})
+            return jsonify({"reply": f"Mobile Crane (80T) for {hrs} hour(s) at 450 AED/hr = {hrs * 450:,.2f} AED."})
 
     if match([r"container.*lift|container lifting|lift.*container|20ft.*lift|40ft.*lift"]):
         unit_match = re.search(r"(\d+)\s*(lift|container)", message)
@@ -527,9 +527,9 @@ def chat():
 
     if match([r"container.*strip|stripping.*20ft|20ft.*strip|strip.*container"]):
         hr_match = re.search(r"(\d+)\s*hour", message)
-    if hr_match:
+        if hr_match:
             hrs = int(hr_match.group(1))
-        return jsonify({"reply": f"Container Stripping 20ft for {hrs} hour(s) at 1,200 AED/hr = {hrs * 1200:,.2f} AED."})
+            return jsonify({"reply": f"Container Stripping 20ft for {hrs} hour(s) at 1,200 AED/hr = {hrs * 1200:,.2f} AED."})
 
     # --- DSV ABU DHABI OVERVIEW ---
     if match([r"mussafah|abu dhabi|uae.*branch|dsv facilities|dsv warehouse|dsv mussafah|dsv kizad|dsv airport site|where is 21k"]):
