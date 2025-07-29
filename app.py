@@ -810,15 +810,17 @@ def chat():
         return jsonify({"reply": "As a 4PL provider, DSV coordinates multiple vendors to manage your end-to-end logistics strategy."})
 
     # --- Friendly Chat ---
-    if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
+    if match([r"\bhello\b", r"\bhi\b", r"\bhey\b", r"good morning", r"good evening"]):
         return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
-    if match([r"how.?are.?you|how.?s.?it.?going|whats.?up"]):
+
+    if match([r"how.?are.?you", r"how.?s.?it.?going", r"whats.?up"]):
         return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
-    if match([r"\bthank(s| you)?\b|thx|appreciate"]):
+
+    if match([r"\bthank(s| you)?\b", r"\bthx\b", r"appreciate"]):
         return jsonify({"reply": "You're very welcome! 😊"})
 
-    # --- Fallback (never ask to rephrase) ---
-    return jsonify({"reply": "I'm trained on everything related to DSV storage, transport, VAS, Mussafah warehouse, and services. Can you try asking again with more detail?"})
+# --- Fallback (only reached if no match above triggers) ---
+return jsonify({"reply": "I'm here to assist with DSV storage, VAS, transport, and logistics. Could you please rephrase or be more specific?"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
