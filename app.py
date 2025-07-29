@@ -374,6 +374,68 @@ def chat():
     # --- Insurance Coverage Inquiry ---
     if match([r"insurance|is insurance included|cargo insurance|do you provide insurance|insurance coverage|quotation insurance|shipment insurance"]):
         return jsonify({"reply": "Insurance is not included by default in DSV quotations. If required, it can be arranged upon client request and will be quoted separately. Please mention this need when requesting your quotation or proposal."})
+        if match([r"\bmsds\b", r"chemical.*quote.*data", r"quotation.*chemical.*info", r"what.*needed.*chemical.*quote"]):
+        return jsonify({"reply": "To receive a quotation for chemical storage, please provide: (1) Material type, (2) Volume in CBM, (3) Duration, (4) Storage conditions, and (5) MSDS (Material Safety Data Sheet)."})
+
+    if match([r"\bwarehouse.*activity|warehouse process|inbound|outbound|replenishment|cycle count|inventory control"]):
+        return jsonify({"reply": "DSV warehouse activities include inbound receiving, storage, replenishment, outbound order fulfillment, inventory cycle counting, labeling, palletization, and dispatch with WMS tracking."})
+
+    if match([r"lean six sigma|6 sigma|lean method|process improvement"]):
+        return jsonify({"reply": "DSV applies Lean Six Sigma principles to eliminate waste, streamline logistics workflows, and improve accuracy and efficiency in warehouse and transport operations."})
+
+    if match([r"\bfmcg\b|fast moving consumer goods|dsv fmcg"]):
+        return jsonify({"reply": "DSV supports FMCG clients with temperature-controlled storage, rapid picking, labeling, VAS, and distribution. Our systems ensure fast throughput for high-volume SKU handling."})
+
+    if match([r"\bheathcare\b|\bhealthcare\b|medical supply|pharmaceutical|dsv healthcare"]):
+        return jsonify({"reply": "DSV serves the healthcare sector with cold chain logistics, secure pharma storage, GDP-compliant processes, and custom handling for vaccines, medical devices, and hospital inventory."})
+
+    if match([r"wms|warehouse management system|what system.*dsv|dsv.*system|name of system"]):
+        return jsonify({"reply": "DSV uses the INFOR Warehouse Management System (WMS) across our UAE operations for inventory control, live visibility, task management, and data integration."})
+
+    if match([r"ecommerce|online retail|web order|last mile delivery|online shipment|fulfillment center"]):
+        return jsonify({"reply": "DSV offers eCommerce support with same-day/next-day fulfillment, pick & pack, labeling, returns management, and last-mile delivery — supported by automated WMS systems and live tracking."})
+
+    if match([r"ch ?2|chamber 2|who.*chamber 2"]):
+        return jsonify({"reply": "Chamber 2 in DSV's 21K warehouse is allocated to PSN (Federal Authority of Protocol and Strategic Narrative)."})
+
+    if match([r"ch ?3|chamber 3|who.*chamber 3"]):
+        return jsonify({"reply": "Chamber 3 in 21K houses food clients and fast-moving items, optimized for high turnover."})
+
+    if match([r"ch ?4|chamber 4|who.*chamber 4"]):
+        return jsonify({"reply": "Chamber 4 stores inventory for MCC, TR, and ADNOC clients with dedicated access."})
+
+    if match([r"who is maher|maher abu alhaija"]):
+        return jsonify({"reply": "Maher Abu AlHaija is a senior DSV team member involved in warehouse and operations leadership in Abu Dhabi."})
+
+    if match([r"how many.*pallet.*bay|standard.*bay.*pallet|euro.*bay.*pallet"]):
+        return jsonify({"reply": "Each bay in DSV’s 21K warehouse can hold up to 14 Standard pallets or 21 Euro pallets. Racks are 12m high and allow for 6 pallet levels."})
+
+    if match([r"vas.*ac storage"]):
+        return jsonify({"reply": "AC Storage is 2.5 AED/CBM/day. Standard VAS includes:\n- Handling: 20 AED/CBM\n- Pallet: 12 AED\n- Documentation: 125 AED\n- Packing: 85 AED/CBM\n- Inventory: 3000 AED/event\n- Case Picking: 2.5 AED/carton\n- Labeling: 1.5 AED\n- Shrink Wrap: 6 AED\n- VNA: 2.5 AED/pallet"})
+
+    if match([r"calculate.*packing.*pallet.*(\d+)"]):
+        qty = int(re.search(r"(\d+)", message).group(1))
+        cost = qty * 85
+        return jsonify({"reply": f"Packing with pallet for {qty} pallets costs {cost:.2f} AED (at 85 AED/pallet)."})
+
+    if match([r"calculate.*handling.*cbm.*(\d+)"]):
+        cbm = int(re.search(r"(\d+)", message).group(1))
+        cost = cbm * 20
+        return jsonify({"reply": f"In/Out Handling for {cbm} CBM is {cost:.2f} AED (20 AED/CBM)."})
+
+    if match([r"warehouse.*occupancy|do.*space.*warehouse|warehouse full|storage availability"]):
+        return jsonify({"reply": "For warehouse occupancy inquiries, please contact Biju Krishnan at biju.krishnan@dsv.com."})
+
+    if match([r"machinery|machineries|equipment storage|machine relocation"]):
+        return jsonify({"reply": "DSV handles full relocation and storage for machinery, lab equipment, industrial tools, and high-value assets with packing, crating, and transportation included."})
+
+    if match([r"what.*dsv.*do|dsv services|dsv offer|dsv support"]):
+        return jsonify({"reply": "DSV provides global logistics, warehousing, 2PL/3PL/4PL, temperature-controlled storage, marine transport, relocation, e-commerce support, and heavy lift project cargo handling."})
+
+    if match([r"\bmd\b|who is md|managing director"]):
+        return jsonify({"reply": "The Managing Director of DSV Abu Dhabi is Mr. Hossam Mahmoud."})
+
+    return jsonify({"reply": "I'm trained on everything related to DSV logistics, warehousing, storage types, VAS, projects, and transport. Can you please rephrase or specify your topic?"})
     # --- DSV Healthcare & Pharma Logistics ---
     if match([r"healthcare|pharma|pharmaceutical|medical storage|health logistics|cold chain|hospital delivery"]):
         return jsonify({"reply": "DSV provides healthcare and pharmaceutical logistics through cold chain storage (+2°C to +8°C), ambient storage (+18°C to +25°C), and deep freezer options (–22°C). We support inventory management, batch tracking, cold room compliance, and last-mile delivery to clinics, pharmacies, and hospitals. Healthcare clients are supported in Airport Freezone and KIZAD facilities."})
@@ -392,6 +454,26 @@ def chat():
     # --- QHSE & Warehouse Safety Training ---
     if match([r"qhse|hse|health and safety|quality control|warehouse safety|safety policy|safety audit"]):
         return jsonify({"reply": "DSV warehouses follow strict QHSE protocols including ISO-certified processes, ADNOC HSE standards, regular audits, PPE enforcement, and safety drills. We uphold a zero-incident culture and ensure compliance with all local and client-specific safety standards."})
+    if match([r"how many.*ton.*truck|truck.*capacity|truck load.*kg|truck weight.*carry"]):
+        return jsonify({"reply": (
+        "Here’s the typical tonnage each DSV truck type can carry:\n"
+        "- **Flatbed Truck**: up to 22–25 tons (ideal for general cargo, pallets, containers)\n"
+        "- **Double Trailer (Articulated)**: up to 50–60 tons combined (used for long-haul or inter-emirate)\n"
+        "- **Box Truck / Curtainside**: ~5–10 tons (weather-protected for packaged goods)\n"
+        "- **Refrigerated Truck (Reefer)**: 3–12 tons depending on size (temperature-sensitive goods)\n"
+        "- **City Truck (1–3 Ton)**: 1 to 3 tons (last-mile delivery within cities)\n"
+        "- **Lowbed Trailer**: up to 60 tons for heavy equipment and machinery\n"
+        "- **Tipper / Dump Truck**: ~15–20 tons of bulk material (sand, gravel, etc.)")})
+    if match([r"(distance|how far|km).*mussafah.*(al markaz|markaz|hameem|hamim|ghayathi|ruwais|mirfa|madinat zayed|western region)"]):
+        return jsonify({"reply": (
+        "Approximate road distances from Mussafah:\n"
+        "- Al Markaz: **60 km**\n"
+        "- Hameem: **90 km**\n"
+        "- Madinat Zayed: **150 km**\n"
+        "- Mirfa: **140 km**\n"
+        "- Ghayathi: **240 km**\n"
+        "- Ruwais: **250 km**\n"
+        "\nLet me know if you need travel time or transport support too.")})
 
     if match([r"safety training|warehouse training|fire drill|manual handling|staff safety|employee training|toolbox talk"]):
         return jsonify({"reply": "DSV staff undergo regular training in fire safety, first aid, manual handling, emergency response, and site induction. We also conduct toolbox talks and refresher sessions to maintain safety awareness and operational excellence."})
@@ -442,6 +524,46 @@ def chat():
     # --- DSV Staffing Overview ---
     if match([r"how many staff|number of employees|team size|manpower|dsv people|dsv workers|dsv staff|uae staff|abu dhabi team"]):
         return jsonify({"reply": "DSV employs approximately 160,000 staff globally across 90+ countries. In the UAE, we have around 1,200 employees covering transport, warehousing, and freight. In Abu Dhabi, DSV operates with about 400 personnel across 21K, KIZAD, Airport Freezone, and administrative support teams."})
+        # --- Mussafah to Specific Western Region Destinations ---
+    if match([r"mussafah.*(al markaz|markaz)"]):
+        return jsonify({"reply": "The distance from Mussafah to Al Markaz is approximately **60 km**, and it takes around **45–50 minutes** by road."})
+
+    if match([r"mussafah.*hameem|mussafah.*hamim"]):
+        return jsonify({"reply": "The distance from Mussafah to Hameem is approximately **90 km**, with a travel time of around **1 hour** by road."})
+
+    if match([r"mussafah.*madinat zayed"]):
+        return jsonify({"reply": "Mussafah to Madinat Zayed is about **150 km**, typically **1 hour 45 minutes** drive depending on traffic."})
+
+    if match([r"mussafah.*mirfa"]):
+        return jsonify({"reply": "The distance from Mussafah to Mirfa is approximately **140 km**, and the drive usually takes **1 hour 40 minutes**."})
+
+    if match([r"mussafah.*ghayathi"]):
+        return jsonify({"reply": "Mussafah to Ghayathi is around **240 km**, taking about **2 hours 45 minutes** by road."})
+
+    if match([r"mussafah.*ruwais"]):
+        return jsonify({"reply": "The distance from Mussafah to Ruwais is approximately **250 km**, and it takes around **3 hours** to reach by road."})
+# --- Abu Dhabi ⇄ Other Emirates (Distance + Travel Time Both Directions) ---
+    if match([r"(abu dhabi.*dubai|dubai.*abu dhabi)"]):
+        return jsonify({"reply": "Abu Dhabi ⇄ Dubai: **140 km**, approx. **1 hour 30 minutes** by road."})
+
+    if match([r"(abu dhabi.*sharjah|sharjah.*abu dhabi)"]):
+        return jsonify({"reply": "Abu Dhabi ⇄ Sharjah: **160 km**, around **1 hour 45 minutes** travel time."})
+
+    if match([r"(abu dhabi.*ajman|ajman.*abu dhabi)"]):
+        return jsonify({"reply": "Abu Dhabi ⇄ Ajman: **170 km**, approx. **1 hour 50 minutes** by car."})
+
+    if match([r"(abu dhabi.*ras al khaimah|rak.*abu dhabi|ras al khaimah.*abu dhabi)"]):
+        return jsonify({"reply": "Abu Dhabi ⇄ Ras Al Khaimah: **240 km**, approx. **2 hours 45 minutes** by road."})
+
+    if match([r"(abu dhabi.*fujairah|fujairah.*abu dhabi)"]):
+        return jsonify({"reply": "Abu Dhabi ⇄ Fujairah: **250 km**, travel time is around **2 hours 50 minutes**."})
+
+    if match([r"(abu dhabi.*umm al quwain|umm al quwain.*abu dhabi|uaq.*abu dhabi)"]):
+        return jsonify({"reply": "Abu Dhabi ⇄ Umm Al Quwain: **190 km**, approx. **2 hours** by road."})
+
+    if match([r"(abu dhabi.*al ain|al ain.*abu dhabi)"]):
+        return jsonify({"reply": "Abu Dhabi ⇄ Al Ain: **170 km**, travel time is about **1 hour 45 minutes**."})
+
     # --- DSV Heavy Lift Projects & Capabilities ---
     if match([r"heavy lift|heavy cargo|over dimensional|odc|lowbed project|heavy logistics|crane transport|multi axle|project cargo"]):
         return jsonify({"reply": "DSV provides heavy lift and project logistics for over-dimensional and high-weight cargo. We use lowbed trailers, cranes, and multi-axle units. DSV has completed major projects for ADNOC and industrial clients — including transformer moves, skid-mounted modules, and heavy equipment delivery up to 100+ tons."})
