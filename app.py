@@ -152,7 +152,6 @@ def chat():
 
     def match(patterns):
         return any(re.search(p, message) for p in patterns)
-        
 # --- Handling Math Questions like Packing Calculations ---
     if match([r"calculate.*packing.*pallet", r"how much.*pallet.*packing", r"cost.*packing.*pallet", r"packing with pallet for \d+ pallet"]):
         match_pallets = re.search(r"(\d+)\s*pallet", message)
@@ -776,26 +775,19 @@ def chat():
 
     if match([r"dsv.*headquarter|dsv.*location|where is dsv from|dsv based in|dsv hq"]):
         return jsonify({"reply": "DSV's global headquarters is in Hedehusene, Denmark. It started as a Danish haulier group and grew through major acquisitions including UTi, Panalpina, Agility, and DB Schenker."})
-
     if match([r"dsv.*structure|business model|divisions|organization|dsv.*departments"]):
         return jsonify({"reply": "DSV is structured into three divisions: Air & Sea (freight forwarding), Road (domestic/international trucking), and Solutions (warehousing, 3PL, and 4PL contract logistics)."})
-
     if match([r"stock|public company|nasdaq|listed|c25 index"]):
         return jsonify({"reply": "Yes, DSV is publicly traded on the Nasdaq Copenhagen exchange, part of the C25 index, with 100% free float and no majority shareholder."})
-
     if match([r"growth|merger|acquisition|panalpina|agility|uti|schenker"]):
         return jsonify({"reply": "DSV has expanded globally via acquisitions: UTi in 2016, Panalpina in 2019, Agility in 2021, and DB Schenker in 2025 — becoming the world's largest logistics provider."})
-
     # --- DSV ABU DHABI OVERVIEW ---
     if match([r"abu dhabi|uae.*branch|mussafah.*warehouse|where is 21k|dsv in abu dhabi|dsv mussafah|dsv kizad|dsv airport site"]):
         return jsonify({"reply": "DSV Abu Dhabi operates from three sites: (1) Mussafah 21K warehouse (21,000 SQM, 15m high, with selective, VNA, and drive-in racks), (2) KIZAD (KHIA6‑3_4), and (3) Abu Dhabi Airport Freezone. Services include storage, 3PL/4PL, marine logistics, EV transport, drone inspection, and customs clearance."})
-
     if match([r"21k|main warehouse|rack type|aisle|clear height"]):
         return jsonify({"reply": "DSV’s main 21K warehouse in Mussafah is 21,000 SQM with 15m clear height. It includes Selective racks (2.95–3.3m aisle), VNA racks (1.95m), and Drive-in racks (2.0m)."})
-
     if match([r"contact|reach.*dsv|phone number|email.*dsv|support number|how.*call.*dsv"]):
         return jsonify({"reply": "You can reach DSV Abu Dhabi at +971 2 509 9599 or AE.AUHSales@ae.dsv.com. Fax: +971 2 551 4833. Our team can assist with warehousing, transport, and logistics."})
-
     if match([r"working hours|timing|when open|opening hours|dsv.*open"]):
         return jsonify({"reply": "DSV Abu Dhabi offices operate Monday to Friday from 08:00 AM to 5:00 PM. Saturday operations are limited and subject to request."})
     # --- Transport & Equipment ---
@@ -803,11 +795,9 @@ def chat():
         return jsonify({"reply": "DSV operates flatbeds, double trailers, and small city trucks for transport within UAE and GCC."})
     if match([r"forklift|reach truck|vna truck|warehouse equipment"]):
         return jsonify({"reply": "Forklifts (3T–15T), Reach trucks for 11m racks, VNA trucks for 1.95m aisles are available in DSV sites."})
-
         # --- Services & 3PL/4PL ---
     if match([r"\b3pl\b|third party logistics|order fulfillment"]):
         return jsonify({"reply": "DSV provides 3PL services: storage, inventory, picking, packing, labeling, delivery, returns."})
-    
     if match([r"\b4pl\b|control tower|supply chain orchestrator"]):
         return jsonify({"reply": "As a 4PL provider, DSV coordinates multiple vendors to manage your end-to-end logistics strategy."})
     if match([r"standard vas|normal vas|standar vas|handling charges|pallet charges|vas for ac|vas for non ac|vas for open shed"]):
@@ -816,7 +806,6 @@ def chat():
         return jsonify({"reply": "Chemical VAS includes:\n- Handling (Palletized): 20 AED/CBM\n- Handling (Loose): 25 AED/CBM\n- Documentation: 150 AED/set\n- Packing with pallet: 85 AED/CBM\n- Inventory Count: 3,000 AED/event\n- Inner Bag Picking: 3.5 AED/bag\n- Sticker Labeling: 1.5 AED/label\n- Shrink Wrapping: 6 AED/pallet"})
     if match([r"storage rate|storage cost|storage fee|rate for storage|how much.*storage|storage price"]):
         return jsonify({"reply": "Storage rates:\n- AC: 2.5 AED/CBM/day\n- Non-AC: 2.0 AED/CBM/day\n- Open Shed: 1.8 AED/CBM/day\n- Chemical AC: 3.5 AED/CBM/day\n- Chemical Non-AC: 2.7 AED/CBM/day\n- Open Yard Mussafah: 160 AED/SQM/year\n- Open Yard KIZAD: 125 AED/SQM/year"})
-        
         # FRIENDLY CHAT BLOCK SHOULD BE HERE
     if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
         return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
@@ -824,10 +813,8 @@ def chat():
         return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
     if match([r"\bthank(s| you)?\b|thx|appreciate"]):
         return jsonify({"reply": "You're very welcome! 😊"})
-        
     # --- Fallback (never ask to rephrase) ---
         return jsonify({"reply": "I'm trained on everything related to DSV storage, transport, VAS, Mussafah warehouse, and services. Can you try asking again with more detail?"})
-
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
