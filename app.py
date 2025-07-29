@@ -218,7 +218,7 @@ def chat():
     if match([
     r"plot size", r"abu dhabi total area", r"site size", r"facility size", r"total sqm", r"how big",
     r"yard size", r"open yard area", r"size of open yard", r"open yard.*size", r"area of open yard"]):
-    return jsonify({"reply": "DSV Abu Dhabi's open yard spans 360,000 SQM across Mussafah and KIZAD. The total logistics plot is 481,000 SQM, including 100,000 SQM of service roads and utilities, and a 21,000 SQM warehouse (21K)."})
+        return jsonify({"reply": "DSV Abu Dhabi's open yard spans 360,000 SQM across Mussafah and KIZAD. The total logistics plot is 481,000 SQM, including 100,000 SQM of service roads and utilities, and a 21,000 SQM warehouse (21K)."})
 
     if match([r"sub warehouse|m44|m45|al markaz|abu dhabi warehouse total|all warehouses"]):
         return jsonify({"reply": "In addition to the main 21K warehouse, DSV operates sub-warehouses in Abu Dhabi: M44 (5,760 sqm), M45 (5,000 sqm), and Al Markaz (12,000 sqm). Combined with 21K, the total covered warehouse area in Abu Dhabi is approximately 44,000 sqm."})
