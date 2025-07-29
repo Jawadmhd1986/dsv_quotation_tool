@@ -141,11 +141,14 @@ def chat():
     data = request.get_json()
     message = data.get("message", "").lower().strip()
 
+    # Debug print
+    print("DEBUG MESSAGE:", message)
+
     def normalize(text):
         text = re.sub(r"\bu\b", "you", text)
         text = re.sub(r"\bur\b", "your", text)
         text = re.sub(r"\br\b", "are", text)
-        text = re.sub(r"[^a-z0-9\s]", "", text)
+        text = re.sub(r"[^\w\s]", "", text)  # keep letters, numbers, underscores, spaces
         return text
 
     message = normalize(message)
@@ -808,13 +811,14 @@ def chat():
     
     if match([r"\b4pl\b|control tower|supply chain orchestrator"]):
         return jsonify({"reply": "As a 4PL provider, DSV coordinates multiple vendors to manage your end-to-end logistics strategy."})
-    
+     # --------------------------------------------
     if match([r"\bhello\b", r"\bhi\b", r"\bhey\b", r"good morning", r"good evening"]):
         return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
 
-    # --- Final Fallback (only if no previous match triggered) ---
+    # Final fallback (always last inside chat())
     return jsonify({"reply": "I'm trained on everything related to DSV logistics, warehousing, storage types, VAS, projects, and transport. Can you please rephrase or specify your topic?"})
 
+# Run the Flask app
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
