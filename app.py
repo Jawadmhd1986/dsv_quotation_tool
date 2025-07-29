@@ -160,7 +160,10 @@ def chat():
         return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
     if match([r"\bthank(s| you)?\b|thx|appreciate"]):
         return jsonify({"reply": "You're very welcome! 😊"})
-
+        
+    def match(patterns):
+        return any(re.search(p, message) for p in patterns)
+        
 # --- Handling Math Questions like Packing Calculations ---
     if match([r"calculate.*packing.*pallet", r"how much.*pallet.*packing", r"cost.*packing.*pallet", r"packing with pallet for \d+ pallet"]):
         match_pallets = re.search(r"(\d+)\s*pallet", message)
@@ -326,6 +329,7 @@ def chat():
         return jsonify({"reply": "DSV offers global logistics services including Air & Sea freight, Road transport, warehousing, 3PL/4PL solutions, and value-added services. In Abu Dhabi, we specialize in industrial, oil & gas, FMCG, healthcare, and government logistics."})
     if match([r"ac storage|air conditioned"]):
         return jsonify({"reply": "AC storage is 2.5 AED/CBM/day. Standard VAS applies: 20 AED/CBM handling, 125 AED documentation, etc."})
+
     if match([r"non.?ac storage|non air"]):
         return jsonify({"reply": "Non-AC storage is 2.0 AED/CBM/day. Standard VAS applies."})
     if match([r"open shed"]):
@@ -817,7 +821,12 @@ def chat():
     
     if match([r"\b4pl\b|control tower|supply chain orchestrator"]):
         return jsonify({"reply": "As a 4PL provider, DSV coordinates multiple vendors to manage your end-to-end logistics strategy."})
-
+    if match([r"standard vas|normal vas|standar vas|handling charges|pallet charges|vas for ac|vas for non ac|vas for open shed"]):
+        return jsonify({"reply": "Standard VAS includes:\n- In/Out Handling: 20 AED/CBM\n- Pallet Loading/Unloading: 12 AED/pallet\n- Documentation: 125 AED/set\n- Packing with pallet: 85 AED/CBM\n- Inventory Count: 3,000 AED/event\n- Case Picking: 2.5 AED/carton\n- Sticker Labeling: 1.5 AED/label\n- Shrink Wrapping: 6 AED/pallet\n- VNA Usage: 2.5 AED/pallet"})
+    if match([r"chemical vas|chem vas|hazmat vas|vas.*chemical|chemical.*vas"]):
+        return jsonify({"reply": "Chemical VAS includes:\n- Handling (Palletized): 20 AED/CBM\n- Handling (Loose): 25 AED/CBM\n- Documentation: 150 AED/set\n- Packing with pallet: 85 AED/CBM\n- Inventory Count: 3,000 AED/event\n- Inner Bag Picking: 3.5 AED/bag\n- Sticker Labeling: 1.5 AED/label\n- Shrink Wrapping: 6 AED/pallet"})
+    if match([r"storage rate|storage cost|storage fee|rate for storage|how much.*storage|storage price"]):
+        return jsonify({"reply": "Storage rates:\n- AC: 2.5 AED/CBM/day\n- Non-AC: 2.0 AED/CBM/day\n- Open Shed: 1.8 AED/CBM/day\n- Chemical AC: 3.5 AED/CBM/day\n- Chemical Non-AC: 2.7 AED/CBM/day\n- Open Yard Mussafah: 160 AED/SQM/year\n- Open Yard KIZAD: 125 AED/SQM/year"})
     # --- Fallback (never ask to rephrase) ---
     return jsonify({"reply": "I'm trained on everything related to DSV storage, transport, VAS, Mussafah warehouse, and services. Can you try asking again with more detail?"})
 
