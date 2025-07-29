@@ -751,7 +751,6 @@ def chat():
         return jsonify({"reply": "4PL (Fourth-Party Logistics) means DSV acts as a strategic control tower — managing your full supply chain, including multiple vendors, IT integration, and transport optimization. In the UAE, DSV serves oil & gas clients under 4PL to manage marine charters, warehousing, and compliance across multiple regions."})
 
     # --- Warehouse Occupancy Inquiries ---
-    # --- Warehouse Occupancy Inquiries ---
     if match([
     r"(do you have )?space( in)? (the )?(warehouse|facility|storage)",
     r"(warehouse|storage|facility).*(availability|space|capacity|vacancy)",
@@ -808,19 +807,6 @@ def chat():
         return jsonify({"reply": "DSV provides 3PL services: storage, inventory, picking, packing, labeling, delivery, returns."})
     if match([r"\b4pl\b|control tower|supply chain orchestrator"]):
         return jsonify({"reply": "As a 4PL provider, DSV coordinates multiple vendors to manage your end-to-end logistics strategy."})
-
-    # --- Friendly Chat ---
-    if match([r"\bhello\b", r"\bhi\b", r"\bhey\b", r"good morning", r"good evening"]):
-        return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
-
-    if match([r"how.?are.?you", r"how.?s.?it.?going", r"whats.?up"]):
-        return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
-
-    if match([r"\bthank(s| you)?\b", r"\bthx\b", r"appreciate"]):
-        return jsonify({"reply": "You're very welcome! 😊"})
-
-# --- Fallback (only reached if no match above triggers) ---
-        return jsonify({"reply": "I'm here to assist with DSV storage, VAS, transport, and logistics. Could you please rephrase or be more specific?"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
