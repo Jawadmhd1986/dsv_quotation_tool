@@ -329,13 +329,13 @@ def chat():
     if match([r"abu dhabi.*dubai|dubai.*abu dhabi"]):
         return jsonify({"reply": "The distance between Abu Dhabi and Dubai is approximately 140 km by road."})
         # --- Chemical Storage Quotation Requirements ---
-if match([
+    if match([
     r"(what|which).*data.*(chemical|hazmat).*quote",
     r"(chemical|hazmat).*quotation.*need.*(info|details|data)",
     r"if i.*store.*chemical.*what.*you need",
     r"chemical.*storage.*quotation.*requirement",
     r"(quotation|quote).*for.*chemicals.*what.*needed"]):
-    return jsonify({"reply": (
+        return jsonify({"reply": (
         "To provide a quotation for chemical storage, we need:\n"
         "- Material Safety Data Sheet (MSDS)\n"
         "- Type and classification of chemical (e.g. flammable, corrosive)\n"
