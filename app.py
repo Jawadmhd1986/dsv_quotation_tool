@@ -817,9 +817,6 @@ def chat():
     if match([r"storage rate|storage cost|storage fee|rate for storage|how much.*storage|storage price"]):
         return jsonify({"reply": "Storage rates:\n- AC: 2.5 AED/CBM/day\n- Non-AC: 2.0 AED/CBM/day\n- Open Shed: 1.8 AED/CBM/day\n- Chemical AC: 3.5 AED/CBM/day\n- Chemical Non-AC: 2.7 AED/CBM/day\n- Open Yard Mussafah: 160 AED/SQM/year\n- Open Yard KIZAD: 125 AED/SQM/year"})
         
-    def match(patterns):
-        return any(re.search(p, message) for p in patterns)
-        
         # FRIENDLY CHAT BLOCK SHOULD BE HERE
     if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
         return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
