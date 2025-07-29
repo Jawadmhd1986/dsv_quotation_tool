@@ -815,7 +815,7 @@ def chat():
         return jsonify({"reply": "You're very welcome! 😊"})
 
 # --- Fallback (should only trigger if no matches above)
-        return jsonify({"reply": "I'm trained on everything related to DSV storage, transport, VAS, Mussafah warehouse, and services. Can you try asking again with more detail?"})
+    return jsonify({"reply": "I'm trained on everything related to DSV storage, transport, VAS, Mussafah warehouse, and services. Can you try asking again with more detail?"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
