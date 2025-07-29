@@ -5,62 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DSV Quotation Generator</title>
   <style>
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #002c77;
-      color: white;
-      height: 100%;
-      width: 100%;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 1rem;
-      max-width: 400px;
-      margin: auto;
-      background: #00389b;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    }
-    img.logo {
-      width: 200px;
-      display: block;
-      margin: 0 auto;
-      margin-bottom: 0.2rem;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 0; 
-      margin-bottom: 0.7rem;
-    }
-    label {
-      margin: 0.5rem 0 0.2rem;
-      font-weight: bold;
-    }
-    input, select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border-radius: 5px;
-      border: none;
-    }
-    button {
-      background-color: #002c77;
-      color: white;
-      padding: 0.7rem;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #001f55;
-    }
-  </style>
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #002c77;
+  color: white;
+  height: 100vh;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    max-width: 400px;
+    margin: auto;
+    background: #00389b;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  }
+
+  img.logo {
+    width: 200px;
+    display: block;
+    margin: 0 auto 0.1rem; /* Reduced bottom space */
+  }
+
+  h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+    font-size: 1.5rem;
+  }
+
+  label {
+    margin: 0.3rem 0 0.2rem;
+    font-weight: bold;
+    font-size: 0.95rem;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 0.4rem;
+    margin-bottom: 0.6rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.9rem;
+  }
+
+  button {
+    background-color: #002c77;
+    color: white;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #001f55;
+  }
+</style>
+
 </head>
 <body>
   <div class="container">
