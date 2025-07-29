@@ -5,10 +5,6 @@ import re
 
 app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return render_template("form.html")
-
 @app.route("/generate", methods=["POST"])
 def generate():
     storage_type = request.form["storage_type"]
@@ -16,6 +12,9 @@ def generate():
     days = int(request.form["days"])
     include_wms = request.form["wms"] == "Yes"
     email = request.form.get("email", "")
+
+    from datetime import datetime
+    today_str = datetime.today().strftime("%d %b %Y")
 
     if "chemical" in storage_type.lower():
         template_path = "templates/Chemical VAS.docx"
@@ -82,7 +81,8 @@ def generate():
         "{{UNIT_RATE}}": f"{rate:.2f} AED / {rate_unit}",
         "{{STORAGE_FEE}}": f"{storage_fee:,.2f} AED",
         "{{WMS_FEE}}": f"{wms_fee:,.2f} AED",
-        "{{TOTAL_FEE}}": f"{total_fee:,.2f} AED"
+        "{{TOTAL_FEE}}": f"{total_fee:,.2f} AED",
+        "{{TODAY_DATE}}": today_str             
     }
 
     def replace_placeholders(doc, mapping):
