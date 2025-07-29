@@ -374,7 +374,7 @@ def chat():
     # --- Insurance Coverage Inquiry ---
     if match([r"insurance|is insurance included|cargo insurance|do you provide insurance|insurance coverage|quotation insurance|shipment insurance"]):
         return jsonify({"reply": "Insurance is not included by default in DSV quotations. If required, it can be arranged upon client request and will be quoted separately. Please mention this need when requesting your quotation or proposal."})
-        if match([r"\bmsds\b", r"chemical.*quote.*data", r"quotation.*chemical.*info", r"what.*needed.*chemical.*quote"]):
+    if match([r"\bmsds\b", r"chemical.*quote.*data", r"quotation.*chemical.*info", r"what.*needed.*chemical.*quote"]):
         return jsonify({"reply": "To receive a quotation for chemical storage, please provide: (1) Material type, (2) Volume in CBM, (3) Duration, (4) Storage conditions, and (5) MSDS (Material Safety Data Sheet)."})
 
     if match([r"\bwarehouse.*activity|warehouse process|inbound|outbound|replenishment|cycle count|inventory control"]):
