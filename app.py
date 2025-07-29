@@ -760,7 +760,6 @@ def chat():
         return jsonify({"reply": "4PL (Fourth-Party Logistics) means DSV acts as a strategic control tower — managing your full supply chain, including multiple vendors, IT integration, and transport optimization. In the UAE, DSV serves oil & gas clients under 4PL to manage marine charters, warehousing, and compliance across multiple regions."})
 
     # --- Warehouse Occupancy Inquiries ---
-    # --- Warehouse Occupancy Inquiries ---
     if match([
     r"(do you have )?space( in)? (the )?(warehouse|facility|storage)",
     r"(warehouse|storage|facility).*(availability|space|capacity|vacancy)",
@@ -812,9 +811,10 @@ def chat():
     if match([r"forklift|reach truck|vna truck|warehouse equipment"]):
         return jsonify({"reply": "Forklifts (3T–15T), Reach trucks for 11m racks, VNA trucks for 1.95m aisles are available in DSV sites."})
 
-    # --- Services & 3PL/4PL ---
+        # --- Services & 3PL/4PL ---
     if match([r"\b3pl\b|third party logistics|order fulfillment"]):
         return jsonify({"reply": "DSV provides 3PL services: storage, inventory, picking, packing, labeling, delivery, returns."})
+    
     if match([r"\b4pl\b|control tower|supply chain orchestrator"]):
         return jsonify({"reply": "As a 4PL provider, DSV coordinates multiple vendors to manage your end-to-end logistics strategy."})
 
