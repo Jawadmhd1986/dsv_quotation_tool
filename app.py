@@ -194,15 +194,15 @@ def chat():
     # --- Standard VAS Calculation  ---
     if match([r"calculate.*pallet loading", r"pallet loading.*\d+", r"loading.*\d+ pallet"]):
     qty = re.search(r"(\d+)", message)
-    if qty:
+        if qty:
         total = int(qty.group(1)) * 12
-        return jsonify({"reply": f"Pallet Loading for {qty.group(1)} pallets at 12 AED/pallet = {total:,.2f} AED."})
+            return jsonify({"reply": f"Pallet Loading for {qty.group(1)} pallets at 12 AED/pallet = {total:,.2f} AED."})
 
     if match([r"calculate.*packing with pallet", r"packing.*\d+ pallet"]):
     qty = re.search(r"(\d+)", message)
-    if qty:
+        if qty:
         total = int(qty.group(1)) * 85
-        return jsonify({"reply": f"Packing with pallet for {qty.group(1)} pallets at 85 AED/CBM = {total:,.2f} AED."})
+            return jsonify({"reply": f"Packing with pallet for {qty.group(1)} pallets at 85 AED/CBM = {total:,.2f} AED."})
 
     if match([r"calculate.*documentation", r"docs.*\d+", r"documentation.*\d+"]):
     qty = re.search(r"(\d+)", message)
