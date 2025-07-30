@@ -174,6 +174,9 @@ def chat():
     if match([r"standard vas|normal vas|handling charges|pallet charges|vas for ac|vas for non ac|vas for open shed"]):
         return jsonify({"reply": "Standard VAS includes:\n- In/Out Handling: 20 AED/CBM\n- Pallet Loading: 12 AED/pallet\n- Documentation: 125 AED/set\n- Packing with pallet: 85 AED/CBM\n- Inventory Count: 3,000 AED/event\n- Case Picking: 2.5 AED/carton\n- Sticker Labeling: 1.5 AED/label\n- Shrink Wrapping: 6 AED/pallet\n- VNA Usage: 2.5 AED/pallet"})
 
+    if match([r"\bvas\b", r"\ball vas\b", r"list.*vas", r"show.*vas", r"everything included in vas", r"vas details", r"what.*vas"]):
+        return jsonify({"reply": "Which VAS category are you looking for? Please specify:\n- Standard VAS (AC / Non-AC / Open Shed)\n- Chemical VAS\n- Open Yard VAS"})
+
     if match([r"chemical vas|hazmat vas"]):
         return jsonify({"reply": "Chemical VAS includes:\n- Handling (Palletized): 20 AED/CBM\n- Handling (Loose): 25 AED/CBM\n- Documentation: 150 AED/set\n- Packing with pallet: 85 AED/CBM\n- Inventory Count: 3,000 AED/event\n- Inner Bag Picking: 3.5 AED/bag\n- Sticker Labeling: 1.5 AED/label\n- Shrink Wrapping: 6 AED/pallet"})
 
@@ -183,6 +186,8 @@ def chat():
     # --- Chemical Quotation Required Docs ---
     if match([r"store.*chemical|quotation.*chemical|data.*chemical|requirement.*chemical"]):
         return jsonify({"reply": "To quote for chemical storage, we need:\n- Material name\n- Hazard class\n- CBM\n- Period\n- MSDS (Material Safety Data Sheet)."})
+    if match([r"proposal|quotation|quote.*open yard|send me.*quote|how to get quote|need.*quotation"]):
+        return jsonify({"reply": "To get a full quotation, please close this chat and fill the details in the main form on the left. The system will generate a downloadable document for you."})
 
     # --- 21K Warehouse Rack System ---
     if match([r"rack height|rack levels|pallets per bay|rack system"]):
@@ -198,6 +203,8 @@ def chat():
         return jsonify({"reply": "Chamber 3 is used by food clients and fast-moving items."})
     if match([r"who.*in.*chamber|who.*in.*ch\d+"]):
         return jsonify({"reply": "The chambers in 21K warehouse are:\nCh1 – Khalifa University\nCh2 – PSN\nCh3 – Food clients\nCh4 – MCC, TR, ADNOC\nCh5 – PSN\nCh6 – ZARA, TR\nCh7 – Civil Defense & RMS"})
+    if match([r"storage rate[s]?$", r"\brates\b", r"storage cost", r"how much.*storage", r"quotation.*storage only"]):
+        return jsonify({"reply": "Which type of storage are you asking about? AC, Non-AC, Open Shed, Chemicals, or Open Yard?"})
 
     # --- Warehouse Occupancy ---
     if match([r"warehouse occupancy|space available|any space in warehouse|availability.*storage"]):
@@ -220,6 +227,8 @@ def chat():
     # --- What does DSV mean ---
     if match([r"what does dsv mean|dsv abbreviation|dsv stands for"]):
         return jsonify({"reply": "DSV originally stood for 'De Sammensluttede Vognmænd' in Danish, meaning 'The United Hauliers'. Today, DSV is a global brand."})
+    if match([r"what is dsv", r"who is dsv", r"tell me about dsv", r"dsv overview", r"\bdsv\b only"]):
+        return jsonify({"reply": "DSV stands for 'De Sammensluttede Vognmænd', meaning 'The Consolidated Hauliers' in Danish. Founded in 1976, DSV is a global logistics leader offering transport, warehousing, and supply chain solutions in over 80 countries. It's publicly listed on Nasdaq Copenhagen and serves industries like FMCG, oil & gas, pharma, retail, and more."})
 
     # --- Industry Tags (FMCG, Insurance, Healthcare, Ecommerce) ---
     if match([r"\bfmcg\b|fast moving|consumer goods"]):
@@ -238,6 +247,10 @@ def chat():
     # --- Warehouse Activities ---
     if match([r"warehouse activities|inbound process|outbound process|putaway|replenishment|picking|packing|cycle count"]):
         return jsonify({"reply": "Warehouse activities include:\n- Inbound: receiving, inspection, putaway\n- Outbound: picking, packing, dispatch\n- Replenishment, cycle counting, returns, VAS, and system updates via WMS."})
+    if match([r"warehouse temp|temperature.*zone|storage temperature|cold room|freezer|ambient temp|warehouse temperature"]):
+        return jsonify({"reply": "DSV provides 3 temperature zones:\n- **Ambient**: +18°C to +25°C\n- **Cold Room**: +2°C to +8°C\n- **Freezer**: –22°C\nThese zones are used for FMCG, pharmaceuticals, and temperature-sensitive products."})
+    if match([r"size of our warehouse|total warehouse area|total sqm|warehouse size|how big.*warehouse"]):
+        return jsonify({"reply": "DSV Abu Dhabi has approx. **44,000 sqm** of warehouse space:\n- 21K in Mussafah (21,000 sqm)\n- M44 (5,760 sqm)\n- M45 (5,000 sqm)\n- Al Markaz in Hameem (12,000 sqm)\nPlus 360,000 sqm of open yard."})
 
     # --- Machinery / Machineries ---
     if match([r"machinery|machineries|machines used|equipment used"]):
@@ -245,6 +258,10 @@ def chat():
 # --- Mussafah 21K Warehouse Info ---
     if match([r"21k.*rack height|rack height.*21k"]):
         return jsonify({"reply": "The racks in the 21K warehouse in Mussafah are 12 meters high, with 6 pallet levels plus ground. DSV uses both Euro and Standard pallets. Each bay holds up to 14 Standard pallets or 21 Euro pallets."})
+    if match([r"rack height|rack types|type of racks|tell me.*racks|rack info"]):
+        return jsonify({"reply": "The 21K warehouse has 3 types of racking systems:\n- **Selective racks**: Aisle width 2.95m–3.3m\n- **VNA (Very Narrow Aisle)**: Aisle width 1.95m\n- **Drive-in racks**: Aisle width 2.0m\nAll racks are 12 meters tall with 6 pallet levels."})
+    if match([r"\bmhe\b", r"equipment used", r"machineries", r"machines", r"warehouse tools"]):
+        return jsonify({"reply": "MHE (Material Handling Equipment) used at DSV includes forklifts (3–15T), VNA trucks, reach trucks, pallet jacks, mobile cranes, and container lifters."})
 
     if match([r"pallet.*bay|how many.*bay.*pallet", r"bay.*standard pallet", r"bay.*euro pallet"]):
         return jsonify({"reply": "Each bay in 21K can accommodate 14 Standard pallets or 21 Euro pallets. This layout maximizes efficiency for various cargo sizes."})
@@ -277,11 +294,75 @@ def chat():
     # --- Chemical Storage Quotation Requirement ---
     if match([r"quote.*chemical.*storage|store.*chemical.*quote|quotation.*chemical.*storage"]):
         return jsonify({"reply": "To provide a quotation for chemical storage, we require: 1) Product type, 2) Daily CBM/SQM, 3) MSDS (Material Safety Data Sheet), 4) Storage duration, 5) Special handling needs."})
-
+    # --- Transportation---
+    if match([r"abu dhabi.*sharjah|sharjah.*abu dhabi"]):
+        return jsonify({"reply": "The distance between Abu Dhabi and Sharjah is about 160 km."})
+    if match([r"abu dhabi.*ajman|ajman.*abu dhabi"]):
+        return jsonify({"reply": "The distance between Abu Dhabi and Ajman is approximately 170 km."})
+    if match([r"abu dhabi.*ras al khaimah|rak.*abu dhabi"]):
+        return jsonify({"reply": "The road distance from Abu Dhabi to Ras Al Khaimah is about 240 km."})
+    if match([r"abu dhabi.*fujairah|fujairah.*abu dhabi"]):
+        return jsonify({"reply": "Abu Dhabi to Fujairah is approximately 250 km by road."})
+    if match([r"dubai.*sharjah|sharjah.*dubai"]):
+        return jsonify({"reply": "Dubai to Sharjah is just around 30 km — very close and commonly traveled."})
+    if match([r"dubai.*ajman|ajman.*dubai"]):
+        return jsonify({"reply": "Dubai to Ajman is approximately 40 km by road."})
+    if match([r"dubai.*rak|ras al khaimah.*dubai"]):
+        return jsonify({"reply": "The distance between Dubai and Ras Al Khaimah is around 120 km."})
+    if match([r"dubai.*fujairah|fujairah.*dubai"]):
+        return jsonify({"reply": "Dubai to Fujairah is approximately 130 km."})
+    if match([r"sharjah.*ajman|ajman.*sharjah"]):
+        return jsonify({"reply": "Sharjah and Ajman are extremely close — only about 15 km apart."})
+    if match([r"sharjah.*fujairah|fujairah.*sharjah"]):
+        return jsonify({"reply": "Sharjah to Fujairah is roughly 110 km."})
+    if match([r"sharjah.*rak|ras al khaimah.*sharjah"]):
+        return jsonify({"reply": "Sharjah to Ras Al Khaimah is approximately 100 km."})
     if match([r"\bmsds\b|material safety data sheet|chemical data"]):
         return jsonify({"reply": "Yes, MSDS (Material Safety Data Sheet) is mandatory for any chemical storage inquiry. It ensures safe handling and classification of the materials stored in DSV’s facilities."})
+    if match([r"how many.*ton.*truck|truck.*capacity|truck load.*kg|truck weight.*carry"]):
+        return jsonify({"reply": (
+        "Here’s the typical tonnage each DSV truck type can carry:\n"
+        "- **Flatbed Truck**: up to 22–25 tons (ideal for general cargo, pallets, containers)\n"
+        "- **Double Trailer (Articulated)**: up to 50–60 tons combined (used for long-haul or inter-emirate)\n"
+        "- **Box Truck / Curtainside**: ~5–10 tons (weather-protected for packaged goods)\n"
+        "- **Refrigerated Truck (Reefer)**: 3–12 tons depending on size (temperature-sensitive goods)\n"
+        "- **City Truck (1–3 Ton)**: 1 to 3 tons (last-mile delivery within cities)\n"
+        "- **Lowbed Trailer**: up to 60 tons for heavy equipment and machinery\n"
+        "- **Tipper / Dump Truck**: ~15–20 tons of bulk material (sand, gravel, etc.)")})
+    if match([r"(distance|how far|km).*mussafah.*(al markaz|markaz|hameem|hamim|ghayathi|ruwais|mirfa|madinat zayed|western region)"]):
+        return jsonify({"reply": (
+        "Approximate road distances from Mussafah:\n"
+        "- Al Markaz: **60 km**\n"
+        "- Hameem: **90 km**\n"
+        "- Madinat Zayed: **150 km**\n"
+        "- Mirfa: **140 km**\n"
+        "- Ghayathi: **240 km**\n"
+        "- Ruwais: **250 km**\n"
+        "\nLet me know if you need travel time or transport support too.")})
+        # --- DSV Abu Dhabi Facility Sizes ---
+    if match([
+        r"plot size", r"abu dhabi total area", r"site size", r"facility size", r"total sqm", r"how big",
+        r"yard size", r"open yard area", r"size of open yard", r"open yard.*size", r"area of open yard"]):
+        return jsonify({"reply": "DSV Abu Dhabi's open yard spans 360,000 SQM across Mussafah and KIZAD. The total logistics plot is 481,000 SQM, including 100,000 SQM of service roads and utilities, and a 21,000 SQM warehouse (21K)."})
 
+    if match([r"sub warehouse|m44|m45|al markaz|abu dhabi warehouse total|all warehouses"]):
+        return jsonify({"reply": "In addition to the main 21K warehouse, DSV operates sub-warehouses in Abu Dhabi: M44 (5,760 sqm), M45 (5,000 sqm), and Al Markaz (12,000 sqm). Combined with 21K, the total covered warehouse area in Abu Dhabi is approximately 44,000 sqm."})
+
+    if match([r"terms and conditions|quotation policy|billing cycle|operation timing|payment terms|quotation validity"]):
+        return jsonify({"reply": "DSV quotations include the following terms: Monthly billing, final settlement before vacating, 15-day quotation validity, subject to space availability. The depot operates Monday–Friday 8:30 AM to 5:30 PM. Insurance is not included by default. An environmental fee of 0.15% is added to all invoices. Non-moving cargo over 3 months may incur extra storage tariff."})
+    # --- QHSE ---   
+    if match([r"safety training|warehouse training|fire drill|manual handling|staff safety|employee training|toolbox talk"]):
+        return jsonify({"reply": "DSV staff undergo regular training in fire safety, first aid, manual handling, emergency response, and site induction. We also conduct toolbox talks and refresher sessions to maintain safety awareness and operational excellence."})
+    # --- DSV & ADNOC Relationship ---
+    if match([r"adnoc|adnoc project|dsv.*adnoc|oil and gas project|dsv support.*adnoc|logistics for adnoc"]):
+        return jsonify({"reply": "DSV has an active relationship with ADNOC and its group companies, supporting logistics for Oil & Gas projects across Abu Dhabi. This includes warehousing of chemicals, fleet transport to remote sites, 3PL for EPC contractors, and marine logistics for ADNOC ISLP and offshore projects. All operations are QHSE compliant and meet ADNOC’s safety and performance standards."})
+    # --- UAE Summer Midday Break ---
+    if match([r"summer break|midday break|working hours summer|12.*3.*break|uae heat ban|no work afternoon|hot season schedule"]):
+        return jsonify({"reply": "DSV complies with UAE summer working hour restrictions. From June 15 to September 15, all outdoor work (including open yard and transport loading) is paused daily between 12:30 PM and 3:30 PM. This ensures staff safety and follows MOHRE guidelines."})
     # --- Client Name Queries ---
+    if match([r"chambers.*21k", r"how many.*chambers", r"clients.*warehouse", r"who.*in.*warehouse", r"21k.*clients", r"tell me.*chambers", r"\bchambers\b"]):
+        return jsonify({"reply": "There are 7 chambers in the 21K warehouse:\n- **Chamber 1**: Khalifa University\n- **Chamber 2**: PSN\n- **Chamber 3**: Food clients & fast-moving items\n- **Chamber 4**: MCC, TR, and ADNOC\n- **Chamber 5**: PSN\n- **Chamber 6**: ZARA & TR\n- **Chamber 7**: Civil Defense and RMS"})
+
     if match([r"who is in ch(\d+)|client in ch(\d+)|ch\d+"]):
         ch_num = re.search(r"ch(\d+)", message)
         if ch_num:
