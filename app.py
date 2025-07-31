@@ -366,6 +366,22 @@ def chat():
         return jsonify({"reply": "GDP stands for **Good Distribution Practice**, a quality standard for warehouse and transport operations of pharmaceutical products. DSV’s healthcare storage facilities in Abu Dhabi, including the Airport Freezone warehouse, are GDP-compliant, ensuring cold chain integrity, traceability, and regulatory compliance."})
     if match([r"cold chain", r"what.*cold chain", r"cold storage", r"temperature zones", r"what.*chains.*temperature", r"freezer room", r"cold room", r"ambient storage"]):
         return jsonify({"reply": "DSV offers full temperature-controlled logistics including:\n\n🟢 **Ambient Storage**: +18°C to +25°C (for general FMCG, electronics, and dry goods)\n🔵 **Cold Room**: +2°C to +8°C (for pharmaceuticals, healthcare, and food products)\n🔴 **Freezer Room**: –22°C (for frozen goods and sensitive biological materials)\n\nOur warehouses in Abu Dhabi are equipped with temperature monitoring, backup power, and GDP-compliant systems to maintain cold chain integrity."})
+    if match([r"\brms\b", r"record management system", r"document storage", r"storage of files", r"paper storage"]):
+        return jsonify({"reply": 
+        "RMS (Record Management System) at DSV is located inside the 21K warehouse in Mussafah. It is used to store and manage physical documents, archives, and secure records for clients like Civil Defense.\n\n"
+        "The RMS area is equipped with an **FM200 fire suppression system** for safe document protection. Note: RMS is not used for storing Return Material."})
+    if match([r"asset management", r"what is asset management", r"tracking of assets", r"rfid.*asset"]):
+        return jsonify({"reply": "DSV offers complete **Asset Management** solutions including:\n- Barcode or RFID tracking\n- Asset labeling\n- Storage and life-cycle monitoring\n- Secure location control\n\nIdeal for IT equipment, tools, calibration items, and government assets."})
+    if match([r"quote.*asset", r"quotation.*asset management", r"what.*collect.*client.*asset", r"info.*for.*asset.*quotation"]):
+        return jsonify({"reply":
+        "To prepare an **Asset Management** quotation, collect the following from the client:\n"
+        "1️⃣ Type of assets (IT, furniture, tools, etc.)\n"
+        "2️⃣ Quantity and tagging type (barcode or RFID)\n"
+        "3️⃣ Duration of storage or tracking\n"
+        "4️⃣ Reporting/reporting system integration needs\n"
+        "5️⃣ Any relocation, retrieval, or disposal cycles"})
+    if match([r"asset labeling", r"asset labelling", r"label assets", r"tagging assets", r"rfid tagging", r"barcode tagging"]):
+        return jsonify({"reply": "DSV provides **Asset Labeling** services using RFID or barcode tags. Labels include:\n- Unique ID numbers\n- Ownership info\n- Scannable codes for inventory and asset tracking\nThese are applied during intake or on-site at the client's request."})
 
     # --- 21K Warehouse Racking Info ---
     if match([
@@ -532,6 +548,10 @@ def chat():
         return jsonify({"reply": "2PL (Second Party Logistics) refers to asset-based carriers that provide transportation or warehousing services using their own resources. Example: a trucking company that delivers your cargo directly."})
     if match([r"dsv location", r"dsv abu dhabi location", r"where is dsv", r"dsv warehouse location", r"dsv all cities location"]):
         return jsonify({"reply": "DSV Abu Dhabi main sites:\n- 21K Warehouse: Mussafah (21,000 sqm)\n- Sub-sites: M44, M45, Al Markaz\n- Airport Freezone (for pharma & cold chain)\n- KIZAD (open yard and modular storage)\nContact: +971 2 555 2900 or visit dsv.com"})
+    if match([r"\bdsv location\b", r"dsv abu dhabi location", r"dsv locations", r"where.*dsv.*located", r"dsv.*warehouse.*location"]):
+        return jsonify({"reply": "DSV Abu Dhabi operates multiple logistics hubs:\n\n📍 **Mussafah M19 (21K Warehouse)** – 21,000 sqm ambient racked warehouse with 7 chambers\n📍 **M44 / M45 (Mussafah Sub-warehouses)** – Smaller facilities for specialized clients\n📍 **Al Markaz, Hameem** – Regional storage support\n📍 **Abu Dhabi Airport Freezone** – Pharma & GDP cold chain\n\nContact: +971 2 555 2900 or visit [dsv.com](https://www.dsv.com)"})
+    if match([r"\bkizad\b", r"dsv kizad", r"location.*kizad", r"warehouse.*kizad"]):
+        return jsonify({"reply": "DSV KIZAD hub includes:\n- 360,000 sqm Open Yard\n- Modular storage solutions\n- Container handling & MHE services\n- Ideal for project cargo and transit logistics\n\nFor site visits or inquiries, contact: +971 2 555 2900."})
 
     if match([r"\bwhat is 3pl\b", r"\b3pl\b", r"third party logistics"]):
         return jsonify({"reply": "3PL (Third Party Logistics) involves outsourcing logistics operations such as warehousing, transportation, picking/packing, and order fulfillment to a provider like DSV."})
