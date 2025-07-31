@@ -525,8 +525,6 @@ def chat():
         return jsonify({"reply": "Insurance is not included by default in quotations. It can be arranged separately upon request."})
     if match([r"healthcare|medical storage|pharma warehouse|pharmaceutical storage"]):
         return jsonify({"reply": "DSV serves healthcare clients via temperature-controlled, GDP-compliant storage at Abu Dhabi Airport Freezone and Mussafah."})
-    if match([r"ecommerce|online store|marketplace|e-commerce|order fulfillment"]):
-        return jsonify({"reply": "DSV provides 3PL fulfillment for e-commerce clients including receiving, storage, picking, packing, returns, and delivery."})
 
     # --- Lean Six Sigma ---
     if match([r"lean six sigma|6 sigma|warehouse process improvement|lean method"]):
