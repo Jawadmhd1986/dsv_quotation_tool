@@ -514,8 +514,20 @@ def chat():
         return jsonify({"reply": "DSV applies Lean Six Sigma principles in warehouse design and process flow to reduce waste, improve accuracy, and maximize efficiency. We implement 5S, KPI dashboards, and root-cause analysis for continuous improvement."})
 
     # --- Chemical Storage Quotation Requirement ---
-    if match([r"quote.*chemical.*storage|store.*chemical.*quote|quotation.*chemical.*storage"]):
-        return jsonify({"reply": "To provide a quotation for chemical storage, we require: 1) Product type, 2) Daily CBM/SQM, 3) MSDS (Material Safety Data Sheet), 4) Storage duration, 5) Special handling needs."})
+    if match([
+    r"quote.*chemical.*storage", r"chemical.*quote", r"chemical.*quotation",
+    r"store.*chemical.*quote", r"quotation.*chemical.*storage", 
+    r"what.*collect.*chemical.*quotation", r"info.*chemical.*storage"]):
+        return jsonify({"reply":
+        "To provide a quotation for **chemical storage**, we require the following:\n"
+        "1️⃣ **Product Name & Type**\n"
+        "2️⃣ **Hazard Class / Classification**\n"
+        "3️⃣ **Required Volume (CBM/SQM)**\n"
+        "4️⃣ **Storage Duration (contract period)**\n"
+        "5️⃣ **MSDS** – Material Safety Data Sheet\n"
+        "6️⃣ **Any special handling or packaging needs**"})
+
+# --- General 3PL Quotation Requirement ---
     if match([
     r"(what.*collect.*client.*quotation)", r"(what.*info.*client.*quote)", 
     r"(quotation.*requirements)", r"(quotation.*information.*client)", 
