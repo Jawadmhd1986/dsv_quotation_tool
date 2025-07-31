@@ -642,7 +642,6 @@ emirate_distances = {
     ("sharjah", "ajman"): (15, "15–20 minutes"),
     ("sharjah", "fujairah"): (110, "2 hours"),
     ("sharjah", "ras al khaimah"): (100, "1.5–2 hours")}
-
 if match([
     r"distance.*(abu dhabi|dubai|sharjah|ajman|rak|ras al khaimah|fujairah)",
     r"how far.*(abu dhabi|dubai|sharjah|ajman|rak|ras al khaimah|fujairah)",
