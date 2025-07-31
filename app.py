@@ -487,6 +487,25 @@ def chat():
         return jsonify({"reply": "For warehouse occupancy, contact Biju Krishnan at biju.krishnan@dsv.com."})
     if match([r"open yard.*occupancy|yard space.*available|yard capacity|yard.*availability"]):
         return jsonify({"reply": "For open yard occupancy, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})
+# --- Industry: Retail & Fashion ---
+    if match([r"\bretail\b", r"fashion and retail", r"fashion logistics", r"retail supply chain"]):
+        return jsonify({"reply": "DSV provides tailored logistics solutions for the **retail and fashion industry**, including:\n- Warehousing (racked, ambient, VNA)\n- Inbound & outbound transport\n- Value Added Services (labeling, repacking, tagging)\n- Last-mile delivery to malls and retail stores\n- WMS integration for real-time visibility"})
+
+# --- Industry: Oil & Gas ---
+    if match([r"oil and gas", r"oil & gas", r"\bo&g\b", r"energy sector", r"oil logistics"]):
+        return jsonify({"reply": "DSV supports the **Oil & Gas industry** across Abu Dhabi and the GCC through:\n- Storage of chemicals and DG\n- Heavy equipment transport\n- 3PL/4PL project logistics\n- ADNOC-compliant warehousing and safety\n- Support for offshore & EPC contractors with specialized fleet"})
+
+# --- Industry: Breakbulk / Heavy Logistics ---
+    if match([r"breakbulk", r"break bulk", r"heavy cargo", r"non-containerized cargo"]):
+        return jsonify({"reply": "DSV handles **breakbulk and heavy logistics** including:\n- Oversized cargo (machinery, steel, transformers)\n- Lowbed trailer and crane support\n- Project logistics & site delivery\n- DG compliance and route planning\n- Full UAE & GCC transport coordination"})
+    if match([r"last mile", r"last mile delivery", r"final mile", r"city delivery"]):
+        return jsonify({"reply": "DSV offers **last-mile delivery** services across the UAE using small city trucks and vans. These are ideal for e-commerce, retail, and healthcare shipments requiring fast and secure delivery to final destinations. Deliveries are WMS-tracked and coordinated by our OCC team for full visibility."})
+    if match([r"\binventory\b", r"inventory management", r"inventory control", r"inventory system", r"stock tracking"]):
+        return jsonify({"reply": "DSV uses INFOR WMS to manage all inventory activities. It provides:\n- Real-time stock visibility\n- Bin-level tracking\n- Batch/serial number control\n- Expiry tracking (for pharma/FMCG)\n- Integration with your ERP system"})
+    if match([r"cross dock", r"cross docking", r"cross-dock", r"crossdock facility"]):
+        return jsonify({"reply": "Yes, DSV supports **cross-docking** for fast-moving cargo:\n- Receive → Sort → Dispatch (no storage)\n- Ideal for FMCG, e-commerce, and retail\n- Reduces lead time and handling\n- Available at Mussafah and KIZAD hubs"})
+    if match([r"transit store", r"transit warehouse", r"transit storage", r"temporary storage", r"short term storage"]):
+        return jsonify({"reply": "DSV offers **transit storage** for short-term cargo holding. Ideal for:\n- Customs-cleared goods awaiting dispatch\n- Re-export shipments\n- Short-duration contracts\nOptions available in Mussafah, Airport Freezone, and KIZAD."})
 
     # --- EV trucks ---
     if match([r"ev truck|electric vehicle|zero emission|sustainable transport"]):
@@ -511,12 +530,16 @@ def chat():
         return jsonify({"reply": "DSV stands for 'De Sammensluttede Vognmænd', meaning 'The Consolidated Hauliers' in Danish. Founded in 1976, DSV is a global logistics leader offering transport, warehousing, and supply chain solutions in over 80 countries. It’s listed on Nasdaq Copenhagen and serves diverse industries like FMCG, oil & gas, pharma, and retail."})
     if match([r"\bwhat is 2pl\b", r"\b2pl\b", r"second party logistics"]):
         return jsonify({"reply": "2PL (Second Party Logistics) refers to asset-based carriers that provide transportation or warehousing services using their own resources. Example: a trucking company that delivers your cargo directly."})
+    if match([r"dsv location", r"dsv abu dhabi location", r"where is dsv", r"dsv warehouse location", r"dsv all cities location"]):
+        return jsonify({"reply": "DSV Abu Dhabi main sites:\n- 21K Warehouse: Mussafah (21,000 sqm)\n- Sub-sites: M44, M45, Al Markaz\n- Airport Freezone (for pharma & cold chain)\n- KIZAD (open yard and modular storage)\nContact: +971 2 555 2900 or visit dsv.com"})
 
     if match([r"\bwhat is 3pl\b", r"\b3pl\b", r"third party logistics"]):
         return jsonify({"reply": "3PL (Third Party Logistics) involves outsourcing logistics operations such as warehousing, transportation, picking/packing, and order fulfillment to a provider like DSV."})
 
     if match([r"\bwhat is 4pl\b", r"\b4pl\b", r"fourth party logistics"]):
         return jsonify({"reply": "4PL (Fourth Party Logistics) is a fully integrated supply chain solution where DSV manages all logistics operations, partners, systems, and strategy on behalf of the client. DSV acts as a single point of contact and coordination."})
+    if match([r"3\.5pl", r"three and half pl", r"3pl plus", r"middle of 3pl and 4pl"]):
+        return jsonify({"reply": "3.5PL is an emerging term referring to a hybrid between **3PL and 4PL**:\n- DSV provides operational execution like a 3PL\n- And partial strategic control like a 4PL\nIdeal for clients wanting control with partial outsourcing."})
 
     # --- Industry Tags (FMCG, Insurance, Healthcare, Ecommerce) ---
     if match([r"\bfmcg\b|fast moving|consumer goods"]):
@@ -539,6 +562,12 @@ def chat():
         return jsonify({"reply": "DSV Abu Dhabi has approx. **44,000 sqm** of warehouse space:\n- 21K in Mussafah (21,000 sqm)\n- M44 (5,760 sqm)\n- M45 (5,000 sqm)\n- Al Markaz in Hameem (12,000 sqm)\nPlus 360,000 sqm of open yard."})
     if match([r"\bwh process\b", r"warehouse process", r"warehouse operations", r"warehouse workflow", r"\bwh\b.*operation", r"warehouse tasks", r"warehouse flow"]):
         return jsonify({"reply": "Typical warehouse processes at DSV include:\n1️⃣ **Inbound**: receiving, inspection, put-away\n2️⃣ **Storage**: in racks or bulk zones\n3️⃣ **Order Processing**: picking, packing, labeling\n4️⃣ **Outbound**: staging, dispatch, transport coordination\n5️⃣ **Inventory Control**: cycle counting, stock checks, and returns\n\nAll activities are managed through our INFOR WMS system for full visibility and traceability."})
+    if match([r"kitting", r"assembly", r"kitting and assembly", r"value added kitting"]):
+        return jsonify({"reply": "DSV provides **kitting and assembly** as a Value Added Service:\n- Combine multiple SKUs into kits\n- Light assembly of components\n- Repacking and labeling\n- Ideal for retail, pharma, and project logistics"})
+    if match([r"packing material", r"what packing material", r"materials used for packing"]):
+        return jsonify({"reply": "DSV uses high-grade packing materials:\n- Shrink wrap (6 rolls per box, 1 roll = 20 pallets)\n- Strapping rolls + buckle kits (1 roll = 20 pallets)\n- Bubble wrap, carton boxes, foam sheets\n- Heavy-duty pallets (wooden/plastic)\nUsed for relocation, storage, and export."})
+    if match([r"\brelocation\b", r"move warehouse", r"shift cargo", r"site relocation"]):
+        return jsonify({"reply": "Yes, DSV provides full **relocation services**:\n- Machinery shifting\n- Office and warehouse relocations\n- Packing, transport, offloading\n- Insurance and dismantling available\nHandled by our trained team with all safety measures."})
 
     # --- Machinery / Machineries ---
     if match([r"machinery|machineries|machines used|equipment used"]):
@@ -593,6 +622,16 @@ def chat():
         return jsonify({"reply": "To quote for chemical storage, we need:\n- Material name\n- Hazard class\n- CBM\n- Period\n- MSDS (Material Safety Data Sheet)."})
     if match([r"\bmsds\b|material safety data sheet|chemical data"]):
         return jsonify({"reply": "Yes, MSDS (Material Safety Data Sheet) is mandatory for any chemical storage inquiry. It ensures safe handling and classification of the materials stored in DSV’s facilities."})
+    if match([r"quote.*chemical.*warehouse", r"quote.*chemical storage", r"quote.*any storage", r"what.*need.*quote.*storage", r"build.*quote.*chemical"]):
+        return jsonify({"reply":
+        "To build a quotation for storage (especially chemical), collect the following:\n"
+        "1️⃣ Type of material / hazard class\n"
+        "2️⃣ Volume (CBM or SQM)\n"
+        "3️⃣ Storage duration (contract period)\n"
+        "4️⃣ MSDS if chemical\n"
+        "5️⃣ Handling frequency (thruput)\n\n"
+        "Once ready, please fill the form on the left."})
+
 # --- General 3PL Quotation Requirement ---
     if match([
     r"(what.*collect.*client.*quotation)", r"(what.*info.*client.*quote)", 
