@@ -5,97 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quotation Generator</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #002c77;
-      color: #000;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1rem;
-    }
+  html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #002c77;
+  color: white;
+  height: 100vh;
+  overflow: hidden;
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 2rem;
-      max-width: 420px;
-      width: 100%;
-      margin: auto;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    img.logo {
-      width: 180px;
-      display: block;
-      margin: 0 auto 1rem;
-    }
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    max-width: 400px;
+    margin: auto;
+    background: #00389b;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  }
 
-    h1 {
-      text-align: center;
-      margin-top: 0;
-      margin-bottom: 1.5rem;
-      font-size: 1.7rem;
-      color: #002c77;
-    }
+  img.logo {
+    width: 200px;
+    display: block;
+    margin: 0 auto 0.1rem; /* Reduced bottom space */
+  }
 
-    label {
-      margin: 0.6rem 0 0.2rem;
-      font-weight: bold;
-      font-size: 0.95rem;
-      color: #002c77;
-    }
+  h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+    font-size: 1.5rem;
+  }
 
-    input, select {
-      width: 100%;
-      padding: 0.65rem;
-      margin-bottom: 0.7rem;
-      border-radius: 8px;
-      border: 2px solid #002c77;
-      font-size: 1rem;
-    }
+  label {
+    margin: 0.3rem 0 0.2rem;
+    font-weight: bold;
+    font-size: 0.95rem;
+  }
 
-    button {
-      background-color: #002c77;
-      color: white;
-      padding: 0.8rem;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 0.5rem;
-    }
+  input, select {
+    width: 100%;
+    padding: 0.4rem;
+    margin-bottom: 0.6rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.9rem;
+  }
 
-    button:hover {
-      background-color: #001f55;
-    }
+  button {
+    background-color: #002c77;
+    color: white;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
 
-    @media (max-width: 480px) {
-      .container {
-        padding: 1.5rem 1rem;
-      }
+  button:hover {
+    background-color: #001f55;
+  }
+</style>
 
-      img.logo {
-        width: 140px;
-      }
-
-      h1 {
-        font-size: 1.5rem;
-      }
-    }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -135,10 +118,10 @@
 
   <!-- Chat Widget -->
   <div style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
-    <button onclick="toggleChat()" style="background-color: transparent; border: none; padding: 0; cursor: pointer;">
-      <img src="{{ url_for('static', filename='chat-icon.png') }}" alt="Chat Icon" style="width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
-    </button>
-  </div>
+  <button onclick="toggleChat()" style="background-color: transparent; border: none; padding: 0; cursor: pointer;">
+  <img src="{{ url_for('static', filename='chat-icon.png') }}" alt="Chat Icon" style="width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+</button>
+</div>
 
   <div id="chat-box" style="display:none; position: fixed; bottom: 80px; right: 20px; width: 300px; background-color: #fff; color: #000; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); flex-direction: column; font-family: Arial, sans-serif;">
     <div style="background: #002c77; color: white; padding: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px; font-weight: bold;">
