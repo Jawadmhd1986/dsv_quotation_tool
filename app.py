@@ -513,14 +513,11 @@ def chat():
     if match([r"lean six sigma|warehouse improvement|continuous improvement|kaizen|process efficiency"]):
         return jsonify({"reply": "DSV applies Lean Six Sigma principles in warehouse design and process flow to reduce waste, improve accuracy, and maximize efficiency. We implement 5S, KPI dashboards, and root-cause analysis for continuous improvement."})
 
-    # --- Chemical Storage Quotation Requirement ---
     if match([
-    r"quote.*chemical.*storage", r"chemical.*quote", r"chemical.*quotation",
-    r"store.*chemical.*quote", r"quotation.*chemical.*storage", 
-    r"what.*collect.*chemical.*quotation", r"info.*chemical.*storage",
-    r"what.*collect.*chemical.*quote", r"what.*to.*collect.*chemical.*quotation",
-    r"what.*to.*collect.*make.*chemical.*quotation", r"how.*make.*chemical.*quotation",
-    r"build.*chemical.*quotation", r"prepare.*chemical.*quotation"]):
+    r"(what.*collect.*chemical.*quotation)", r"(what.*to.*collect.*.*chemical.*quote)",
+    r"(build.*chemical.*quote)", r"(make.*chemical.*quotation)", r"(prepare.*chemical.*quote)",
+    r"(quote.*chemical)", r"(chemical.*quote)", r"(quotation.*chemical)", r"(chemical.*quotation)",
+    r"(information.*chemical.*quote)", r"(info.*for.*chemical.*quote)"]):
         return jsonify({"reply":
         "To provide a quotation for **chemical storage**, please collect the following from the client:\n"
         "1️⃣ **Product Name & Type**\n"
