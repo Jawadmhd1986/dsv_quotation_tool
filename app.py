@@ -152,21 +152,31 @@ def chat():
     def match(patterns):
         return any(re.search(p, message) for p in patterns)
         
-# --- Containers ---
-    if match([r"20ft container|20 foot|twenty foot"]):
-        return jsonify({"reply": "A 20ft container is 6.1m long, ~28,000 kg capacity, ideal for compact or heavy cargo."})
-    if match([r"40ft container|40 foot|forty foot"]):
-        return jsonify({"reply": "A 40ft container is 12.2m long, ~30,400 kg capacity. Ideal for bulk or palletized cargo."})
-    if match([r"high cube|hc container|40ft high cube"]):
-        return jsonify({"reply": "High Cube containers are 2.9m tall, 1 foot taller than standard. Ideal for bulky goods."})
-    if match([r"reefer|refrigerated container|chiller container"]):
-        return jsonify({"reply": "Reefer containers maintain temperatures for food, pharma, and perishables. Available in 20ft and 40ft."})
-    if match([r"open top container|open roof|no roof container"]):
-        return jsonify({"reply": "Open Top containers are used for tall cargo like machines, steel, or timber loaded by crane."})
-    if match([r"flat rack|no sides container"]):
-        return jsonify({"reply": "Flat Rack containers have no sides or roof, ideal for oversized cargo like vehicles or transformers."})
+# --- Containers (All Types + Flexible Unit Recognition) ---
+    if match([r"\bcontainers\b", r"tell me about containers", r"container types", r"types of containers", r"container sizes", r"container dimensions"]):
+        return jsonify({"reply": "Here are the main container types and their specifications:\n\n📦 **20ft Container**:\n- Length: 6.1m, Width: 2.44m, Height: 2.59m\n- Payload: ~28,000 kg\n- Capacity: ~33 CBM\n\n📦 **40ft Container**:\n- Length: 12.2m, Width: 2.44m, Height: 2.59m\n- Payload: ~30,400 kg\n- Capacity: ~67 CBM\n\n⬆️ **40ft High Cube**:\n- Same as 40ft but height = 2.9m\n- Ideal for voluminous goods\n\n❄️ **Reefer Container (20ft & 40ft)**:\n- Insulated, temperature-controlled (+2°C to –25°C)\n- Used for food, pharma, perishables\n\n🏗 **Open Top Container**:\n- No roof, allows crane loading\n- For tall cargo (e.g. machinery, steel)\n\n🪜 **Flat Rack Container**:\n- No sides or roof\n- Used for oversized loads like vehicles or transformers\n\n📦 **SME Containers**:\n- Custom modular containers used in the UAE for small-scale import/export or temporary storage by SMEs\n\nLet me know if you'd like help choosing the right container for your cargo!"})
+
+# Specific container types with ft/feet/foot flexibility
+    if match([r"20\s*(ft|feet|foot)\s*container", r"\btwenty\s*(ft|feet|foot)?\s*container"]):
+        return jsonify({"reply": "A 20ft container is 6.1m long × 2.44m wide × 2.59m high, capacity ~33 CBM, and payload up to 28,000 kg. Ideal for compact or heavy cargo."})
+
+    if match([r"40\s*(ft|feet|foot)\s*container", r"\bforty\s*(ft|feet|foot)?\s*container"]):
+        return jsonify({"reply": "A 40ft container is 12.2m long × 2.44m wide × 2.59m high, capacity ~67 CBM, and payload up to 30,400 kg. Suitable for palletized or bulk shipments."})
+
+    if match([r"(high cube|hc)\s*(container)?", r"40\s*(ft|feet|foot)\s*high cube"]):
+        return jsonify({"reply": "A 40ft High Cube container is 2.9m tall, 1 foot taller than standard containers. Ideal for bulky or voluminous cargo."})
+
+    if match([r"reefer", r"refrigerated container", r"chiller container"]):
+        return jsonify({"reply": "Reefer containers are temperature-controlled (+2°C to –25°C), ideal for perishables like food and pharmaceuticals. Available in 20ft and 40ft sizes."})
+
+    if match([r"open top container", r"open roof", r"no roof container"]):
+        return jsonify({"reply": "Open Top containers are used for tall or top-loaded cargo like steel coils, pipes, or machinery. They allow crane access from above."})
+
+    if match([r"flat rack", r"no sides container", r"flat rack container"]):
+        return jsonify({"reply": "Flat Rack containers have no sides or roof, perfect for oversized cargo such as vehicles, generators, or heavy equipment."})
+
     if match([r"\bsme\b", r"sme container", r"what is sme", r"sme size", r"sme container size"]):
-        return jsonify({"reply": "In logistics, **SME** usually refers to **Small and Medium-sized Enterprises**, but in some UAE contexts, 'SME container' refers to **customized containers** used by SMEs for small-scale imports or short-term storage.\n\nPlease clarify if you're referring to:\n- SME as a business category\n- Or SME containers used for specialized shipping or modular storage solutions"})
+        return jsonify({"reply": "In logistics, **SME** usually refers to Small and Medium Enterprises, but in UAE context, 'SME container' can also mean modular containers customized for SME use — often used for short-term cargo storage or small-scale import/export."})
 
     # --- Pallet Info ---
     if match([r"pallet size|pallet dimension|standard pallet|euro pallet"]):
@@ -424,6 +434,14 @@ def chat():
         return jsonify({"reply": "DSV provides end-to-end logistics solutions including:\n- Freight forwarding (air, sea, road)\n- Warehousing (ambient, cold chain, chemical)\n- Transportation & distribution across the UAE and GCC\n- 3PL & 4PL supply chain management\n- Customs clearance and documentation\n- Specialized services for healthcare, FMCG, oil & gas, retail, and e-commerce."})
     if match([r"what is dsv", r"who is dsv", r"tell me about dsv", r"dsv overview", r"\bdsv\b only"]):
         return jsonify({"reply": "DSV stands for 'De Sammensluttede Vognmænd', meaning 'The Consolidated Hauliers' in Danish. Founded in 1976, DSV is a global logistics leader offering transport, warehousing, and supply chain solutions in over 80 countries. It’s listed on Nasdaq Copenhagen and serves diverse industries like FMCG, oil & gas, pharma, and retail."})
+    if match([r"\bwhat is 2pl\b", r"\b2pl\b", r"second party logistics"]):
+        return jsonify({"reply": "2PL (Second Party Logistics) refers to asset-based carriers that provide transportation or warehousing services using their own resources. Example: a trucking company that delivers your cargo directly."})
+
+    if match([r"\bwhat is 3pl\b", r"\b3pl\b", r"third party logistics"]):
+        return jsonify({"reply": "3PL (Third Party Logistics) involves outsourcing logistics operations such as warehousing, transportation, picking/packing, and order fulfillment to a provider like DSV."})
+
+    if match([r"\bwhat is 4pl\b", r"\b4pl\b", r"fourth party logistics"]):
+        return jsonify({"reply": "4PL (Fourth Party Logistics) is a fully integrated supply chain solution where DSV manages all logistics operations, partners, systems, and strategy on behalf of the client. DSV acts as a single point of contact and coordination."})
 
     # --- Industry Tags (FMCG, Insurance, Healthcare, Ecommerce) ---
     if match([r"\bfmcg\b|fast moving|consumer goods"]):
@@ -446,6 +464,8 @@ def chat():
         return jsonify({"reply": "DSV provides 3 temperature zones:\n- **Ambient**: +18°C to +25°C\n- **Cold Room**: +2°C to +8°C\n- **Freezer**: –22°C\nThese zones are used for FMCG, pharmaceuticals, and temperature-sensitive products."})
     if match([r"size of our warehouse|total warehouse area|total sqm|warehouse size|how big.*warehouse"]):
         return jsonify({"reply": "DSV Abu Dhabi has approx. **44,000 sqm** of warehouse space:\n- 21K in Mussafah (21,000 sqm)\n- M44 (5,760 sqm)\n- M45 (5,000 sqm)\n- Al Markaz in Hameem (12,000 sqm)\nPlus 360,000 sqm of open yard."})
+    if match([r"\bwh process\b", r"warehouse process", r"warehouse operations", r"warehouse workflow", r"\bwh\b.*operation", r"warehouse tasks", r"warehouse flow"]):
+        return jsonify({"reply": "Typical warehouse processes at DSV include:\n1️⃣ **Inbound**: receiving, inspection, put-away\n2️⃣ **Storage**: in racks or bulk zones\n3️⃣ **Order Processing**: picking, packing, labeling\n4️⃣ **Outbound**: staging, dispatch, transport coordination\n5️⃣ **Inventory Control**: cycle counting, stock checks, and returns\n\nAll activities are managed through our INFOR WMS system for full visibility and traceability."})
 
     # --- Machinery / Machineries ---
     if match([r"machinery|machineries|machines used|equipment used"]):
@@ -490,6 +510,10 @@ def chat():
     if match([r"quote.*chemical.*storage|store.*chemical.*quote|quotation.*chemical.*storage"]):
         return jsonify({"reply": "To provide a quotation for chemical storage, we require: 1) Product type, 2) Daily CBM/SQM, 3) MSDS (Material Safety Data Sheet), 4) Storage duration, 5) Special handling needs."})
     # --- Transportation---
+    if match([r"\bfleet\b", r"dsv fleet", r"truck fleet", r"transport fleet", r"fleet info"]):
+        return jsonify({"reply": "DSV operates a large fleet in the UAE including:\n- Flatbed trailers\n- Box trucks\n- Double trailers\n- Refrigerated trucks (chiller/freezer)\n- Lowbeds\n- Tippers\n- Small city delivery trucks\nFleet vehicles support all types of transport including full truckload (FTL), LTL, and container movements."})
+    if match([r"truck types", r"transportation types", r"dsv trucks", r"transport.*available", r"types of transport", r"trucking services"]):
+        return jsonify({"reply": "DSV provides local and GCC transportation using:\n- Flatbeds for general cargo\n- Lowbeds for heavy equipment\n- Tippers for construction bulk\n- Box trucks for secure goods\n- Refrigerated trucks for temperature-sensitive cargo\n- Double trailers for long-haul\n- Vans and city trucks for last-mile delivery."})
     if match([r"abu dhabi.*sharjah|sharjah.*abu dhabi"]):
         return jsonify({"reply": "The distance between Abu Dhabi and Sharjah is about 160 km."})
     if match([r"abu dhabi.*ajman|ajman.*abu dhabi"]):
@@ -514,16 +538,24 @@ def chat():
         return jsonify({"reply": "Sharjah to Ras Al Khaimah is approximately 100 km."})
     if match([r"\bmsds\b|material safety data sheet|chemical data"]):
         return jsonify({"reply": "Yes, MSDS (Material Safety Data Sheet) is mandatory for any chemical storage inquiry. It ensures safe handling and classification of the materials stored in DSV’s facilities."})
-    if match([r"how many.*ton.*truck|truck.*capacity|truck load.*kg|truck weight.*carry"]):
-        return jsonify({"reply": (
-        "Here’s the typical tonnage each DSV truck type can carry:\n"
-        "- **Flatbed Truck**: up to 22–25 tons (ideal for general cargo, pallets, containers)\n"
-        "- **Double Trailer (Articulated)**: up to 50–60 tons combined (used for long-haul or inter-emirate)\n"
-        "- **Box Truck / Curtainside**: ~5–10 tons (weather-protected for packaged goods)\n"
-        "- **Refrigerated Truck (Reefer)**: 3–12 tons depending on size (temperature-sensitive goods)\n"
-        "- **City Truck (1–3 Ton)**: 1 to 3 tons (last-mile delivery within cities)\n"
-        "- **Lowbed Trailer**: up to 60 tons for heavy equipment and machinery\n"
-        "- **Tipper / Dump Truck**: ~15–20 tons of bulk material (sand, gravel, etc.)")})
+    if match([
+    r"truck capacity", r"how many ton", r"truck tonnage", r"truck.*can carry", r"truck load",
+    r"flatbed.*ton", r"flatbed.*load", r"flatbed capacity",
+    r"double trailer.*ton", r"articulated.*capacity",
+    r"box truck.*ton", r"curtainside.*load", r"box truck capacity",
+    r"reefer.*ton", r"refrigerated truck.*capacity", r"chiller truck.*load",
+    r"city truck.*ton", r"1 ton truck", r"3 ton truck",
+    r"lowbed.*ton", r"lowbed.*capacity",
+    r"tipper.*ton", r"dump truck.*load", r"bulk truck.*ton"]):
+        return jsonify({"reply": "Here’s the typical tonnage each DSV truck type can carry:\n\n"
+        "🚛 **Flatbed Truck**: up to 22–25 tons (ideal for general cargo, pallets, containers)\n"
+        "🚚 **Double Trailer (Articulated)**: up to 50–60 tons combined (used for long-haul or inter-emirate)\n"
+        "📦 **Box Truck / Curtainside**: ~5–10 tons (weather-protected for packaged goods)\n"
+        "❄️ **Refrigerated Truck (Reefer)**: 3–12 tons depending on size (for temperature-sensitive cargo)\n"
+        "🏙 **City Truck (1–3 Ton)**: 1 to 3 tons (last-mile delivery within cities)\n"
+        "🏗 **Lowbed Trailer**: up to 60 tons (for heavy equipment and oversized machinery)\n"
+        "🪨 **Tipper / Dump Truck**: ~15–20 tons (for bulk cargo like sand, gravel, or construction material)"})
+
     if match([r"(distance|how far|km).*mussafah.*(al markaz|markaz|hameem|hamim|ghayathi|ruwais|mirfa|madinat zayed|western region)"]):
         return jsonify({"reply": (
         "Approximate road distances from Mussafah:\n"
