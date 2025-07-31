@@ -21,7 +21,7 @@ async function sendMessage() {
       body: JSON.stringify({ message })
     });
     const data = await res.json();
-    appendMessage("DSV Bot", data.reply);
+    appendBotMessageAnimated(data.reply);
   } catch {
     appendMessage("DSV Bot", "Error getting response.");
   }
@@ -33,4 +33,25 @@ function appendMessage(sender, text) {
   div.innerHTML = `<strong>${sender}:</strong> ${text}`;
   msgBox.appendChild(div);
   msgBox.scrollTop = msgBox.scrollHeight;
+}
+
+function appendBotMessageAnimated(text) {
+  const msgBox = document.getElementById("chat-messages");
+  const div = document.createElement("div");
+  div.innerHTML = `<strong>DSV Bot:</strong> `;
+  msgBox.appendChild(div);
+
+  let i = 0;
+  const speed = 15; // milliseconds per character
+
+  function typeLetter() {
+    if (i < text.length) {
+      div.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeLetter, speed);
+      msgBox.scrollTop = msgBox.scrollHeight;
+    }
+  }
+
+  typeLetter();
 }
