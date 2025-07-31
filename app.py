@@ -517,16 +517,18 @@ def chat():
     if match([
     r"quote.*chemical.*storage", r"chemical.*quote", r"chemical.*quotation",
     r"store.*chemical.*quote", r"quotation.*chemical.*storage", 
-    r"what.*collect.*chemical.*quotation", r"info.*chemical.*storage"]):
+    r"what.*collect.*chemical.*quotation", r"info.*chemical.*storage",
+    r"what.*collect.*chemical.*quote", r"what.*to.*collect.*chemical.*quotation",
+    r"what.*to.*collect.*make.*chemical.*quotation", r"how.*make.*chemical.*quotation",
+    r"build.*chemical.*quotation", r"prepare.*chemical.*quotation"]):
         return jsonify({"reply":
-        "To provide a quotation for **chemical storage**, we require the following:\n"
+        "To provide a quotation for **chemical storage**, please collect the following from the client:\n"
         "1️⃣ **Product Name & Type**\n"
         "2️⃣ **Hazard Class / Classification**\n"
         "3️⃣ **Required Volume (CBM/SQM)**\n"
         "4️⃣ **Storage Duration (contract period)**\n"
         "5️⃣ **MSDS** – Material Safety Data Sheet\n"
         "6️⃣ **Any special handling or packaging needs**"})
-
 # --- General 3PL Quotation Requirement ---
     if match([
     r"(what.*collect.*client.*quotation)", r"(what.*info.*client.*quote)", 
