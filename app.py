@@ -378,6 +378,7 @@ def chat():
     # --- Storage Rate Synonym ---
     if match([r"ac storage rate|non ac rate|open shed rate|storage cost"]):
         return jsonify({"reply": "AC: 2.5 AED/CBM/day\nNon-AC: 2.0 AED/CBM/day\nOpen Shed: 1.8 AED/CBM/day. WMS is optional unless it's Open Yard."})
+        
     # --- Chamber Mapping ---
     if match([r"ch2|chamber 2"]):
         return jsonify({"reply": "Chamber 2 is used by PSN (Federal Authority of Protocol and Strategic Narrative)."})
@@ -407,6 +408,7 @@ def chat():
 
     if match([r"open shed", r"standard open shed"]):
         return jsonify({"reply": "Open Shed storage is 1.8 AED/CBM/day. Standard VAS applies."})
+        
     # --- Warehouse Occupancy ---
     if match([r"warehouse occupancy|space available|any space in warehouse|availability.*storage"]):
         return jsonify({"reply": "For warehouse occupancy, contact Biju Krishnan at biju.krishnan@dsv.com."})
@@ -470,6 +472,7 @@ def chat():
     # --- Machinery / Machineries ---
     if match([r"machinery|machineries|machines used|equipment used"]):
         return jsonify({"reply": "DSV uses forklifts (3–15T), VNA, reach trucks, pallet jacks, cranes, and container lifters in warehouse and yard operations."})
+        
 # --- Mussafah 21K Warehouse Info ---
     if match([r"21k.*rack height|rack height.*21k"]):
         return jsonify({"reply": "The racks in the 21K warehouse in Mussafah are 12 meters high, with 6 pallet levels plus ground. DSV uses both Euro and Standard pallets. Each bay holds up to 14 Standard pallets or 21 Euro pallets."})
@@ -477,6 +480,10 @@ def chat():
         return jsonify({"reply": "The 21K warehouse has 3 types of racking systems:\n- **Selective racks**: Aisle width 2.95m–3.3m\n- **VNA (Very Narrow Aisle)**: Aisle width 1.95m\n- **Drive-in racks**: Aisle width 2.0m\nAll racks are 12 meters tall with 6 pallet levels."})
     if match([r"\bmhe\b", r"equipment used", r"machineries", r"machines", r"warehouse tools"]):
         return jsonify({"reply": "MHE (Material Handling Equipment) used at DSV includes forklifts (3–15T), VNA trucks, reach trucks, pallet jacks, mobile cranes, and container lifters."})
+    if match([r"\btapa\b", r"tapa certified", r"tapa standard", r"tapa compliance"]):
+        return jsonify({"reply": "TAPA stands for Transported Asset Protection Association. It’s a global security standard for the safe handling, warehousing, and transportation of high-value goods. DSV follows TAPA-aligned practices for secure transport and facility operations, including access control, CCTV, sealed trailer loading, and secured parking."})
+    if match([r"freezone", r"free zone", r"abu dhabi freezone", r"airport freezone", r"freezone warehouse"]):
+        return jsonify({"reply": "DSV operates a GDP-compliant warehouse in the **Abu Dhabi Airport Freezone**, specialized in pharmaceutical and healthcare logistics. It offers:\n- Temperature-controlled and cold chain storage\n- Customs-cleared import/export operations\n- Proximity to air cargo terminals\n- Full WMS and track-and-trace integration\nThis setup supports fast, regulated distribution across the UAE and GCC."})
 
     if match([r"pallet.*bay|how many.*bay.*pallet", r"bay.*standard pallet", r"bay.*euro pallet"]):
         return jsonify({"reply": "Each bay in 21K can accommodate 14 Standard pallets or 21 Euro pallets. This layout maximizes efficiency for various cargo sizes."})
@@ -509,11 +516,36 @@ def chat():
     # --- Chemical Storage Quotation Requirement ---
     if match([r"quote.*chemical.*storage|store.*chemical.*quote|quotation.*chemical.*storage"]):
         return jsonify({"reply": "To provide a quotation for chemical storage, we require: 1) Product type, 2) Daily CBM/SQM, 3) MSDS (Material Safety Data Sheet), 4) Storage duration, 5) Special handling needs."})
+    if match([
+    r"(what.*collect.*client.*quotation)", r"(what.*info.*client.*quote)", 
+    r"(quotation.*requirements)", r"(quotation.*information.*client)", 
+    r"(details.*for.*quotation)", r"(build.*quotation.*info)", 
+    r"(prepare.*quotation.*client)", r"(required.*info.*quote)"]):
+        return jsonify({"reply": 
+        "To build a proper 3PL storage quotation, please collect the following information from the client:\n"
+        "1️⃣ **Type of Commodity** – What items are being stored (FMCG, chemical, pharma, etc.)\n"
+        "2️⃣ **Contract Period** – Expected duration of the agreement (in months or years)\n"
+        "3️⃣ **Storage Volume** – In CBM/day, CBM/month, or CBM/year for warehousing; in SQM for open yard\n"
+        "4️⃣ **Throughput Volumes (IN/OUT)** – Daily or monthly volume in CBM to determine handling pattern and frequency\n\n"
+        "Once these details are available, you can proceed to fill the main form to generate a quotation."})
+
     # --- Transportation---
     if match([r"\bfleet\b", r"dsv fleet", r"truck fleet", r"transport fleet", r"fleet info"]):
         return jsonify({"reply": "DSV operates a large fleet in the UAE including:\n- Flatbed trailers\n- Box trucks\n- Double trailers\n- Refrigerated trucks (chiller/freezer)\n- Lowbeds\n- Tippers\n- Small city delivery trucks\nFleet vehicles support all types of transport including full truckload (FTL), LTL, and container movements."})
     if match([r"truck types", r"transportation types", r"dsv trucks", r"transport.*available", r"types of transport", r"trucking services"]):
         return jsonify({"reply": "DSV provides local and GCC transportation using:\n- Flatbeds for general cargo\n- Lowbeds for heavy equipment\n- Tippers for construction bulk\n- Box trucks for secure goods\n- Refrigerated trucks for temperature-sensitive cargo\n- Double trailers for long-haul\n- Vans and city trucks for last-mile delivery."})
+    if match([r"\btransportation\b", r"tell me about transportation", r"transport services", r"what is transportation", r"dsv transportation"]):
+        return jsonify({"reply":
+        "DSV offers full-service land transportation across the UAE and GCC. We operate a modern fleet including:\n"
+        "- 🚛 Flatbeds (up to 25 tons)\n"
+        "- 🏗 Lowbeds for heavy or oversized cargo\n"
+        "- 🪨 Tippers for bulk material (sand, gravel, etc.)\n"
+        "- 📦 Box trucks for protected cargo\n"
+        "- ❄️ Reefer trucks for temperature-controlled delivery\n"
+        "- 🚚 Double trailers for high-volume long-haul moves\n"
+        "- 🏙 Small city trucks for last-mile distribution\n\n"
+        "All transport is coordinated by our OCC team in Abu Dhabi with real-time tracking, WMS integration, and documentation support."})
+
     if match([r"abu dhabi.*sharjah|sharjah.*abu dhabi"]):
         return jsonify({"reply": "The distance between Abu Dhabi and Sharjah is about 160 km."})
     if match([r"abu dhabi.*ajman|ajman.*abu dhabi"]):
