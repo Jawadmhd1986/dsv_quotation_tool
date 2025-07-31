@@ -178,9 +178,16 @@ def chat():
     if match([r"\bsme\b", r"sme container", r"what is sme", r"sme size", r"sme container size"]):
         return jsonify({"reply": "In logistics, **SME** usually refers to Small and Medium Enterprises, but in UAE context, 'SME container' can also mean modular containers customized for SME use — often used for short-term cargo storage or small-scale import/export."})
 
-    # --- Pallet Info ---
-    if match([r"pallet size|pallet dimension|standard pallet|euro pallet"]):
-        return jsonify({"reply": "Standard pallet: 1.2m x 1.0m, Euro pallet: 1.2m x 0.8m. Standard = 14 per bay, Euro = 21 per bay in 21K."})
+    # --- Pallet Types, Sizes, and Positions ---
+    if match([
+    r"\bpallets\b", r"pallet types", r"types of pallets", r"pallet size", r"pallet sizes", r"pallet dimensions", 
+    r"standard pallet", r"euro pallet", r"pallet specs", r"tell me about pallets", 
+    r"what.*pallet.*used", r"pallet info", r"pallet.*per bay"]):
+        return jsonify({"reply":
+        "DSV uses two main pallet types in its 21K warehouse:\n\n"
+        "🟦 **Standard Pallet**:\n- Size: 1.2m × 1.0m\n- Load capacity: ~1,000 kg\n- Fits **14 pallets per bay**\n\n"
+        "🟨 **Euro Pallet**:\n- Size: 1.2m × 0.8m\n- Load capacity: ~800 kg\n- Fits **21 pallets per bay**\n\n"
+        "Pallets are used for racking, picking, and transport. DSV also offers VAS like pallet loading, shrink wrapping, labeling, and stretch film wrapping for safe handling."})
 
     # --- VAS Categories ---
     if match([r"standard vas", r"normal vas", r"handling charges", r"pallet charges", r"vas for ac", r"vas for non ac", r"vas for open shed"]):
@@ -194,12 +201,6 @@ def chat():
 
     if match([r"\bvas\b", r"\ball vas\b", r"list.*vas", r"show.*vas", r"everything included in vas", r"vas details", r"what.*vas"]):
         return jsonify({"reply": "Which VAS category are you looking for? Please specify:\n- Standard VAS (AC / Non-AC / Open Shed)\n- Chemical VAS\n- Open Yard VAS"})
-
-    # --- Chemical Quotation Required Docs ---
-    if match([r"store.*chemical|quotation.*chemical|data.*chemical|requirement.*chemical"]):
-        return jsonify({"reply": "To quote for chemical storage, we need:\n- Material name\n- Hazard class\n- CBM\n- Period\n- MSDS (Material Safety Data Sheet)."})
-    if match([r"proposal|quotation|quote.*open yard|send me.*quote|how to get quote|need.*quotation"]):
-        return jsonify({"reply": "To get a full quotation, please close this chat and fill the details in the main form on the left. The system will generate a downloadable document for you."})
 
     # --- Handling Math Questions like Packing Calculations ---
     if match([r"calculate.*packing.*pallet", r"how much.*pallet.*packing", r"cost.*packing.*pallet", r"packing with pallet for \d+ pallet"]):
@@ -351,6 +352,7 @@ def chat():
         return jsonify({"reply": "Open Yard Mussafah storage is 160 AED/SQM/year. WMS is excluded. VAS includes forklifts, cranes, and container lifts."})
     if match([r"open yard.*kizad"]):
         return jsonify({"reply": "Open Yard KIZAD storage is 125 AED/SQM/year. WMS excluded. VAS includes forklift 90–320 AED/hr, crane 250–450 AED/hr."})
+   
     # --- 21K Warehouse  ---
     if match([r"rack height|rack levels|pallets per bay|rack system"]):
         return jsonify({"reply": "21K warehouse racks are 12m tall with 6 pallet levels. Each bay holds 14 Standard pallets or 21 Euro pallets."})
@@ -365,7 +367,78 @@ def chat():
     if match([r"cold chain", r"what.*cold chain", r"cold storage", r"temperature zones", r"what.*chains.*temperature", r"freezer room", r"cold room", r"ambient storage"]):
         return jsonify({"reply": "DSV offers full temperature-controlled logistics including:\n\n🟢 **Ambient Storage**: +18°C to +25°C (for general FMCG, electronics, and dry goods)\n🔵 **Cold Room**: +2°C to +8°C (for pharmaceuticals, healthcare, and food products)\n🔴 **Freezer Room**: –22°C (for frozen goods and sensitive biological materials)\n\nOur warehouses in Abu Dhabi are equipped with temperature monitoring, backup power, and GDP-compliant systems to maintain cold chain integrity."})
 
-    # --- 21K HSE  ---
+    # --- 21K Warehouse Racking Info ---
+    if match([
+    r"\brack\b", r"\bracks\b", r"warehouse rack", r"warehouse racks", r"rack types",
+    r"types of racks", r"racking system", r"racking layout", r"rack height",
+    r"rack.*info", r"rack.*design", r"21k.*rack", r"rack.*21k", r"pallet levels"]):
+        return jsonify({"reply":
+        "The 21K warehouse in Mussafah uses 3 racking systems:\n\n"
+        "🔷 **Selective Racking**:\n- Aisle width: 2.95m–3.3m\n- Standard access to all pallets\n\n"
+        "🔷 **VNA (Very Narrow Aisle)**:\n- Aisle width: 1.95m\n- High-density storage with specialized forklifts\n\n"
+        "🔷 **Drive-in Racking**:\n- Aisle width: 2.0m\n- Deep storage for uniform SKUs\n\n"
+        "All racks are **12 meters tall** with **6 pallet levels plus ground**.\n"
+        "Each bay holds:\n- **14 Standard pallets** (1.2m × 1.0m)\n- **21 Euro pallets** (1.2m × 0.8m)"})
+    
+    if match([
+    r"pallet positions", r"how many.*pallet.*position", r"pallet slots", 
+    r"positions per bay", r"rack.*pallet.*position", r"warehouse pallet capacity"]):
+        return jsonify({"reply": 
+        "Each rack bay in the 21K warehouse has:\n"
+        "- **6 pallet levels** plus ground\n"
+        "- Fits **14 Standard pallets** or **21 Euro pallets** per bay\n\n"
+        "Across the facility, DSV offers thousands of pallet positions for ambient, VNA, and selective racking layouts. The exact total depends on rack type and client configuration."})
+# --- Aisle Widths in 21K Warehouse ---
+    if match([
+    r"\baisle\b", r"aisle width", r"width of aisle", r"warehouse aisle", 
+    r"vna aisle", r"how wide.*aisle", r"rack aisle width"]):
+        return jsonify({"reply": 
+        "Here are the aisle widths used in DSV’s 21K warehouse:\n\n"
+        "🔹 **Selective Racking**: 2.95m – 3.3m\n"
+        "🔹 **VNA (Very Narrow Aisle)**: 1.95m\n"
+        "🔹 **Drive-in Racking**: 2.0m\n\n"
+        "These widths are optimized for reach trucks, VNA machines, and efficient space utilization."})
+   
+# --- Warehouse Area / Size ---
+    if match([
+    r"\barea\b", r"warehouse area", r"warehouses area", r"warehouse size", r"warehouses size",
+    r"how big.*warehouse", r"storage area", r"warehouse total sqm", r"warehouse.*dimensions"]):
+        return jsonify({"reply": 
+        "DSV Abu Dhabi has approximately **44,000 sqm** of total warehouse space, distributed as follows:\n"
+        "- **21K Warehouse (Mussafah)**: 21,000 sqm\n"
+        "- **M44**: 5,760 sqm\n"
+        "- **M45**: 5,000 sqm\n"
+        "- **Al Markaz (Hameem)**: 12,000 sqm\n\n"
+        "Additionally, we have **360,000 sqm** of open yard space, and a total logistics site of **481,000 sqm** including service roads and utilities."})
+
+# --- Warehouse Space Availability ---
+    if match([
+    r"warehouse.*space.*available", r"do you have.*warehouse.*space", r"space in warehouse", 
+    r"any warehouse space", r"warehouse availability", r"available.*storage", 
+    r"available.*warehouse", r"wh space.*available", r"vacant.*warehouse"]):
+        return jsonify({"reply": "For warehouse occupancy, please contact Biju Krishnan at **biju.krishnan@dsv.com**. He’ll assist with availability, allocation, and scheduling a site visit if needed."})
+# --- Open Yard Space Availability ---
+    if match([
+    r"open yard.*occupancy", r"space.*open yard", r"open yard.*available", 
+    r"do we have.*open yard", r"open yard availability", r"open yard.*space", 
+    r"yard capacity", r"yard.*vacancy", r"any.*open yard.*space"]):
+        return jsonify({"reply": "For open yard occupancy, please contact Antony Jeyaraj at **antony.jeyaraj@dsv.com**. He can confirm available space and assist with pricing or scheduling a visit."})
+# --- Warehouse Temperature Zones ---
+    if match([
+    r"\btemp\b", r"temperture", r"temperature", r"temperature zones", r"warehouse temp", 
+    r"warehouse temperature", r"cold room", r"freezer room", r"ambient temperature",
+    r"temp.*zones", r"how cold", r"cold storage", r"temperature range"]):
+        return jsonify({"reply":
+        "DSV warehouses support three temperature zones:\n\n"
+        "🟢 **Ambient Storage**: +18°C to +25°C — for general cargo and FMCG\n"
+        "🔵 **Cold Room**: +2°C to +8°C — for food and pharmaceuticals\n"
+        "🔴 **Freezer Room**: –22°C — for frozen goods and sensitive materials\n\n"
+        "All temperature-controlled areas are monitored 24/7 and GDP-compliant."})
+
+    if match([r"\btapa\b", r"tapa certified", r"tapa standard", r"tapa compliance"]):
+        return jsonify({"reply": "TAPA stands for Transported Asset Protection Association. It’s a global security standard for the safe handling, warehousing, and transportation of high-value goods. DSV follows TAPA-aligned practices for secure transport and facility operations, including access control, CCTV, sealed trailer loading, and secured parking."})
+    if match([r"freezone", r"free zone", r"abu dhabi freezone", r"airport freezone", r"freezone warehouse"]):
+        return jsonify({"reply": "DSV operates a GDP-compliant warehouse in the **Abu Dhabi Airport Freezone**, specialized in pharmaceutical and healthcare logistics. It offers:\n- Temperature-controlled and cold chain storage\n- Customs-cleared import/export operations\n- Proximity to air cargo terminals\n- Full WMS and track-and-trace integration\nThis setup supports fast, regulated distribution across the UAE and GCC."})
     if match([r"\bqhse\b", r"quality health safety environment", r"qhse policy", r"qhse standards", r"dsv qhse"]):
         return jsonify({"reply": "DSV follows strict QHSE standards across all operations. This includes:\n- Quality checks (ISO 9001)\n- Health & safety compliance (ISO 45001)\n- Environmental management (ISO 14001)\nAll staff undergo QHSE training, and warehouses are equipped with emergency protocols, access control, firefighting systems, and first-aid kits."})
     if match([r"\bhse\b", r"health safety environment", r"dsv hse", r"hse policy", r"hse training"]):
@@ -472,25 +545,13 @@ def chat():
     # --- Machinery / Machineries ---
     if match([r"machinery|machineries|machines used|equipment used"]):
         return jsonify({"reply": "DSV uses forklifts (3–15T), VNA, reach trucks, pallet jacks, cranes, and container lifters in warehouse and yard operations."})
-        
-# --- Mussafah 21K Warehouse Info ---
-    if match([r"21k.*rack height|rack height.*21k"]):
-        return jsonify({"reply": "The racks in the 21K warehouse in Mussafah are 12 meters high, with 6 pallet levels plus ground. DSV uses both Euro and Standard pallets. Each bay holds up to 14 Standard pallets or 21 Euro pallets."})
-    if match([r"rack height|rack types|type of racks|tell me.*racks|rack info"]):
-        return jsonify({"reply": "The 21K warehouse has 3 types of racking systems:\n- **Selective racks**: Aisle width 2.95m–3.3m\n- **VNA (Very Narrow Aisle)**: Aisle width 1.95m\n- **Drive-in racks**: Aisle width 2.0m\nAll racks are 12 meters tall with 6 pallet levels."})
-    if match([r"\bmhe\b", r"equipment used", r"machineries", r"machines", r"warehouse tools"]):
-        return jsonify({"reply": "MHE (Material Handling Equipment) used at DSV includes forklifts (3–15T), VNA trucks, reach trucks, pallet jacks, mobile cranes, and container lifters."})
-    if match([r"\btapa\b", r"tapa certified", r"tapa standard", r"tapa compliance"]):
-        return jsonify({"reply": "TAPA stands for Transported Asset Protection Association. It’s a global security standard for the safe handling, warehousing, and transportation of high-value goods. DSV follows TAPA-aligned practices for secure transport and facility operations, including access control, CCTV, sealed trailer loading, and secured parking."})
-    if match([r"freezone", r"free zone", r"abu dhabi freezone", r"airport freezone", r"freezone warehouse"]):
-        return jsonify({"reply": "DSV operates a GDP-compliant warehouse in the **Abu Dhabi Airport Freezone**, specialized in pharmaceutical and healthcare logistics. It offers:\n- Temperature-controlled and cold chain storage\n- Customs-cleared import/export operations\n- Proximity to air cargo terminals\n- Full WMS and track-and-trace integration\nThis setup supports fast, regulated distribution across the UAE and GCC."})
 
     if match([r"pallet.*bay|how many.*bay.*pallet", r"bay.*standard pallet", r"bay.*euro pallet"]):
         return jsonify({"reply": "Each bay in 21K can accommodate 14 Standard pallets or 21 Euro pallets. This layout maximizes efficiency for various cargo sizes."})
 
     # --- DSV Ecommerce, Healthcare, Insurance, WMS ---
-    if match([r"ecommerce|online store|fulfillment|dsv.*ecommerce"]):
-        return jsonify({"reply": "DSV offers full e-commerce logistics: inbound, storage, pick & pack, same-day delivery, returns, and integrations with platforms like Shopify and Magento. Our KIZAD site supports high-volume order processing and Autostore automation."})
+    if match([r"ecommerce|e-commerce|online retail|ecom|dsv online|shop logistics|online order|fulfillment center"]):
+        return jsonify({"reply": "DSV provides end-to-end e-commerce logistics including warehousing, order fulfillment, pick & pack, returns handling, last-mile delivery, and integration with Shopify, Magento, and custom APIs. Our Autostore and WMS systems enable fast, accurate processing of online orders from our UAE hubs including KIZAD and Airport Freezone."})
 
     if match([r"healthcare|pharma client|medical storage|health logistics"]):
         return jsonify({"reply": "DSV handles healthcare and pharmaceutical logistics with temperature-controlled storage, GDP compliance, and dedicated cold chain delivery. Our Airport Freezone warehouse is optimized for these sectors."})
@@ -513,11 +574,15 @@ def chat():
     if match([r"lean six sigma|warehouse improvement|continuous improvement|kaizen|process efficiency"]):
         return jsonify({"reply": "DSV applies Lean Six Sigma principles in warehouse design and process flow to reduce waste, improve accuracy, and maximize efficiency. We implement 5S, KPI dashboards, and root-cause analysis for continuous improvement."})
 
+    # --- chemical quotation ---
     if match([
-    r"(what.*collect.*chemical.*quotation)", r"(what.*to.*collect.*.*chemical.*quote)",
-    r"(build.*chemical.*quote)", r"(make.*chemical.*quotation)", r"(prepare.*chemical.*quote)",
-    r"(quote.*chemical)", r"(chemical.*quote)", r"(quotation.*chemical)", r"(chemical.*quotation)",
-    r"(information.*chemical.*quote)", r"(info.*for.*chemical.*quote)"]):
+    r"what.*(need|have).*collect.*chemical.*quote",
+    r"what.*(to|do).*collect.*chemical.*quotation",
+    r"build.*up.*chemical.*quote", r"build.*chemical.*quote",
+    r"make.*chemical.*quotation", r"prepare.*chemical.*quote",
+    r"chemical.*quote.*requirements", r"requirements.*chemical.*quote",
+    r"info.*for.*chemical.*quote", r"details.*for.*chemical.*quotation",
+    r"what.*required.*chemical.*quotation", r"quotation.*chemical.*details"]):
         return jsonify({"reply":
         "To provide a quotation for **chemical storage**, please collect the following from the client:\n"
         "1️⃣ **Product Name & Type**\n"
@@ -526,6 +591,10 @@ def chat():
         "4️⃣ **Storage Duration (contract period)**\n"
         "5️⃣ **MSDS** – Material Safety Data Sheet\n"
         "6️⃣ **Any special handling or packaging needs**"})
+    if match([r"store.*chemical|quotation.*chemical|data.*chemical|requirement.*chemical"]):
+        return jsonify({"reply": "To quote for chemical storage, we need:\n- Material name\n- Hazard class\n- CBM\n- Period\n- MSDS (Material Safety Data Sheet)."})
+    if match([r"\bmsds\b|material safety data sheet|chemical data"]):
+        return jsonify({"reply": "Yes, MSDS (Material Safety Data Sheet) is mandatory for any chemical storage inquiry. It ensures safe handling and classification of the materials stored in DSV’s facilities."})
 # --- General 3PL Quotation Requirement ---
     if match([
     r"(what.*collect.*client.*quotation)", r"(what.*info.*client.*quote)", 
@@ -539,11 +608,13 @@ def chat():
         "3️⃣ **Storage Volume** – In CBM/day, CBM/month, or CBM/year for warehousing; in SQM for open yard\n"
         "4️⃣ **Throughput Volumes (IN/OUT)** – Daily or monthly volume in CBM to determine handling pattern and frequency\n\n"
         "Once these details are available, you can proceed to fill the main form to generate a quotation."})
+    if match([r"proposal|quotation|quote.*open yard|send me.*quote|how to get quote|need.*quotation"]):
+        return jsonify({"reply": "To get a full quotation, please close this chat and fill the details in the main form on the left. The system will generate a downloadable document for you."})
 
     # --- Transportation---
     if match([r"\bfleet\b", r"dsv fleet", r"truck fleet", r"transport fleet", r"fleet info"]):
         return jsonify({"reply": "DSV operates a large fleet in the UAE including:\n- Flatbed trailers\n- Box trucks\n- Double trailers\n- Refrigerated trucks (chiller/freezer)\n- Lowbeds\n- Tippers\n- Small city delivery trucks\nFleet vehicles support all types of transport including full truckload (FTL), LTL, and container movements."})
-    if match([r"truck types", r"transportation types", r"dsv trucks", r"transport.*available", r"types of transport", r"trucking services"]):
+    if match([r"truck types", r"trucks", r"transportation types", r"dsv trucks", r"transport.*available", r"types of transport", r"trucking services"]):
         return jsonify({"reply": "DSV provides local and GCC transportation using:\n- Flatbeds for general cargo\n- Lowbeds for heavy equipment\n- Tippers for construction bulk\n- Box trucks for secure goods\n- Refrigerated trucks for temperature-sensitive cargo\n- Double trailers for long-haul\n- Vans and city trucks for last-mile delivery."})
     if match([r"\btransportation\b", r"tell me about transportation", r"transport services", r"what is transportation", r"dsv transportation"]):
         return jsonify({"reply":
@@ -556,6 +627,33 @@ def chat():
         "- 🚚 Double trailers for high-volume long-haul moves\n"
         "- 🏙 Small city trucks for last-mile distribution\n\n"
         "All transport is coordinated by our OCC team in Abu Dhabi with real-time tracking, WMS integration, and documentation support."})
+
+# --- UAE Emirates Distance & Travel Time ---
+emirate_distances = {
+    ("abu dhabi", "dubai"): (140, "1.5 hours"),
+    ("abu dhabi", "sharjah"): (160, "1.5–2 hours"),
+    ("abu dhabi", "ajman"): (170, "1.5–2 hours"),
+    ("abu dhabi", "ras al khaimah"): (240, "2.5–3 hours"),
+    ("abu dhabi", "fujairah"): (250, "2.5–3 hours"),
+    ("dubai", "sharjah"): (30, "30–45 minutes"),
+    ("dubai", "ajman"): (40, "40–50 minutes"),
+    ("dubai", "ras al khaimah"): (120, "1.5–2 hours"),
+    ("dubai", "fujairah"): (130, "2 hours"),
+    ("sharjah", "ajman"): (15, "15–20 minutes"),
+    ("sharjah", "fujairah"): (110, "2 hours"),
+    ("sharjah", "ras al khaimah"): (100, "1.5–2 hours")}
+
+    if match([
+    r"distance.*(abu dhabi|dubai|sharjah|ajman|rak|ras al khaimah|fujairah)",
+    r"how far.*(abu dhabi|dubai|sharjah|ajman|rak|ras al khaimah|fujairah)",
+    r"travel time.*(abu dhabi|dubai|sharjah|ajman|rak|ras al khaimah|fujairah)",
+    r"\bhow long.*drive", r"distance.*between.*emirates", r"distance.*uae", r"\bkm\b.*(to|from)"]):
+    normalized_msg = message.replace("rak", "ras al khaimah")
+    for (city1, city2), (km, time) in emirate_distances.items():
+        if city1 in normalized_msg and city2 in normalized_msg:
+            return jsonify({"reply": f"The distance from **{city1.title()}** to **{city2.title()}** is approximately **{km} km**, and the travel time is around **{time}**."})
+        if city2 in normalized_msg and city1 in normalized_msg:
+            return jsonify({"reply": f"The distance from **{city2.title()}** to **{city1.title()}** is approximately **{km} km**, and the travel time is around **{time}**."})
 
     if match([r"abu dhabi.*sharjah|sharjah.*abu dhabi"]):
         return jsonify({"reply": "The distance between Abu Dhabi and Sharjah is about 160 km."})
@@ -579,8 +677,7 @@ def chat():
         return jsonify({"reply": "Sharjah to Fujairah is roughly 110 km."})
     if match([r"sharjah.*rak|ras al khaimah.*sharjah"]):
         return jsonify({"reply": "Sharjah to Ras Al Khaimah is approximately 100 km."})
-    if match([r"\bmsds\b|material safety data sheet|chemical data"]):
-        return jsonify({"reply": "Yes, MSDS (Material Safety Data Sheet) is mandatory for any chemical storage inquiry. It ensures safe handling and classification of the materials stored in DSV’s facilities."})
+    
     if match([
     r"truck capacity", r"how many ton", r"truck tonnage", r"truck.*can carry", r"truck load",
     r"flatbed.*ton", r"flatbed.*load", r"flatbed capacity",
