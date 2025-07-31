@@ -628,55 +628,40 @@ def chat():
         "- 🏙 Small city trucks for last-mile distribution\n\n"
         "All transport is coordinated by our OCC team in Abu Dhabi with real-time tracking, WMS integration, and documentation support."})
 
-# --- UAE Emirates Distance & Travel Time ---
-emirate_distances = {
-    ("abu dhabi", "dubai"): (140, "1.5 hours"),
-    ("abu dhabi", "sharjah"): (160, "1.5–2 hours"),
-    ("abu dhabi", "ajman"): (170, "1.5–2 hours"),
-    ("abu dhabi", "ras al khaimah"): (240, "2.5–3 hours"),
-    ("abu dhabi", "fujairah"): (250, "2.5–3 hours"),
-    ("dubai", "sharjah"): (30, "30–45 minutes"),
-    ("dubai", "ajman"): (40, "40–50 minutes"),
-    ("dubai", "ras al khaimah"): (120, "1.5–2 hours"),
-    ("dubai", "fujairah"): (130, "2 hours"),
-    ("sharjah", "ajman"): (15, "15–20 minutes"),
-    ("sharjah", "fujairah"): (110, "2 hours"),
-    ("sharjah", "ras al khaimah"): (100, "1.5–2 hours")}
-    if match([
-    r"distance.*(abu dhabi|dubai|sharjah|ajman|rak|ras al khaimah|fujairah)",
-    r"how far.*(abu dhabi|dubai|sharjah|ajman|rak|ras al khaimah|fujairah)",
-    r"travel time.*(abu dhabi|dubai|sharjah|ajman|rak|ras al khaimah|fujairah)",
-    r"\bhow long.*drive", r"distance.*between.*emirates", r"distance.*uae", r"\bkm\b.*(to|from)"]):
-    normalized_msg = message.replace("rak", "ras al khaimah")
-    for (city1, city2), (km, time) in emirate_distances.items():
-        if city1 in normalized_msg and city2 in normalized_msg:
-            return jsonify({"reply": f"The distance from **{city1.title()}** to **{city2.title()}** is approximately **{km} km**, and the travel time is around **{time}**."})
-        if city2 in normalized_msg and city1 in normalized_msg:
-            return jsonify({"reply": f"The distance from **{city2.title()}** to **{city1.title()}** is approximately **{km} km**, and the travel time is around **{time}**."})
-
+    # --- UAE Emirates Distance + Travel Time (Individual Matches) ---
     if match([r"abu dhabi.*sharjah|sharjah.*abu dhabi"]):
-        return jsonify({"reply": "The distance between Abu Dhabi and Sharjah is about 160 km."})
+        return jsonify({"reply": "The distance between Abu Dhabi and Sharjah is about **160 km**, and the travel time is approximately **1.5 to 2 hours**."})
+
     if match([r"abu dhabi.*ajman|ajman.*abu dhabi"]):
-        return jsonify({"reply": "The distance between Abu Dhabi and Ajman is approximately 170 km."})
-    if match([r"abu dhabi.*ras al khaimah|rak.*abu dhabi"]):
-        return jsonify({"reply": "The road distance from Abu Dhabi to Ras Al Khaimah is about 240 km."})
+        return jsonify({"reply": "The distance between Abu Dhabi and Ajman is approximately **170 km**, with a travel time of about **1.5 to 2 hours**."})
+
+    if match([r"abu dhabi.*ras al khaimah|rak.*abu dhabi|ras al khaimah.*abu dhabi"]):
+        return jsonify({"reply": "The road distance from Abu Dhabi to Ras Al Khaimah is about **240 km**, and the travel time is around **2.5 to 3 hours**."})
+
     if match([r"abu dhabi.*fujairah|fujairah.*abu dhabi"]):
-        return jsonify({"reply": "Abu Dhabi to Fujairah is approximately 250 km by road."})
+        return jsonify({"reply": "Abu Dhabi to Fujairah is approximately **250 km**, with a travel time of about **2.5 to 3 hours**."})
+
     if match([r"dubai.*sharjah|sharjah.*dubai"]):
-        return jsonify({"reply": "Dubai to Sharjah is just around 30 km — very close and commonly traveled."})
+        return jsonify({"reply": "Dubai to Sharjah is around **30 km**, and the travel time is typically **30 to 45 minutes**."})
+
     if match([r"dubai.*ajman|ajman.*dubai"]):
-        return jsonify({"reply": "Dubai to Ajman is approximately 40 km by road."})
-    if match([r"dubai.*rak|ras al khaimah.*dubai"]):
-        return jsonify({"reply": "The distance between Dubai and Ras Al Khaimah is around 120 km."})
+        return jsonify({"reply": "Dubai to Ajman is approximately **40 km**, and it takes around **40 to 50 minutes** by road."})
+
+    if match([r"dubai.*rak|ras al khaimah.*dubai|rak.*dubai"]):
+        return jsonify({"reply": "The distance between Dubai and Ras Al Khaimah is around **120 km**, with a travel time of **1.5 to 2 hours**."})
+
     if match([r"dubai.*fujairah|fujairah.*dubai"]):
-        return jsonify({"reply": "Dubai to Fujairah is approximately 130 km."})
+        return jsonify({"reply": "Dubai to Fujairah is approximately **130 km**, and the travel time is about **2 hours**."})
+
     if match([r"sharjah.*ajman|ajman.*sharjah"]):
-        return jsonify({"reply": "Sharjah and Ajman are extremely close — only about 15 km apart."})
+        return jsonify({"reply": "Sharjah and Ajman are extremely close — only about **15 km**, with a travel time of **15 to 20 minutes**."})
+
     if match([r"sharjah.*fujairah|fujairah.*sharjah"]):
-        return jsonify({"reply": "Sharjah to Fujairah is roughly 110 km."})
-    if match([r"sharjah.*rak|ras al khaimah.*sharjah"]):
-        return jsonify({"reply": "Sharjah to Ras Al Khaimah is approximately 100 km."})
-    
+        return jsonify({"reply": "Sharjah to Fujairah is roughly **110 km**, and takes about **2 hours** by road."})
+
+    if match([r"sharjah.*rak|ras al khaimah.*sharjah|rak.*sharjah"]):
+        return jsonify({"reply": "Sharjah to Ras Al Khaimah is approximately **100 km**, and the travel time is around **1.5 to 2 hours**."})
+
     if match([
     r"truck capacity", r"how many ton", r"truck tonnage", r"truck.*can carry", r"truck load",
     r"flatbed.*ton", r"flatbed.*load", r"flatbed capacity",
