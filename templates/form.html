@@ -15,7 +15,7 @@
       font-family: Arial, sans-serif;
       background-color: #002c77;
       color: #000;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,11 +23,15 @@
     }
 
     .container {
-      background: #ffffff;
-      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       padding: 2rem;
       max-width: 420px;
       width: 100%;
+      margin: auto;
+      background: white;
+      border-radius: 16px;
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
     }
 
@@ -46,21 +50,19 @@
     }
 
     label {
-      margin-top: 0.8rem;
+      margin: 0.6rem 0 0.2rem;
       font-weight: bold;
       font-size: 0.95rem;
-      display: block;
       color: #002c77;
     }
 
     input, select {
       width: 100%;
       padding: 0.65rem;
-      margin-top: 0.3rem;
+      margin-bottom: 0.7rem;
       border-radius: 8px;
       border: 2px solid #002c77;
       font-size: 1rem;
-      margin-bottom: 0.6rem;
     }
 
     button {
@@ -73,79 +75,11 @@
       font-size: 1rem;
       cursor: pointer;
       width: 100%;
-      margin-top: 1rem;
+      margin-top: 0.5rem;
     }
 
     button:hover {
       background-color: #001f55;
-    }
-
-    /* Chat Button */
-    .chat-icon-wrapper {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-    }
-
-    .chat-icon-wrapper img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      cursor: pointer;
-    }
-
-    /* Chatbox Styling */
-    #chat-box {
-      display: none;
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      width: 300px;
-      background-color: #fff;
-      color: #000;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      font-family: Arial, sans-serif;
-      flex-direction: column;
-    }
-
-    #chat-box header {
-      background: #002c77;
-      color: white;
-      padding: 10px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      font-weight: bold;
-    }
-
-    #chat-messages {
-      padding: 10px;
-      height: 350px;
-      overflow-y: auto;
-      background: #f9f9f9;
-    }
-
-    #chat-box input[type="text"] {
-      flex: 1;
-      border: none;
-      padding: 8px;
-      font-size: 1rem;
-    }
-
-    #chat-box button {
-      background: #002c77;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-
-    #chat-input-row {
-      display: flex;
-      border-top: 1px solid #ccc;
     }
 
     @media (max-width: 480px) {
@@ -164,7 +98,6 @@
   </style>
 </head>
 <body>
-
   <div class="container">
     <img src="{{ url_for('static', filename='dsv_logo.png') }}" alt="DSV Logo" class="logo">
     <h1>Quotation Generator</h1>
@@ -200,20 +133,21 @@
     </form>
   </div>
 
-  <!-- Chat Icon -->
-  <div class="chat-icon-wrapper">
-    <button onclick="toggleChat()" style="background-color: transparent; border: none; padding: 0;">
-      <img src="{{ url_for('static', filename='chat-icon.png') }}" alt="Chat Icon">
+  <!-- Chat Widget -->
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+    <button onclick="toggleChat()" style="background-color: transparent; border: none; padding: 0; cursor: pointer;">
+      <img src="{{ url_for('static', filename='chat-icon.png') }}" alt="Chat Icon" style="width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
     </button>
   </div>
 
-  <!-- Chat Window -->
-  <div id="chat-box">
-    <header>DSV Assistant</header>
-    <div id="chat-messages"></div>
-    <div id="chat-input-row">
-      <input id="chat-input" type="text" placeholder="Type your message..." onkeydown="if(event.key==='Enter') sendMessage()" />
-      <button onclick="sendMessage()">Send</button>
+  <div id="chat-box" style="display:none; position: fixed; bottom: 80px; right: 20px; width: 300px; background-color: #fff; color: #000; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); flex-direction: column; font-family: Arial, sans-serif;">
+    <div style="background: #002c77; color: white; padding: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px; font-weight: bold;">
+      DSV Assistant
+    </div>
+    <div id="chat-messages" style="padding: 10px; height: 350px; overflow-y: auto; background: #f9f9f9;"></div>
+    <div style="display: flex; border-top: 1px solid #ccc;">
+      <input id="chat-input" type="text" placeholder="Type your message..." style="flex: 1; border: none; padding: 8px;" onkeydown="if(event.key==='Enter') sendMessage()"/>
+      <button onclick="sendMessage()" style="background: #002c77; color: white; border: none; padding: 8px 12px;">Send</button>
     </div>
   </div>
 
