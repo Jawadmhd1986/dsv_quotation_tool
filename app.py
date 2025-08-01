@@ -249,14 +249,6 @@ def chat():
         "🟦 **Standard Pallet**:\n- Size: 1.2m × 1.0m\n- Load capacity: ~1,000 kg\n- Fits **14 pallets per bay**\n\n"
         "🟨 **Euro Pallet**:\n- Size: 1.2m × 0.8m\n- Load capacity: ~800 kg\n- Fits **21 pallets per bay**\n\n"
         "Pallets are used for racking, picking, and transport. DSV also offers VAS like pallet loading, shrink wrapping, labeling, and stretch film wrapping for safe handling."})
-
-    # --- Friendly Chat ---
-    if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
-        return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
-    if match([r"how.?are.?you|how.?s.?it.?going|whats.?up"]):
-        return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
-    if match([r"\bthank(s| you)?\b|thx|appreciate"]):
-        return jsonify({"reply": "You're very welcome! 😊"})
    
     # --- Specific Storage Rate Answers ---
     if match([r"storage rate[s]?$", r"\brates\b", r"storage", r"storage cost", r"how much.*storage", r"quotation.*storage only"]):
@@ -928,6 +920,14 @@ def chat():
             client_name = clients.get(chamber, "unknown")
             return jsonify({"reply": f"Chamber {chamber} is occupied by {client_name}."})
 
+    # --- Friendly Chat ---
+    if match([r"\bhello\b|\bhi\b|\bhey\b|good morning|good evening"]):
+        return jsonify({"reply": "Hello! I'm here to help with anything related to DSV logistics, transport, or warehousing."})
+    if match([r"how.?are.?you|how.?s.?it.?going|whats.?up"]):
+        return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
+    if match([r"\bthank(s| you)?\b|thx|appreciate"]):
+        return jsonify({"reply": "You're very welcome! 😊"})
+   
     # --- Fallback (never ask to rephrase) ---
     return jsonify({"reply": "I'm trained on everything related to DSV storage, transport, VAS, Mussafah warehouse, and services. Can you try asking again with more detail?"})
 
