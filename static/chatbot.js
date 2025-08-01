@@ -29,8 +29,11 @@ async function sendMessage() {
 
 function appendMessage(sender, text) {
   const msgBox = document.getElementById("chat-messages");
+
   const div = document.createElement("div");
+  div.style.marginBottom = "12px";  // Add space between each exchange
   div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+
   msgBox.appendChild(div);
   msgBox.scrollTop = msgBox.scrollHeight;
 }
