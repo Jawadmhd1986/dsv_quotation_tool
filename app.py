@@ -147,6 +147,7 @@ def chat():
         text = re.sub(r"\bu\b", "you", text)
         text = re.sub(r"\bur\b", "your", text)
         text = re.sub(r"\br\b", "are", text)
+        text = re.sub(r"\h\b", "how", text)
         text = re.sub(r"\bpls\b", "please", text)
         text = re.sub(r"\bthx\b", "thanks", text)
         text = re.sub(r"\binfo\b", "information", text)
@@ -174,7 +175,6 @@ def chat():
         text = re.sub(r"\bdoc\b", "documentation", text)
         text = re.sub(r"\bdocs\b", "documentation", text)
         text = re.sub(r"\bmsds\b", "material safety data sheet", text)
-        text = re.sub(r"\bvas\b", "value added services", text)
 
     # E-commerce variations
         text = re.sub(r"\be[\s\-]?commerce\b", "ecommerce", text)
@@ -267,6 +267,8 @@ def chat():
         return jsonify({"reply": "Do you mean *Standard AC*, *Standard Non-AC*, or *Open Shed* storage? Please specify."})
     if match([r"standard ac", r"ac"]):
         return jsonify({"reply": "Standard AC storage is 2.5 AED/CBM/day. Standard VAS applies."})
+        if match([r"non ac", r"non-ac"]):
+        return jsonify({"reply": "Standard Non-AC storage is 2 AED/CBM/day. Standard VAS applies."})
     if match([r"\bchemical\b$", r"\bchemical storage\b$", r"only chemical"]):
         return jsonify({"reply": "Do you mean *Chemical AC* or *Chemical Non-AC*? Let me know which one you need the rate for."})
     if match([r"chemical ac", r"ac", r"ac chemical", r"chemical ac storage", r"chemical ac storage rate"]):
@@ -293,8 +295,39 @@ def chat():
         return jsonify({"reply": "Open Yard KIZAD storage is **125 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})    
     
     # --- VAS Categories ---
-    if match([r"vas", r"all vas", r"all value added services", r"list.*vas", r"show.*vas", r"everything included in vas", r"everything included in value added services", r"vas details", r"value added services details", r"what.*vas", r"what.*value added services"]):
+    if match([r"^vas$", r"list vas", r"vas details", r"show vas", r"vas details", r"value added services details", r"what vas", r"what value added services"]):
         return jsonify({"reply": "Which VAS category are you looking for? Please specify:\n- Standard VAS (AC / Non-AC / Open Shed)\n- Chemical VAS\n- Open Yard VAS"})
+    
+    if match([r"all vas", r"all value added services"]):
+        return jsonify({"reply": 
+    "**Here are all the Value Added Services (VAS) offered by DSV:**\n\n"
+    "📦 **Standard VAS (for AC, Non-AC, Open Shed)**:\n"
+    "- In/Out Handling: 20 AED/CBM\n"
+    "- Pallet Loading: 12 AED/pallet\n"
+    "- Documentation: 125 AED/set\n"
+    "- Packing with Pallet: 85 AED/CBM\n"
+    "- Inventory Count: 3,000 AED/event\n"
+    "- Case Picking: 2.5 AED/carton\n"
+    "- Sticker Labeling: 1.5 AED/label\n"
+    "- Shrink Wrapping: 6 AED/pallet\n"
+    "- VNA Usage: 2.5 AED/pallet\n\n"
+    "🧪 **Chemical VAS (for Chemical AC / Non-AC)**:\n"
+    "- Handling (Palletized): 20 AED/CBM\n"
+    "- Handling (Loose): 25 AED/CBM\n"
+    "- Documentation: 150 AED/set\n"
+    "- Packing with Pallet: 85 AED/CBM\n"
+    "- Inventory Count: 3,000 AED/event\n"
+    "- Inner Bag Picking: 3.5 AED/bag\n"
+    "- Sticker Labeling: 1.5 AED/label\n"
+    "- Shrink Wrapping: 6 AED/pallet\n\n"
+    "🚛 **Open Yard VAS (Mussafah & KIZAD)**:\n"
+    "- Forklift (3T–7T): 90 AED/hr\n"
+    "- Forklift (10T): 200 AED/hr\n"
+    "- Forklift (15T): 320 AED/hr\n"
+    "- Mobile Crane (50T): 250 AED/hr\n"
+    "- Mobile Crane (80T): 450 AED/hr\n"
+    "- Container Lifting: 250 AED/lift\n"
+    "- Container Stripping (20ft): 1,200 AED/hr"})
     
     if match([
     r"standard vas", r"standard", r"standard value added services", r"normal vas", r"normal value added services",
