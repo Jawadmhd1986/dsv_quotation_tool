@@ -116,73 +116,24 @@
     </form>
   </div>
 
-    <!-- Chat Icon -->
+  <!-- Chat Widget -->
   <div style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
-    <button onclick="openBot()" style="background: transparent; border: none; padding: 0; cursor: pointer;">
-      <img src="{{ url_for('static','chat-icon.png') }}"
-           alt="Chat Icon"
-           style="width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
-    </button>
-  </div>
+  <button onclick="toggleChat()" style="background-color: transparent; border: none; padding: 0; cursor: pointer;">
+  <img src="{{ url_for('static', filename='chat-icon.png') }}" alt="Chat Icon" style="width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+</button>
+</div>
 
-  <!-- Chat Box -->
-  <div id="chat-box"
-       style="display:none;
-              position: fixed;
-              bottom: 80px;
-              right: 20px;
-              width: 300px;
-              background: #fff;
-              color: #000;
-              border-radius: 10px;
-              box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-              flex-direction: column;
-              font-family: Arial, sans-serif;">
-    <!-- Header with close button -->
-    <div style="background: #002c77;
-                color: #fff;
-                padding: 10px;
-                position: relative;
-                border-top-left-radius: 10px;
-                border-top-right-radius: 10px;
-                font-weight: bold;">
+  <div id="chat-box" style="display:none; position: fixed; bottom: 80px; right: 20px; width: 300px; background-color: #fff; color: #000; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); flex-direction: column; font-family: Arial, sans-serif;">
+    <div style="background: #002c77; color: white; padding: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px; font-weight: bold;">
       DSV Assistant
-      <button onclick="closeBot()"
-              style="position: absolute;
-                     top: 8px;
-                     right: 8px;
-                     background: transparent;
-                     border: none;
-                     color: #fff;
-                     font-size: 1.2rem;
-                     cursor: pointer;">
-        ×
-      </button>
     </div>
-
-    <!-- Messages -->
-    <div id="chat-messages"
-         style="padding: 10px;
-                height: 350px;
-                overflow-y: auto;
-                background: #f9f9f9;">
-    </div>
-
-    <!-- Input -->
+    <div id="chat-messages" style="padding: 10px; height: 350px; overflow-y: auto; background: #f9f9f9;"></div>
     <div style="display: flex; border-top: 1px solid #ccc;">
-      <textarea id="chat-input"
-                placeholder="Type your message..."
-                style="flex:1; border:none; padding:8px; resize:none; height:48px;"></textarea>
-      <button onclick="sendMessage()"
-              style="background: #002c77;
-                     color: #fff;
-                     border: none;
-                     padding: 8px 12px;
-                     cursor: pointer;">
-        Send
-      </button>
+      <input id="chat-input" type="text" placeholder="Type your message..." style="flex: 1; border: none; padding: 8px;" onkeydown="if(event.key==='Enter') sendMessage()"/>
+      <button onclick="sendMessage()" style="background: #002c77; color: white; border: none; padding: 8px 12px;">Send</button>
     </div>
   </div>
 
-  <script src="{{ url_for('static','chatbot.js') }}"></script>
-
+  <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+</body>
+</html>
