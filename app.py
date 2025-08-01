@@ -141,11 +141,73 @@ def chat():
     message = data.get("message", "").lower().strip()
 
     def normalize(text):
-        text = re.sub(r"\bu\b", "you", text)
-        text = re.sub(r"\bur\b", "your", text)
-        text = re.sub(r"\br\b", "are", text)
-        text = re.sub(r"[^a-z0-9\s]", "", text)
-        return text
+    text = text.lower().strip()
+
+    # Common chat language
+    text = re.sub(r"\bu\b", "you", text)
+    text = re.sub(r"\bur\b", "your", text)
+    text = re.sub(r"\br\b", "are", text)
+    text = re.sub(r"\bpls\b", "please", text)
+    text = re.sub(r"\bthx\b", "thanks", text)
+    text = re.sub(r"\binfo\b", "information", text)
+
+    # Logistics & warehouse short forms
+    text = re.sub(r"\bwh\b", "warehouse", text)
+    text = re.sub(r"\bw\/h\b", "warehouse", text)
+    text = re.sub(r"\binv\b", "inventory", text)
+    text = re.sub(r"\btemp\b", "temperature", text)
+    text = re.sub(r"\btemp zone\b", "temperature zone", text)
+    text = re.sub(r"\bwms system\b", "wms", text)
+
+    # Transportation & locations
+    text = re.sub(r"\brak\b", "ras al khaimah", text)
+    text = re.sub(r"\babudhabi\b", "abu dhabi", text)
+    text = re.sub(r"\babudhabi\b", "abu dhabi", text)
+    text = re.sub(r"\bdxb\b", "dubai", text)
+
+    # Industry abbreviations
+    text = re.sub(r"\bo&g\b", "oil and gas", text)
+    text = re.sub(r"\bdg\b", "dangerous goods", text)
+    text = re.sub(r"\bfmcg\b", "fast moving consumer goods", text)
+
+    # Quotation & VAS
+    text = re.sub(r"\bdoc\b", "documentation", text)
+    text = re.sub(r"\bdocs\b", "documentation", text)
+    text = re.sub(r"\bmsds\b", "material safety data sheet", text)
+    text = re.sub(r"\bvas\b", "value added services", text)
+
+    # E-commerce variations
+    text = re.sub(r"\be[\s\-]?commerce\b", "ecommerce", text)
+    text = re.sub(r"\bshop logistics\b", "ecommerce", text)
+
+    # Logistics models
+    text = re.sub(r"\b3\.5pl\b", "three and half pl", text)
+    text = re.sub(r"\b2pl\b", "second party logistics", text)
+    text = re.sub(r"\b3pl\b", "third party logistics", text)
+    text = re.sub(r"\b4pl\b", "fourth party logistics", text)
+
+    # Fleet & vehicle types
+    text = re.sub(r"\breefer\b", "refrigerated truck", text)
+    text = re.sub(r"\bchiller\b", "refrigerated truck", text)
+    text = re.sub(r"\bcity truck\b", "small truck", text)
+    text = re.sub(r"\bev truck\b", "electric truck", text)
+
+    # Fire system
+    text = re.sub(r"\bfm200\b", "fm 200", text)
+
+    # Misc business terms
+    text = re.sub(r"\bkitting\b", "kitting and assembly", text)
+    text = re.sub(r"\btagging\b", "labeling", text)
+    text = re.sub(r"\basset tagging\b", "asset labeling", text)
+    text = re.sub(r"\btransit store\b", "transit warehouse", text)
+    text = re.sub(r"\basset mgmt\b", "asset management", text)
+    text = re.sub(r"\bmidday break\b", "summer break", text)
+
+    # Strip non-alphanumeric except spaces
+    text = re.sub(r"[^a-z0-9\s]", "", text)
+
+    return text
+
 
     message = normalize(message)
 
@@ -536,23 +598,36 @@ def chat():
         return jsonify({"reply": "WMS stands for Warehouse Management System. DSV uses INFOR WMS for inventory control, inbound/outbound, and full visibility."})
 
     # --- What does DSV mean ---
-    if match([r"what does dsv mean|dsv abbreviation|dsv stands for"]):
-        return jsonify({"reply": "DSV originally stood for 'De Sammensluttede Vognmænd' in Danish, meaning 'The United Hauliers'. Today, DSV is a global brand."})
-    if match([r"what is dsv", r"who is dsv", r"tell me about dsv", r"dsv overview", r"\bdsv\b only"]):
-        return jsonify({"reply": "DSV stands for 'De Sammensluttede Vognmænd', meaning 'The Consolidated Hauliers' in Danish. Founded in 1976, DSV is a global logistics leader offering transport, warehousing, and supply chain solutions in over 80 countries. It's publicly listed on Nasdaq Copenhagen and serves industries like FMCG, oil & gas, pharma, retail, and more."})
-    if match([r"what (do|does) (they|dsv) do", r"what (they|dsv) offer", r"dsv.*services", r"dsv.*specialize", r"who.*dsv.*and.*do", r"dsv operations", r"dsv.*work in", r"services.*dsv"]):
-        return jsonify({"reply": "DSV provides end-to-end logistics solutions including:\n- Freight forwarding (air, sea, road)\n- Warehousing (ambient, cold chain, chemical)\n- Transportation & distribution across the UAE and GCC\n- 3PL & 4PL supply chain management\n- Customs clearance and documentation\n- Specialized services for healthcare, FMCG, oil & gas, retail, and e-commerce."})
-    if match([r"what is dsv", r"who is dsv", r"tell me about dsv", r"dsv overview", r"\bdsv\b only"]):
-        return jsonify({"reply": "DSV stands for 'De Sammensluttede Vognmænd', meaning 'The Consolidated Hauliers' in Danish. Founded in 1976, DSV is a global logistics leader offering transport, warehousing, and supply chain solutions in over 80 countries. It’s listed on Nasdaq Copenhagen and serves diverse industries like FMCG, oil & gas, pharma, and retail."})
-    if match([r"\bwhat is 2pl\b", r"\b2pl\b", r"second party logistics"]):
-        return jsonify({"reply": "2PL (Second Party Logistics) refers to asset-based carriers that provide transportation or warehousing services using their own resources. Example: a trucking company that delivers your cargo directly."})
-    if match([r"dsv location", r"dsv abu dhabi location", r"where is dsv", r"dsv warehouse location", r"dsv all cities location"]):
-        return jsonify({"reply": "DSV Abu Dhabi main sites:\n- 21K Warehouse: Mussafah (21,000 sqm)\n- Sub-sites: M44, M45, Al Markaz\n- Airport Freezone (for pharma & cold chain)\n- KIZAD (open yard and modular storage)\nContact: +971 2 555 2900 or visit dsv.com"})
-    if match([r"\bdsv location\b", r"dsv abu dhabi location", r"dsv locations", r"where.*dsv.*located", r"dsv.*warehouse.*location"]):
-        return jsonify({"reply": "DSV Abu Dhabi operates multiple logistics hubs:\n\n📍 **Mussafah M19 (21K Warehouse)** – 21,000 sqm ambient racked warehouse with 7 chambers\n📍 **M44 / M45 (Mussafah Sub-warehouses)** – Smaller facilities for specialized clients\n📍 **Al Markaz, Hameem** – Regional storage support\n📍 **Abu Dhabi Airport Freezone** – Pharma & GDP cold chain\n\nContact: +971 2 555 2900 or visit [dsv.com](https://www.dsv.com)"})
-    if match([r"\bkizad\b", r"dsv kizad", r"location.*kizad", r"warehouse.*kizad"]):
-        return jsonify({"reply": "DSV KIZAD hub includes:\n- 360,000 sqm Open Yard\n- Modular storage solutions\n- Container handling & MHE services\n- Ideal for project cargo and transit logistics\n\nFor site visits or inquiries, contact: +971 2 555 2900."})
+    if match([
+    r"\bdsv\b", r"about dsv", r"who is dsv", r"what is dsv", r"dsv info", r"dsv abu dhabi",
+    r"tell me about dsv", r"dsv overview", r"dsv.*services", r"what (do|does).*dsv.*do",
+    r"dsv.*offer", r"dsv.*specialize", r"dsv.*work", r"services.*dsv",
+    r"dsv abbreviation", r"dsv stands for", r"what does dsv mean"]):
+    return jsonify({"reply":
+        "DSV stands for **'De Sammensluttede Vognmænd'**, meaning **'The Consolidated Hauliers'** in Danish. "
+        "Founded in 1976, DSV is a global logistics leader operating in over 80 countries.\n\n"
+        "**DSV Abu Dhabi** operates multiple logistics hubs:\n"
+        "- 📍 **21K Warehouse (Mussafah M19)** – 21,000 sqm ambient storage with 7 chambers\n"
+        "- 📍 **M44 / M45** – Specialized sub-warehouses in Mussafah\n"
+        "- 📍 **Al Markaz (Hameem)** – Regional storage support\n"
+        "- 📍 **KIZAD** – 360,000 sqm open yard with MHE and project logistics\n"
+        "- 📍 **Airport Freezone** – GDP-compliant healthcare and cold chain storage\n\n"
+        "Contact 📞 +971 2 555 2900 | 🌐 [dsv.com](https://www.dsv.com)"})
 
+    # --- DSV Sustainability Vision ---
+   if match([
+    r"sustainability", r"green logistics", r"sustainable practices", r"environmental policy",
+    r"carbon footprint", r"eco friendly", r"zero emission goal", r"environment commitment"]):
+       return jsonify({"reply":
+    "DSV is committed to **sustainability and reducing its environmental footprint** across all operations. Initiatives include:\n"
+    "- Transition to **electric vehicles (EV)** for last-mile and container transport\n"
+    "- Use of **solar energy** and energy-efficient warehouse lighting\n"
+    "- Consolidated shipments to reduce CO₂ emissions\n"
+    "- Compliance with **ISO 14001** (Environmental Management)\n"
+    "- Green initiatives in packaging, recycling, and process optimization\n\n"
+    "DSV’s global strategy aligns with the UN Sustainable Development Goals and aims for net-zero emissions by 2050."})
+
+    # --- service ---
     if match([r"\bwhat is 3pl\b", r"\b3pl\b", r"third party logistics"]):
         return jsonify({"reply": "3PL (Third Party Logistics) involves outsourcing logistics operations such as warehousing, transportation, picking/packing, and order fulfillment to a provider like DSV."})
 
