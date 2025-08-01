@@ -602,7 +602,7 @@ def chat():
 
     # --- DSV Managing Director (MD) ---
     if match([r"\bmd\b|managing director|head of dsv|boss of dsv|hossam mahmoud"]):
-        return jsonify({"reply": "Mr. Hossam Mahmoud is the Managing Director of DSV Abu Dhabi. He oversees all logistics, warehousing, and transport operations in the region."})
+        return jsonify({"reply": "Mr. Hossam Mahmoud is the Managing Director, Road & Solutions and CEO Abu Dhabi. He oversees all logistics, warehousing, and transport operations in the region."})
 
     # --- What is WMS ---
     if match([r"what is wms|wms meaning|warehouse management system"]):
