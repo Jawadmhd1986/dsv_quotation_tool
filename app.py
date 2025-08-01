@@ -252,30 +252,24 @@ def chat():
    
     # --- Specific Storage Rate Answers ---
     if match([r"storage rate[s]?$", r"\brates\b", r"storage", r"storage cost", r"how much.*storage", r"quotation.*storage only"]):
-        return jsonify({"reply": "Which type of storage are you asking about? AC, Non-AC, Open Shed, Chemicals, or Open Yard?"})
-    if match([r"standard ac", r"ac standard"]):
-        return jsonify({"reply": "Standard AC storage is 2.5 AED/CBM/day. Standard VAS applies."})
-    if match([r"\bstandard\b$", r"\bstandard storage\b$", r"only standard"]):
-        return jsonify({"reply": "Do you mean *Standard AC*, *Standard Non-AC*, or *Open Shed* storage? Please specify."})
-    if match([r"standard ac", r"ac"]):
+        return jsonify({"reply": "Which type of storage are you asking about? Standard, Chemicals, or Open Yard?."})
+    if match([r"standard"]):
+        return jsonify({"AC, Non AC, Open Shed"})
+    if match([r"standard ac", r"ac", r"ac standard"]):
         return jsonify({"reply": "Standard AC storage is 2.5 AED/CBM/day. Standard VAS applies."})
     if match([r"non ac", r"non-ac"]):
-        return jsonify({"reply": "Standard Non-AC storage is 2 AED/CBM/day. Standard VAS applies."})
-    if match([r"\bchemical\b$", r"\bchemical storage\b$", r"only chemical"]):
-        return jsonify({"reply": "Do you mean *Chemical AC* or *Chemical Non-AC*? Let me know which one you need the rate for."})
-    if match([r"chemical ac", r"ac", r"ac chemical", r"chemical ac storage", r"chemical ac storage rate"]):
-        return jsonify({"reply": "Chemical AC storage is 3.5 AED/CBM/day. Chemical VAS applies."})
-    if match([r"chemical non ac", r"non ac", r"non ac chemical", r"chemical non ac storage", r"chemical non ac rate"]):
-        return jsonify({"reply": "Chemical Non-AC storage is 2.7 AED/CBM/day. Chemical VAS applies."})
-    if match([r"standard ac", r"ac standard", r"ac storage only", r"standard ac storage"]):
-        return jsonify({"reply": "Standard AC storage is 2.5 AED/CBM/day. Standard VAS applies."})
-    if match([r"standard non ac", r"non ac standard", r"standard non ac storage"]):
         return jsonify({"reply": "Standard Non-AC storage is 2.0 AED/CBM/day. Standard VAS applies."})
-    if match([r"open shed", r"standard open shed", r"open shed storage rate"]):
+    if match([r"Open Shed", r"Openshed"]):
         return jsonify({"reply": "Open Shed storage is 1.8 AED/CBM/day. Standard VAS applies."})
 
-    # --- Open Yard Rate ---
-    if match([r"open yard"]):
+    if match([r"Chemical"]):
+        return jsonify({"AC, Non AC"})
+    if match([r"chemical ac", r"ac", r"ac chemical"]):
+        return jsonify({"reply": "Chemical AC storage is 3.5 AED/CBM/day. Standard VAS applies."})
+    if match([r"non ac", r"non-ac"]):
+        return jsonify({"reply": "Chemical Non-AC storage is 2.5 AED/CBM/day. Standard VAS applies."})
+   
+    if match([r"Open yard"]):
         return jsonify({"reply": "Open Yard Mussafah or Kizad?"})
     if match([r"open yard mussafah", r"mussafah"]):
         return jsonify({"reply": "Open Yard Mussafah storage is **160 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})
@@ -284,8 +278,20 @@ def chat():
     if match([r"open yard.*mussafah", r"mussafah.*open yard", r"rate.*mussafah open yard"]):
         return jsonify({"reply": "Open Yard Mussafah storage is **160 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})
     if match([r"open yard.*kizad", r"kizad.*open yard", r"rate.*kizad open yard"]):
-        return jsonify({"reply": "Open Yard KIZAD storage is **125 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})    
+        return jsonify({"reply": "Open Yard KIZAD storage is **125 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})  
 
+    
+    if match([r"chemical storage", r"only chemical"]):
+        return jsonify({"reply": "Chemical AC storage is 3.5 AED/CBM/day. Chemical VAS applies."})
+    if match([r"chemical non ac", r"non ac chemical", r"chemical non ac storage", r"chemical non ac rate"]):
+        return jsonify({"reply": "Chemical Non-AC storage is 2.7 AED/CBM/day. Chemical VAS applies."})
+    if match([r"ac storage only", r"standard ac storage"]):
+        return jsonify({"reply": "Standard AC storage is 2.5 AED/CBM/day. Standard VAS applies."})
+    if match([r"standard non ac", r"non ac standard", r"standard non ac storage"]):
+        return jsonify({"reply": "Standard Non-AC storage is 2.0 AED/CBM/day. Standard VAS applies."})
+    if match([r"standard open shed", r"open shed storage rate"]):
+        return jsonify({"reply": "Open Shed storage is 1.8 AED/CBM/day. Standard VAS applies."})
+            
     # --- vas Rate ---
     if match([
     r"standard vas", r"standard", r"standard value added services", r"normal vas", r"normal value added services",
