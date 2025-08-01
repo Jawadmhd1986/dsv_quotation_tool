@@ -221,7 +221,7 @@ body {
 
   /* 🟦 Add this block: */
   .chat-toggle {
-    bottom: env(safe-area-inset-bottom, 1.7rem); /* raise above iPhone home bar */
+    bottom: env(safe-area-inset-bottom, 1.8rem); /* raise above iPhone home bar */
     right: 1rem;
     z-index: 2000;
   }
