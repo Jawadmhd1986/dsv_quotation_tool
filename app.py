@@ -147,7 +147,6 @@ def chat():
         text = re.sub(r"\bu\b", "you", text)
         text = re.sub(r"\bur\b", "your", text)
         text = re.sub(r"\br\b", "are", text)
-        text = re.sub(r"\h\b", "how", text)
         text = re.sub(r"\bpls\b", "please", text)
         text = re.sub(r"\bthx\b", "thanks", text)
         text = re.sub(r"\binfo\b", "information", text)
@@ -175,6 +174,7 @@ def chat():
         text = re.sub(r"\bdoc\b", "documentation", text)
         text = re.sub(r"\bdocs\b", "documentation", text)
         text = re.sub(r"\bmsds\b", "material safety data sheet", text)
+        text = re.sub(r"\bvas\b", "value added services", text)
 
     # E-commerce variations
         text = re.sub(r"\be[\s\-]?commerce\b", "ecommerce", text)
@@ -285,11 +285,8 @@ def chat():
         return jsonify({"reply": "Open Yard Mussafah storage is **160 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})
     if match([r"open yard.*kizad", r"kizad.*open yard", r"rate.*kizad open yard"]):
         return jsonify({"reply": "Open Yard KIZAD storage is **125 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})    
-    
-    # --- VAS Categories ---
-    if match([r"list vas", r"vas details", r"show vas", r"vas details", r"value added services details", r"what vas", r"what value added services"]):
-        return jsonify({"reply": "Which VAS category are you looking for? Please specify:\n- Standard VAS (AC / Non-AC / Open Shed)\n- Chemical VAS\n- Open Yard VAS"})
 
+    # --- vas Rate ---
     if match([
     r"standard vas", r"standard", r"standard value added services", r"normal vas", r"normal value added services",
     r"handling charges", r"pallet charges", r"vas for ac", r"value added services for ac",
@@ -892,7 +889,7 @@ def chat():
         return jsonify({"reply": "I'm doing great! How can I assist you with DSV services today?"})
     if match([r"\bthank(s| you)?\b|thx|appreciate"]):
         return jsonify({"reply": "You're very welcome! 😊"})
-   
+
     # --- Fallback (never ask to rephrase) ---
     return jsonify({"reply": "I'm trained on everything related to DSV storage, transport, VAS, Mussafah warehouse, and services. Can you try asking again with more detail?"})
 
