@@ -140,7 +140,7 @@ def chat():
     data = request.get_json()
     message = data.get("message", "").lower().strip()
 
-    def normalize(text):
+def normalize(text):
     text = text.lower().strip()
 
     # Common chat language
