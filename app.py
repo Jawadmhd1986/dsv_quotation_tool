@@ -286,7 +286,11 @@ def chat():
 
     if match([r"open yard kizad", r"kizad open yard", r"rate.*kizad open yard"]):
         return jsonify({"reply": "Open Yard KIZAD storage is **125 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})
-            
+    if match([r"^kizad$", r"\bkizad\b"]):
+        return jsonify({"reply": "Open Yard KIZAD storage is **125 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})
+    if match([r"^mussafah$", r"\bmussafah\b"]):
+        return jsonify({"reply": "Open Yard Mussafah storage is **160 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})
+
     # --- vas Rate ---
     if match([
     r"standard vas", r"standard", r"standard value added services", r"normal vas", r"normal value added services",
@@ -296,8 +300,10 @@ def chat():
         return jsonify({"reply": "Standard VAS includes:\n- In/Out Handling: 20 AED/CBM\n- Pallet Loading: 12 AED/pallet\n- Documentation: 125 AED/set\n- Packing with pallet: 85 AED/CBM\n- Inventory Count: 3,000 AED/event\n- Case Picking: 2.5 AED/carton\n- Sticker Labeling: 1.5 AED/label\n- Shrink Wrapping: 6 AED/pallet\n- VNA Usage: 2.5 AED/pallet"})
 
     if match([
-    r"chemical vas", r"chemical", r"chemical value added services", r"vas for chemical", r"value added services for chemical",
-    r"hazmat vas", r"hazmat value added services", r"dangerous goods vas", r"dangerous goods value added services"]):
+    r"chemical vas", r"chemical value added services",
+    r"vas for chemical", r"value added services for chemical",
+    r"hazmat vas", r"hazmat value added services",
+    r"dangerous goods vas", r"dangerous goods value added services"]):
         return jsonify({"reply": "Chemical VAS includes:\n- Handling (Palletized): 20 AED/CBM\n- Handling (Loose): 25 AED/CBM\n- Documentation: 150 AED/set\n- Packing with pallet: 85 AED/CBM\n- Inventory Count: 3,000 AED/event\n- Inner Bag Picking: 3.5 AED/bag\n- Sticker Labeling: 1.5 AED/label\n- Shrink Wrapping: 6 AED/pallet"})
 
     if match([
