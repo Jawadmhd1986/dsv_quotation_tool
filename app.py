@@ -628,11 +628,11 @@ def chat():
 # --- Services DSV Provides ---
     if match([r"what.*services.*dsv.*provide", r"what.*type.*service", r"type.*of.*logistics", r"what.*dsv.*do", r"dsv.*offerings"]):
         return jsonify({"reply": "DSV provides full logistics services including:
-        - 2PL (transport & delivery)
-        - 3PL (warehousing, transport, VAS)
-        - 3.5PL (partially managed logistics with strategic input)
-        - 4PL (fully managed supply chain operations)
-        - Land transport, air freight, sea freight, warehousing, WMS, VAS, last mile, cross-docking, and relocation."})
+    - 2PL (transport & delivery)
+    - 3PL (warehousing, transport, VAS)
+    - 3.5PL (partially managed logistics with strategic input)
+    - 4PL (fully managed supply chain operations)
+    - Land transport, air freight, sea freight, warehousing, WMS, VAS, last mile, cross-docking, and relocation."})
    
 # --- DSV Sustainability Vision ---
     if match([
