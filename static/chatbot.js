@@ -6,6 +6,14 @@ function toggleChat() {
   chatBox.style.display = isChatOpen ? "flex" : "none";
 }
 
+function openBot() {
+  if (!isChatOpen) toggleChat();
+}
+
+function closeBot() {
+  if (isChatOpen) toggleChat();
+}
+
 async function sendMessage() {
   const input = document.getElementById("chat-input");
   const message = input.value.trim();
@@ -21,51 +29,39 @@ async function sendMessage() {
       body: JSON.stringify({ message })
     });
     const data = await res.json();
-    appendBotMessageAnimated(data.reply);
+    appendMessage("DSV Bot", data.reply);
   } catch {
     appendMessage("DSV Bot", "Error getting response.");
   }
 }
 
- function appendMessage(sender, text) {
-   const msgBox = document.getElementById("chat-messages");
--  const div = document.createElement("div");
--  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
--  msgBox.appendChild(div);
-+  // create the line for this Q or A
-+  const div = document.createElement("div");
-+  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
-+  msgBox.appendChild(div);
-+
-+  // if this was the bot's reply, add a little blank line afterward
-+  if (sender === "DSV Bot") {
-+    const spacer = document.createElement("div");
-+    spacer.style.height = "1em";      // adjust to taste
-+    msgBox.appendChild(spacer);
-+  }
-
-   msgBox.scrollTop = msgBox.scrollHeight;
- }
-
-
-
-function appendBotMessageAnimated(text) {
+function appendMessage(sender, text) {
   const msgBox = document.getElementById("chat-messages");
-  const div = document.createElement("div");
-  div.innerHTML = `<strong>DSV Bot:</strong> `;
-  msgBox.appendChild(div);
 
-  let i = 0;
-  const speed = 15; // milliseconds per character
+  // Container for one Q/A pair:
+  const pair = document.createElement("div");
+  pair.style.marginBottom = "1em";  // adds the blank line
 
-  function typeLetter() {
-    if (i < text.length) {
-      div.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(typeLetter, speed);
-      msgBox.scrollTop = msgBox.scrollHeight;
-    }
-  }
+  // Sender line:
+  const senderLine = document.createElement("div");
+  senderLine.innerHTML = `<strong>${sender}:</strong>`;
 
-  typeLetter();
+  // Text line:
+  const textLine = document.createElement("div");
+  textLine.textContent = text;
+
+  pair.appendChild(senderLine);
+  pair.appendChild(textLine);
+
+  msgBox.appendChild(pair);
+  msgBox.scrollTop = msgBox.scrollHeight;
 }
+
+// Allow Enter key (without shift) to send:
+document.getElementById("chat-input")
+  .addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
