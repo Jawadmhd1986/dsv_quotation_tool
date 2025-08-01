@@ -251,8 +251,6 @@ def chat():
         "Pallets are used for racking, picking, and transport. DSV also offers VAS like pallet loading, shrink wrapping, labeling, and stretch film wrapping for safe handling."})
 
     # --- VAS Categories ---
-    if match(r"^value added services$") or match(r"^vas$"):
-        return jsonify({"reply": "Which VAS category are you referring to? Please specify one of the following:\n- Standard VAS (AC / Non-AC / Open Shed)\n- Chemical VAS\n- Open Yard VAS"})
     if match([
     r"standard vas", r"standard value added services", r"normal vas", r"normal value added services",
     r"handling charges", r"pallet charges", r"vas for ac", r"value added services for ac",
@@ -269,6 +267,13 @@ def chat():
     r"open yard vas", r"open yard value added services", r"yard equipment",
     r"forklift rate", r"crane rate", r"container lifting", r"yard charges"]):
         return jsonify({"reply": "Open Yard VAS includes:\n- Forklift (3T–7T): 90 AED/hr\n- Forklift (10T): 200 AED/hr\n- Forklift (15T): 320 AED/hr\n- Mobile Crane (50T): 250 AED/hr\n- Mobile Crane (80T): 450 AED/hr\n- Container Lifting: 250 AED/lift\n- Container Stripping (20ft): 1,200 AED/hr"})
+
+    if match([
+    r"\bvas\b", r"\ball vas\b", r"all value added services",
+    r"list.*vas", r"show.*vas", r"everything included in vas", r"everything included in value added services",
+    r"vas details", r"value added services details",
+    r"what.*vas", r"what.*value added services"]):
+        return jsonify({"reply": "Which VAS category are you looking for? Please specify:\n- Standard VAS (AC / Non-AC / Open Shed)\n- Chemical VAS\n- Open Yard VAS"})
 
     # --- Handling Math Questions like Packing Calculations ---
     if match([r"calculate.*packing.*pallet", r"how much.*pallet.*packing", r"cost.*packing.*pallet", r"packing with pallet for \d+ pallet"]):
@@ -414,6 +419,12 @@ def chat():
         if hr_match:
             hrs = int(hr_match.group(1))
             return jsonify({"reply": f"Container Stripping 20ft for {hrs} hour(s) at 1,200 AED/hr = {hrs * 1200:,.2f} AED."})
+
+    # --- Storage Rate Matching ---
+    if match([r"open yard.*mussafah"]):
+        return jsonify({"reply": "Open Yard Mussafah storage is 160 AED/SQM/year. WMS is excluded. VAS includes forklifts, cranes, and container lifts."})
+    if match([r"open yard.*kizad"]):
+        return jsonify({"reply": "Open Yard KIZAD storage is 125 AED/SQM/year. WMS excluded. VAS includes forklift 90–320 AED/hr, crane 250–450 AED/hr."})
    
     # --- 21K Warehouse  ---
     if match([r"rack height|rack levels|pallets per bay|rack system"]):
@@ -513,7 +524,6 @@ def chat():
         "🔴 **Freezer Room**: –22°C — for frozen goods and sensitive materials\n\n"
         "All temperature-controlled areas are monitored 24/7 and GDP-compliant."})
 
-    # --- certs ---
     if match([r"\btapa\b", r"tapa certified", r"tapa standard", r"tapa compliance"]):
         return jsonify({"reply": "TAPA stands for Transported Asset Protection Association. It’s a global security standard for the safe handling, warehousing, and transportation of high-value goods. DSV follows TAPA-aligned practices for secure transport and facility operations, including access control, CCTV, sealed trailer loading, and secured parking."})
     if match([r"freezone", r"free zone", r"abu dhabi freezone", r"airport freezone", r"freezone warehouse"]):
@@ -528,9 +538,6 @@ def chat():
         return jsonify({"reply": "Yes, DSV handles **DG (Dangerous Goods)** and hazardous materials in specialized chemical storage areas. We comply with all safety and documentation requirements including:\n- Hazard classification and labeling\n- MSDS (Material Safety Data Sheet) submission\n- Trained staff for chemical handling\n- Temperature-controlled and fire-protected zones\n- Secure access and emergency systems\n\nPlease note: For a DG quotation, we require the **material name, hazard class, CBM, period, and MSDS**."})
 
     # --- Specific Storage Rate Answers ---
-    if match(r"^storage$") or match(r"^storage type$") or match(r"need storage"):
-        return jsonify({"reply": "Which storage type are you looking for? Options include:\n- AC\n- Non-AC\n- Open Shed\n- Chemicals (AC or Non-AC)\n- Open Yard (KIZAD or Mussafah)"})
-
     if match([r"chemical ac", r"ac chemical", r"chemical ac storage", r"chemical ac storage rate"]):
         return jsonify({"reply": "Chemical AC storage is 3.5 AED/CBM/day. Chemical VAS applies."})
 
@@ -545,13 +552,6 @@ def chat():
 
     if match([r"open shed", r"standard open shed", r"open shed storage rate"]):
         return jsonify({"reply": "Open Shed storage is 1.8 AED/CBM/day. Standard VAS applies."})
-        # --- Storage Rate Matching ---
-    if match([r"open yard rate", r"open yard"]):
-        return jsonify({"reply": "Open Yard Mussafah storage rate is 160 AED/SQM/year, Open Yard KIZAD storage rate is 125 AED/SQM/year WMS is excluded"})
-    if match([r"open yard rate.*mussafah"]):
-        return jsonify({"reply": "Open Yard Mussafah storage rate is 160 AED/SQM/year. WMS is excluded"})
-    if match([r"open yard rate.*kizad"]):
-        return jsonify({"reply": "Open Yard KIZAD storage rate is 125 AED/SQM/year. WMS excluded"})
 
     # --- Chamber Mapping ---
     if match([r"ch2|chamber 2"]):
@@ -560,6 +560,16 @@ def chat():
         return jsonify({"reply": "Chamber 3 is used by food clients and fast-moving items."})
     if match([r"who.*in.*chamber|who.*in.*ch\d+"]):
         return jsonify({"reply": "The chambers in 21K warehouse are:\nCh1 – Khalifa University\nCh2 – PSN\nCh3 – Food clients\nCh4 – MCC, TR, ADNOC\nCh5 – PSN\nCh6 – ZARA, TR\nCh7 – Civil Defense & RMS"})
+    if match([r"storage rate[s]?$", r"\brates\b", r"storage cost", r"how much.*storage", r"quotation.*storage only"]):
+        return jsonify({"reply": "Which type of storage are you asking about? AC, Non-AC, Open Shed, Chemicals, or Open Yard?"})
+    if match([r"standard ac", r"ac standard"]):
+        return jsonify({"reply": "Standard AC storage is 2.5 AED/CBM/day. Standard VAS applies."})
+    if match([r"\bstandard\b$", r"\bstandard storage\b$", r"only standard"]):
+        return jsonify({"reply": "Do you mean *Standard AC*, *Standard Non-AC*, or *Open Shed* storage? Please specify."})
+    if match([r"\bchemical\b$", r"\bchemical storage\b$", r"only chemical"]):
+        return jsonify({"reply": "Do you mean *Chemical AC* or *Chemical Non-AC*? Let me know which one you need the rate for."})
+    if match([r"\bac\b$", r"\bac storage\b$", r"only ac"]):
+        return jsonify({"reply": "Do you mean *Standard AC* storage or *Chemical AC* storage?"})
         
     # --- Warehouse Occupancy ---
     if match([r"warehouse occupancy|space available|any space in warehouse|availability.*storage"]):
@@ -774,18 +784,6 @@ def chat():
         "- 🚚 Double trailers for high-volume long-haul moves\n"
         "- 🏙 Small city trucks for last-mile distribution\n\n"
         "All transport is coordinated by our OCC team in Abu Dhabi with real-time tracking, WMS integration, and documentation support."})
-    if match(r"\btms\b") or match(r"transport management system"):
-        return jsonify({"reply": "A Transport Management System (TMS) is a subset of supply chain management focused on planning, optimizing, and executing the physical movement of goods. It improves the efficiency and visibility of transportation fleets."})
-    if match(r"\breefer\b") or match(r"refrigerated truck") or match(r"chiller truck"):
-        return jsonify({"reply": "Reefer trucks are temperature-controlled vehicles used by DSV to transport goods that require cold chain logistics, such as pharmaceuticals, food, and perishables."})
-    if match(r"\bflatbed\b") or match(r"flatbed trailer"):
-        return jsonify({"reply": "Flatbed trailers are open-platform trucks used by DSV to transport heavy, large, or irregularly shaped cargo such as construction materials or machinery."})
-    if match(r"double trailer") or match(r"articulated trailer"):
-        return jsonify({"reply": "Double trailers (articulated trucks) are long-haul units used by DSV to move high-volume cargo across the UAE and GCC. They typically carry up to 50–60 tons."})
-    if match(r"double trailer length"):
-        return jsonify({"reply": "A double trailer setup in the UAE usually measures **22 to 24 meters** in total length, allowing for efficient cross-emirate transport of containers or bulk loads."})
-    if match(r"box trailer") or match(r"box truck") or match(r"curtainside"):
-        return jsonify({"reply": "Box trailers (curtainside) are enclosed trucks used by DSV to protect goods from weather and theft. Ideal for general cargo, electronics, and packaged items."})
 
     # --- UAE Emirates Distance + Travel Time (Individual Matches) ---
     if match([r"abu dhabi.*dubai|dubai.*abu dhabi"]):
