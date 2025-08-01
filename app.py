@@ -608,6 +608,10 @@ def chat():
     if match([r"what is wms|wms meaning|warehouse management system"]):
         return jsonify({"reply": "WMS stands for Warehouse Management System. DSV uses INFOR WMS for inventory control, inbound/outbound, and full visibility."})
 
+    # --- Services DSV Provides ---
+    if match([r"what.*services.*dsv.*provide", r"what (do|does).*dsv.*do", r"dsv.*offer", r"dsv.*specialize", r"dsv.*work", r"dsv.*services", r"what.*type.*service", r"type.*of.*logistics", r"services.*dsv", r"what.*dsv.*do", r"dsv.*offerings"]):
+        return jsonify({"reply": "DSV provides full logistics services including 2PL (transport & delivery) 3PL (warehousing, transport, VAS) 3.5PL (partially managed logistics with strategic input) 4PL (fully managed supply chain operations) and Land transport, air freight, sea freight, warehousing, WMS, VAS, last mile, cross-docking, and relocation."})
+
     # --- What does DSV mean ---
     if match([
     r"\bdsv\b", r"about dsv", r"who is dsv", r"what is dsv", r"dsv info", r"dsv abu dhabi",
@@ -622,10 +626,6 @@ def chat():
         "- 📍 **KIZAD** – 360,000 sqm open yard with MHE and project logistics\n"
         "- 📍 **Airport Freezone** – GDP-compliant healthcare and cold chain storage\n\n"
         "Contact 📞 +971 2 555 2900 | 🌐 [dsv.com](https://www.dsv.com)"})
-
-    # --- Services DSV Provides ---
-    if match([r"what.*services.*dsv.*provide", r"what (do|does).*dsv.*do", r"dsv.*offer", r"dsv.*specialize", r"dsv.*work", r"dsv.*services", r"what.*type.*service", r"type.*of.*logistics", r"services.*dsv", r"what.*dsv.*do", r"dsv.*offerings"]):
-        return jsonify({"reply": "DSV provides full logistics services including 2PL (transport & delivery) 3PL (warehousing, transport, VAS) 3.5PL (partially managed logistics with strategic input) 4PL (fully managed supply chain operations) and Land transport, air freight, sea freight, warehousing, WMS, VAS, last mile, cross-docking, and relocation."})
 
     # --- service ---
     if match([r"\bwhat is 3pl\b", r"\b3pl\b", r"third party logistics"]):
