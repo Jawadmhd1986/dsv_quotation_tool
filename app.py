@@ -259,7 +259,7 @@ def chat():
         return jsonify({"reply": "You're very welcome! 😊"})
    
     # --- Specific Storage Rate Answers ---
-    if match([r"storage rate[s]?$", r"\brates\b", r"storage cost", r"how much.*storage", r"quotation.*storage only"]):
+    if match([r"storage rate[s]?$", r"\brates\b", r"storage", r"storage cost", r"how much.*storage", r"quotation.*storage only"]):
         return jsonify({"reply": "Which type of storage are you asking about? AC, Non-AC, Open Shed, Chemicals, or Open Yard?"})
     if match([r"standard ac", r"ac standard"]):
         return jsonify({"reply": "Standard AC storage is 2.5 AED/CBM/day. Standard VAS applies."})
@@ -293,11 +293,7 @@ def chat():
         return jsonify({"reply": "Open Yard KIZAD storage is **125 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})    
     
     # --- VAS Categories ---
-    if match([
-    r"\bvas\b", r"\ball vas\b", r"all value added services",
-    r"list.*vas", r"show.*vas", r"everything included in vas", r"everything included in value added services",
-    r"vas details", r"value added services details",
-    r"what.*vas", r"what.*value added services"]):
+    if match([r"vas", r"all vas", r"all value added services", r"list.*vas", r"show.*vas", r"everything included in vas", r"everything included in value added services", r"vas details", r"value added services details", r"what.*vas", r"what.*value added services"]):
         return jsonify({"reply": "Which VAS category are you looking for? Please specify:\n- Standard VAS (AC / Non-AC / Open Shed)\n- Chemical VAS\n- Open Yard VAS"})
     
     if match([
