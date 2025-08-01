@@ -6,14 +6,6 @@ function toggleChat() {
   chatBox.style.display = isChatOpen ? "flex" : "none";
 }
 
-function openBot() {
-  if (!isChatOpen) toggleChat();
-}
-
-function closeBot() {
-  if (isChatOpen) toggleChat();
-}
-
 async function sendMessage() {
   const input = document.getElementById("chat-input");
   const message = input.value.trim();
@@ -29,7 +21,7 @@ async function sendMessage() {
       body: JSON.stringify({ message })
     });
     const data = await res.json();
-    appendMessage("DSV Bot", data.reply);
+    appendBotMessageAnimated(data.reply);
   } catch {
     appendMessage("DSV Bot", "Error getting response.");
   }
@@ -37,31 +29,29 @@ async function sendMessage() {
 
 function appendMessage(sender, text) {
   const msgBox = document.getElementById("chat-messages");
-
-  // Container for one Q/A pair:
-  const pair = document.createElement("div");
-  pair.style.marginBottom = "1em";  // adds the blank line
-
-  // Sender line:
-  const senderLine = document.createElement("div");
-  senderLine.innerHTML = `<strong>${sender}:</strong>`;
-
-  // Text line:
-  const textLine = document.createElement("div");
-  textLine.textContent = text;
-
-  pair.appendChild(senderLine);
-  pair.appendChild(textLine);
-
-  msgBox.appendChild(pair);
+  const div = document.createElement("div");
+  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  msgBox.appendChild(div);
   msgBox.scrollTop = msgBox.scrollHeight;
 }
 
-// Allow Enter key (without shift) to send:
-document.getElementById("chat-input")
-  .addEventListener("keydown", e => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
+function appendBotMessageAnimated(text) {
+  const msgBox = document.getElementById("chat-messages");
+  const div = document.createElement("div");
+  div.innerHTML = `<strong>DSV Bot:</strong> `;
+  msgBox.appendChild(div);
+
+  let i = 0;
+  const speed = 15; // milliseconds per character
+
+  function typeLetter() {
+    if (i < text.length) {
+      div.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeLetter, speed);
+      msgBox.scrollTop = msgBox.scrollHeight;
     }
-  });
+  }
+
+  typeLetter();
+}
