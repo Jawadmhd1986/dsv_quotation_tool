@@ -478,23 +478,31 @@ def chat():
 
     # --- Services DSV Provides ---
     if match([
-    r"what.*services.*dsv.*provide", r"what (do|does).*dsv.*do", r"dsv.*offer", 
-    r"dsv.*specialize", r"dsv.*work", r"dsv.*services", 
-    r"what.*type.*service", r"type.*of.*logistics", 
-    r"services.*dsv", r"what.*dsv.*do", r"dsv.*offerings"]):
+    r"what.*service[s]?.*dsv.*provide",
+    r"what (do|does).*dsv.*do", 
+    r"dsv.*offer", 
+    r"dsv.*specialize", 
+    r"dsv.*work", 
+    r"dsv.*services", 
+    r"what.*type.*service", 
+    r"type.*of.*logistics", 
+    r"services.*dsv", 
+    r"what.*dsv.*do", 
+    r"dsv.*offerings"]):
         return jsonify({"reply": 
-        "DSV provides full logistics and supply chain solutions across the UAE and globally:\n\n"
-        "🚚 **2PL (Transport & Delivery)**:\n"
-        "- Road transport across UAE & GCC (flatbeds, reefers, city trucks)\n"
-        "- Container movement and port logistics\n\n"
-        "🏢 **3PL (Warehousing & VAS)**:\n"
-        "- Ambient, cold, and frozen storage\n"
-        "- Value-added services: packing, labeling, palletizing, documentation\n"
-        "- WMS (INFOR) with real-time visibility\n\n"
-        "🔗 **3.5PL (Hybrid Managed Logistics)**:\n"
-        "- Warehousing + transport + partial strategic oversight\n\n"
-        "🧠 **4PL (Full Supply Chain Management)**:\n"
-        "- DSV manages all logistics, vendors, WMS, and transport on your behalf"})
+        "DSV stands for **'De Sammensluttede Vognmænd'**, meaning **'The Consolidated Hauliers'** in Danish. Founded in 1976, DSV is a global logistics leader operating in over 80 countries.\n\n"
+        "**DSV Abu Dhabi** provides full logistics and supply chain services, including:\n\n"
+        "🚚 **2PL** – Road transport, containers, last-mile delivery\n"
+        "🏢 **3PL** – Warehousing, inventory, VAS, WMS\n"
+        "🔗 **3.5PL** – Hybrid logistics (execution + partial strategy)\n"
+        "🧠 **4PL** – Fully managed supply chain operations\n\n"
+        "**Main Facilities:**\n"
+        "- 📍 **21K Warehouse (Mussafah)** – 21,000 sqm, 7 chambers\n"
+        "- 📍 **M44 / M45** – Sub-warehouses in Mussafah\n"
+        "- 📍 **Al Markaz (Hameem)** – Regional support\n"
+        "- 📍 **KIZAD** – 360,000 sqm open yard\n"
+        "- 📍 **Airport Freezone** – GDP-compliant storage for healthcare\n\n"
+        "📞 +971 2 555 2900 | 🌐 [dsv.com](https://www.dsv.com)"})
 
     # --- What does DSV mean ---
     if match([
@@ -502,14 +510,7 @@ def chat():
     r"tell me about dsv", r"dsv overview", r"dsv abbreviation", r"dsv stands for", r"what does dsv mean"]):
         return jsonify({"reply":
         "DSV stands for **'De Sammensluttede Vognmænd'**, meaning **'The Consolidated Hauliers'** in Danish. "
-        "Founded in 1976, DSV is a global logistics leader operating in over 80 countries.\n\n"
-        "**DSV Abu Dhabi** operates multiple logistics hubs:\n"
-        "- 📍 **21K Warehouse (Mussafah M19)** – 21,000 sqm ambient storage with 7 chambers\n"
-        "- 📍 **M44 / M45** – Specialized sub-warehouses in Mussafah\n"
-        "- 📍 **Al Markaz (Hameem)** – Regional storage support\n"
-        "- 📍 **KIZAD** – 360,000 sqm open yard with MHE and project logistics\n"
-        "- 📍 **Airport Freezone** – GDP-compliant healthcare and cold chain storage\n\n"
-        "Contact 📞 +971 2 555 2900 | 🌐 [dsv.com](https://www.dsv.com)"})
+        "Founded in 1976, DSV is a global logistics leader operating in over 80 countries."})
 
 # --- DSV Sustainability Vision ---
     if match([
