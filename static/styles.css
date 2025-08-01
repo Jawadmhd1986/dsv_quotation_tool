@@ -7,9 +7,7 @@
 }
 
 /* Reset & base */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -18,7 +16,7 @@ body {
   overflow: hidden;
 }
 
-/* Full-screen blue background with extra top padding to clear the floating logo */
+/* Full-screen blue background */
 .quote-section {
   position: relative;
   width: 100%;
@@ -27,8 +25,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* increased top padding so the white card sits below the logo */
-  padding: 6rem 2rem 2rem;
+  padding: 2rem;
 }
 
 /* Logo floating above the card */
@@ -40,12 +37,11 @@ body {
   width: 140px;
 }
 
-/* White card styling with reduced top padding */
+/* White card styling */
 .quote-card {
   background: var(--white);
   border-radius: 12px;
-  /* reduced top padding now that .quote-section has more */
-  padding: 1.5rem 2rem 1.5rem;
+  padding: 2.5rem 2rem 1.5rem;
   width: 100%;
   max-width: 420px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
@@ -196,10 +192,7 @@ body {
 
 /* Mobile tweaks */
 @media (max-width: 480px) {
-  .dsv-logo {
-    width: 120px;
-    top: 1.5rem;
-  }
+  .dsv-logo { width: 120px; top: 1.5rem; }
   .quote-card {
     padding: 2rem 1rem 1rem;
     max-width: 320px;
