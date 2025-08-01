@@ -1,51 +1,60 @@
-/* static/styles.css */
-:root {
-  --blue-dsv:       #002c77;
-  --blue-dsv-light: #00389b;
-  --white:          #ffffff;
-  --grey-bg:        #f0f0f0;
-  --text-dsv:       #002c77;
-}
+document.addEventListener('DOMContentLoaded', () => {
+  const chatBox    = document.getElementById('chat-box');
+  const chatToggle = document.querySelector('.chat-toggle');
+  const chatClose  = document.getElementById('chat-close');
+  const sendBtn    = document.getElementById('chat-send');
+  const inputEl    = document.getElementById('chat-input');
+  const msgsEl     = document.getElementById('chat-messages');
 
-/* Reset & base */
-*,*::before,*::after { box-sizing:border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--grey-bg);
-  height: 100vh;
-  overflow: hidden;
-}
+  chatToggle.addEventListener('click', () => chatBox.classList.toggle('open'));
+  chatClose .addEventListener('click', () => chatBox.classList.remove('open'));
+  sendBtn   .addEventListener('click', sendMessage);
+  inputEl   .addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
 
-/* Section wrapper */
-.quote-section {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: var(--blue-dsv);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-}
+  async function sendMessage() {
+    const text = inputEl.value.trim();
+    if (!text) return;
+    appendMessage('user', text);
+    inputEl.value = '';
 
-/* Floating DSV logo */
-.dsv-logo {
-  position: absolute;
-  top: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 140px;
-}
+    try {
+      const res = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      const { reply } = await res.json();
+      appendMessage('bot', reply, true);
+    } catch {
+      appendMessage('bot', 'Sorry, something went wrong.');
+    }
+  }
 
-/* White card */
-.quote-card {
-  background: var(--white);
-  border-radius: 12px;
-  padding: 2.5rem 2rem 1.5rem;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  text-align: left;
-}
-/* …and all the rest of the CSS (h1, labels, inputs, buttons, chat styles, mobile tweaks) … */
+  function appendMessage(sender, text, typewriter = false) {
+    const wrapper = document.createElement('div');
+    wrapper.className = `message ${sender}`;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    wrapper.appendChild(bubble);
+    msgsEl.appendChild(wrapper);
+    msgsEl.scrollTop = msgsEl.scrollHeight;
+
+    if (!typewriter) {
+      bubble.textContent = text;
+    } else {
+      let i = 0;
+      (function typeChar() {
+        if (i < text.length) {
+          bubble.textContent += text.charAt(i++);
+          msgsEl.scrollTop = msgsEl.scrollHeight;
+          setTimeout(typeChar, 15);
+        }
+      })();
+    }
+  }
+});
