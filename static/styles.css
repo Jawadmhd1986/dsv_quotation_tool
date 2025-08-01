@@ -1,60 +1,209 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const chatBox    = document.getElementById('chat-box');
-  const chatToggle = document.querySelector('.chat-toggle');
-  const chatClose  = document.getElementById('chat-close');
-  const sendBtn    = document.getElementById('chat-send');
-  const inputEl    = document.getElementById('chat-input');
-  const msgsEl     = document.getElementById('chat-messages');
+:root {
+  --blue-dsv:       #002c77;
+  --blue-dsv-light: #00389b;
+  --white:          #ffffff;
+  --grey-bg:        #f0f0f0;
+  --text-dsv:       #002c77;
+}
 
-  chatToggle.addEventListener('click', () => chatBox.classList.toggle('open'));
-  chatClose .addEventListener('click', () => chatBox.classList.remove('open'));
-  sendBtn   .addEventListener('click', sendMessage);
-  inputEl   .addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
+/* Reset & base */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--grey-bg);
+  height: 100vh;
+  overflow: hidden;
+}
 
-  async function sendMessage() {
-    const text = inputEl.value.trim();
-    if (!text) return;
-    appendMessage('user', text);
-    inputEl.value = '';
+/* Full-screen blue background */
+.quote-section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--blue-dsv);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
 
-    try {
-      const res = await fetch('/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
-      });
-      const { reply } = await res.json();
-      appendMessage('bot', reply, true);
-    } catch {
-      appendMessage('bot', 'Sorry, something went wrong.');
-    }
+/* Logo floating above the card */
+.dsv-logo {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+}
+
+/* White card styling */
+.quote-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 2.5rem 2rem 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.quote-card h1 {
+  margin: 0 0 1.5rem;
+  color: var(--text-dsv);
+  font-size: 1.6rem;
+  text-align: center;
+}
+.quote-card label {
+  display: block;
+  margin: 1rem 0 0.25rem;
+  font-weight: bold;
+  color: var(--text-dsv);
+  font-size: 0.95rem;
+}
+.quote-card select,
+.quote-card input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--blue-dsv);
+  border-radius: 6px;
+  font-size: 1rem;
+  color: var(--text-dsv);
+}
+.quote-card select:focus,
+.quote-card input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,56,155,0.3);
+}
+.btn-generate {
+  margin-top: 1.8rem;
+  width: 100%;
+  padding: 1rem;
+  background: var(--blue-dsv);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-generate:hover {
+  background: var(--blue-dsv-light);
+}
+
+/* Chat toggle button */
+.chat-toggle {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--white);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+.chat-toggle img {
+  width: 36px;
+  height: 36px;
+}
+
+/* Chat widget */
+.chat-box {
+  position: fixed;
+  bottom: 6rem;
+  right: 2rem;
+  width: 300px;
+  max-width: 90%;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transform: translateY(200%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+}
+.chat-box.open {
+  transform: translateY(0);
+}
+.chat-header {
+  background: var(--blue-dsv);
+  color: var(--white);
+  padding: 0.8rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+.chat-header button {
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.chat-messages {
+  flex: 1;
+  padding: 1rem;
+  background: #f9f9f9;
+  overflow-y: auto;
+}
+.message {
+  margin-bottom: 0.8rem;
+  clear: both;
+}
+.message.user .bubble {
+  background: var(--blue-dsv);
+  color: var(--white);
+  padding: 0.5rem 0.8rem;
+  border-radius: 16px 16px 4px 16px;
+  float: right;
+  max-width: 80%;
+}
+.message.bot .bubble {
+  background: #e2e2e2;
+  color: #000;
+  padding: 0.5rem 0.8rem;
+  border-radius: 16px 16px 16px 4px;
+  float: left;
+  max-width: 80%;
+}
+.chat-footer {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+.chat-footer input {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  font-size: 1rem;
+}
+.chat-footer button {
+  background: var(--blue-dsv);
+  color: var(--white);
+  border: none;
+  padding: 0 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.chat-footer button:hover {
+  background: var(--blue-dsv-light);
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .dsv-logo { width: 120px; top: 1.5rem; }
+  .quote-card {
+    padding: 2rem 1rem 1rem;
+    max-width: 320px;
   }
-
-  function appendMessage(sender, text, typewriter = false) {
-    const wrapper = document.createElement('div');
-    wrapper.className = `message ${sender}`;
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    wrapper.appendChild(bubble);
-    msgsEl.appendChild(wrapper);
-    msgsEl.scrollTop = msgsEl.scrollHeight;
-
-    if (!typewriter) {
-      bubble.textContent = text;
-    } else {
-      let i = 0;
-      (function typeChar() {
-        if (i < text.length) {
-          bubble.textContent += text.charAt(i++);
-          msgsEl.scrollTop = msgsEl.scrollHeight;
-          setTimeout(typeChar, 15);
-        }
-      })();
-    }
+  .btn-generate {
+    font-size: 1rem;
+    padding: 0.9rem;
   }
-});
+  .chat-box {
+    width: 90%;
+    bottom: 5rem;
+    right: 5%;
+  }
+}
