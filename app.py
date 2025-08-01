@@ -601,7 +601,7 @@ def chat():
         return jsonify({"reply": "DSV Abu Dhabi operates EV trucks hauling 40ft containers. Each has ~250–300 km range and supports port shuttles & green logistics."})
 
     # --- DSV Managing Director (MD) ---
-    if match([r"\bmd\b|managing director|head of dsv|boss of dsv|hossam mahmoud"]):
+    if match([r"\bmd\b|managing director|head of dsv|ceo|boss of dsv|hossam mahmoud"]):
         return jsonify({"reply": "Mr. Hossam Mahmoud is the Managing Director, Road & Solutions and CEO Abu Dhabi. He oversees all logistics, warehousing, and transport operations in the region."})
 
     # --- What is WMS ---
@@ -626,16 +626,16 @@ def chat():
         "Contact 📞 +971 2 555 2900 | 🌐 [dsv.com](https://www.dsv.com)"})
 
     # --- Services DSV Provides ---
-    if match([
-    r"what.*services.*dsv.*provide", r"what.*type.*service", r"type.*of.*logistics",
-    r"what.*dsv.*do", r"dsv.*offerings"]):
-        return jsonify({"reply":
-        "DSV provides full logistics services including:\n"
-        "- 2PL (transport & delivery)\n"
-        "- 3PL (warehousing, transport, VAS)\n"
-        "- 3.5PL (partially managed logistics with strategic input)\n"
-        "- 4PL (fully managed supply chain operations)\n"
-        "- Land transport, air freight, sea freight, warehousing, WMS, VAS, last mile, cross-docking, and relocation."})
+    if match([r"what.*services.*dsv.*provide", r"what.*type.*service", r"type.*of.*logistics", r"what.*dsv.*do", r"dsv.*offerings"]):
+        return jsonify({"reply": "DSV provides full logistics services including 2PL (transport & delivery) 3PL (warehousing, transport, VAS) 3.5PL (partially managed logistics with strategic input) 4PL (fully managed supply chain operations) and Land transport, air freight, sea freight, warehousing, WMS, VAS, last mile, cross-docking, and relocation."})
+
+    # --- service ---
+    if match([r"\bwhat is 3pl\b", r"\b3pl\b", r"third party logistics"]):
+        return jsonify({"reply": "3PL (Third Party Logistics) involves outsourcing logistics operations such as warehousing, transportation, picking/packing, and order fulfillment to a provider like DSV."})
+    if match([r"\bwhat is 4pl\b", r"\b4pl\b", r"fourth party logistics"]):
+        return jsonify({"reply": "4PL (Fourth Party Logistics) is a fully integrated supply chain solution where DSV manages all logistics operations, partners, systems, and strategy on behalf of the client. DSV acts as a single point of contact and coordination."})
+    if match([r"3\.5pl", r"three and half pl", r"3pl plus", r"middle of 3pl and 4pl"]):
+        return jsonify({"reply": "3.5PL is an emerging term referring to a hybrid between **3PL and 4PL**:\n- DSV provides operational execution like a 3PL\n- And partial strategic control like a 4PL\nIdeal for clients wanting control with partial outsourcing."})
 
 # --- DSV Sustainability Vision ---
     if match([
@@ -649,15 +649,6 @@ def chat():
     "- Compliance with **ISO 14001** (Environmental Management)\n"
     "- Green initiatives in packaging, recycling, and process optimization\n\n"
     "DSV’s global strategy aligns with the UN Sustainable Development Goals and aims for net-zero emissions by 2050."})
-
-    # --- service ---
-    if match([r"\bwhat is 3pl\b", r"\b3pl\b", r"third party logistics"]):
-        return jsonify({"reply": "3PL (Third Party Logistics) involves outsourcing logistics operations such as warehousing, transportation, picking/packing, and order fulfillment to a provider like DSV."})
-
-    if match([r"\bwhat is 4pl\b", r"\b4pl\b", r"fourth party logistics"]):
-        return jsonify({"reply": "4PL (Fourth Party Logistics) is a fully integrated supply chain solution where DSV manages all logistics operations, partners, systems, and strategy on behalf of the client. DSV acts as a single point of contact and coordination."})
-    if match([r"3\.5pl", r"three and half pl", r"3pl plus", r"middle of 3pl and 4pl"]):
-        return jsonify({"reply": "3.5PL is an emerging term referring to a hybrid between **3PL and 4PL**:\n- DSV provides operational execution like a 3PL\n- And partial strategic control like a 4PL\nIdeal for clients wanting control with partial outsourcing."})
 
     # --- Industry Tags (FMCG, Insurance, Healthcare, Ecommerce) ---
     if match([r"\bfmcg\b|fast moving|consumer goods"]):
