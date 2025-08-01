@@ -31,12 +31,16 @@ function appendMessage(sender, text) {
   const msgBox = document.getElementById("chat-messages");
 
   const div = document.createElement("div");
-  div.style.marginBottom = "12px";  // Add space between each exchange
-  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  div.style.marginBottom = "12px"; // Adds space between exchanges
 
+  const msg = document.createElement("div");
+  msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+
+  div.appendChild(msg);
   msgBox.appendChild(div);
   msgBox.scrollTop = msgBox.scrollHeight;
 }
+
 
 function appendBotMessageAnimated(text) {
   const msgBox = document.getElementById("chat-messages");
