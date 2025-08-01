@@ -620,7 +620,7 @@ def chat():
     if match([r"proposal|quotation|quote.*open yard|send me.*quote|how to get quote|need.*quotation"]):
         return jsonify({"reply": "To get a full quotation, please close this chat and fill the details in the main form on the left. The system will generate a downloadable document for you."})
  # --- service ---
-    if match([r"\bwhat is 2pl\b", r"\b2pl\b" r"second party logistics", r"what is 2pl", r"2pl meaning"]):
+    if match([r"\bwhat is 2pl\b", r"\b2pl\b", r"second party logistics", r"what is 2pl", r"2pl meaning"]):
         return jsonify({"reply": "2PL (Second Party Logistics) refers to transport-only logistics providers. DSV’s 2PL services include dedicated trucking, container movement, and distribution across the UAE and GCC using our own fleet."})
     if match([r"\bwhat is 3pl\b", r"\b3pl\b", r"third party logistics"]):
         return jsonify({"reply": "3PL (Third Party Logistics) involves outsourcing logistics operations such as warehousing, transportation, picking/packing, and order fulfillment to a provider like DSV."})
