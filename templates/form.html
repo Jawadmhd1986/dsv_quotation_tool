@@ -5,21 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DSV Quotation Generator</title>
 
-  <!-- Load your compiled CSS -->
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles.css') }}"
-  />
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
 <body>
 
   <div class="quote-section">
     <!-- Floating DSV logo -->
-    <img
-      src="{{ url_for('static', filename='dsv_logo.png') }}"
-      alt="DSV Logo"
-      class="dsv-logo"
-    />
+    <img src="{{ url_for('static', filename='dsv_logo.png') }}"
+         alt="DSV Logo"
+         class="dsv-logo" />
 
     <!-- White card container -->
     <div class="quote-card">
@@ -38,21 +33,10 @@
         </select>
 
         <label for="volume">Volume (CBM or SQM)</label>
-        <input
-          type="number"
-          step="0.01"
-          id="volume"
-          name="volume"
-          required
-        />
+        <input type="number" step="0.01" id="volume" name="volume" required />
 
         <label for="days">Duration (Days)</label>
-        <input
-          type="number"
-          id="days"
-          name="days"
-          required
-        />
+        <input type="number" id="days" name="days" required />
 
         <label for="wms">Include WMS?</label>
         <select id="wms" name="wms" required>
@@ -61,11 +45,7 @@
         </select>
 
         <label for="email">Recipient Email (optional)</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-        />
+        <input type="email" id="email" name="email" />
 
         <button type="submit" class="btn-generate">
           Generate Quotation
@@ -75,10 +55,8 @@
 
     <!-- Chat toggle button -->
     <button class="chat-toggle">
-      <img
-        src="{{ url_for('static', filename='chat-icon.png') }}"
-        alt="Chat with DSV"
-      />
+      <img src="{{ url_for('static', filename='chat-icon.png') }}"
+           alt="Chat with DSV" />
     </button>
 
     <!-- Chat widget -->
@@ -89,17 +67,13 @@
       </div>
       <div class="chat-messages" id="chat-messages"></div>
       <div class="chat-footer">
-        <input
-          id="chat-input"
-          type="text"
-          placeholder="Type your message…"
-        />
+        <input id="chat-input" type="text" placeholder="Type your message…" />
         <button id="chat-send">Send</button>
       </div>
     </div>
   </div>
 
-  <!-- Load your chatbot logic -->
+  <!-- Chat logic -->
   <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
 </body>
 </html>
