@@ -696,9 +696,6 @@ def chat():
     if match([r"\bwms\b|warehouse management system|inventory software|tracking system|dsv.*system"]):
         return jsonify({"reply": "DSV uses the INFOR Warehouse Management System (WMS) to manage inventory, inbound/outbound flows, and order tracking. It supports real-time dashboards and client integration."})
 
-    if match([r"what does dsv mean|dsv full form|dsv stands for"]):
-        return jsonify({"reply": "DSV stands for 'De Sammensluttede Vognmænd' which means 'The Consolidated Hauliers' in Danish. It reflects DSV’s origin as a group of independent trucking companies in Denmark."})
-
     if match([r"warehouse activities|warehouse tasks|daily warehouse work"]):
         return jsonify({"reply": "DSV warehouse activities include receiving (inbound), put-away, storage, replenishment, order picking, packing, staging, and outbound dispatch. We also handle inventory audits, cycle counts, and VAS."})
 
