@@ -33,7 +33,7 @@ body {
 /* Logo floating above the card */
 .dsv-logo {
   position: absolute;
-  top: 2rem;
+  top: 1rem;
   left: 50%;
   transform: translateX(-50%);
   width: 140px;
@@ -43,7 +43,7 @@ body {
 .quote-card {
   background: var(--white);
   border-radius: 12px;
-  padding: 1.5rem 2rem 1rem;  /* top | sides | bottom */
+  padding: 1rem 1.5rem 1rem;  /* top | sides | bottom */
   width: 100%;
   max-width: 420px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
@@ -94,7 +94,7 @@ body {
 /* Chat toggle button */
 .chat-toggle {
   position: absolute;
-  bottom: 2rem;
+  bottom: 3rem;
   right: 2rem;
   background: var(--white);
   border: none;
