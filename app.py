@@ -554,8 +554,12 @@ def chat():
     if match([r"warehouse activities|warehouse tasks|daily warehouse work"]):
         return jsonify({"reply": "DSV warehouse activities include receiving (inbound), put-away, storage, replenishment, order picking, packing, staging, and outbound dispatch. We also handle inventory audits, cycle counts, and VAS."})
 
-    if match([r"warehouse process|inbound|outbound|SOP|Standard Operation Process|putaway|replenishment|dispatch"]):
+    if match([r"warehouse process|inbound|outbound|putaway|replenishment|dispatch"]):
         return jsonify({"reply": "Typical warehouse processes at DSV: (1) Inbound receiving, (2) Put-away into racks or zones, (3) Order picking or replenishment, (4) Packing & labeling, (5) Outbound dispatch. All steps are WMS-tracked."})
+    if match([r"\bsop\b", r"standard operating procedure", r"standard operation process"]):
+        return jsonify({"reply": 
+        "SOP stands for **Standard Operating Procedure**. It refers to detailed, written instructions to achieve uniformity in operations. "
+        "DSV maintains SOPs for all warehouse, transport, and VAS processes to ensure safety, compliance, and efficiency."})
 
 # --- Air & Sea Services ---
     if match([
