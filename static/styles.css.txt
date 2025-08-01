@@ -1,0 +1,51 @@
+/* static/styles.css */
+:root {
+  --blue-dsv:       #002c77;
+  --blue-dsv-light: #00389b;
+  --white:          #ffffff;
+  --grey-bg:        #f0f0f0;
+  --text-dsv:       #002c77;
+}
+
+/* Reset & base */
+*,*::before,*::after { box-sizing:border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--grey-bg);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Section wrapper */
+.quote-section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--blue-dsv);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+/* Floating DSV logo */
+.dsv-logo {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+}
+
+/* White card */
+.quote-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 2.5rem 2rem 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  text-align: left;
+}
+/* …and all the rest of the CSS (h1, labels, inputs, buttons, chat styles, mobile tweaks) … */
