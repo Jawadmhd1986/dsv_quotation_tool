@@ -625,17 +625,18 @@ def chat():
         "- 📍 **Airport Freezone** – GDP-compliant healthcare and cold chain storage\n\n"
         "Contact 📞 +971 2 555 2900 | 🌐 [dsv.com](https://www.dsv.com)"})
 
-# --- Services DSV Provides ---
+    # --- Services DSV Provides ---
     if match([
-    r"what.*services.*dsv.*provide", r"what.*type.*service", r"type.*of.*logistics", r"what.*dsv.*do", r"dsv.*offerings"]):
+    r"what.*services.*dsv.*provide", r"what.*type.*service", r"type.*of.*logistics",
+    r"what.*dsv.*do", r"dsv.*offerings"]):
         return jsonify({"reply":
-    "DSV provides full logistics services including:\n"
-    "- 2PL (transport & delivery)\n"
-    "- 3PL (warehousing, transport, VAS)\n"
-    "- 3.5PL (partially managed logistics with strategic input)\n"
-    "- 4PL (fully managed supply chain operations)\n"
-    "- Land transport, air freight, sea freight, warehousing, WMS, VAS, last mile, cross-docking, and relocation."})
-   
+        "DSV provides full logistics services including:\n"
+        "- 2PL (transport & delivery)\n"
+        "- 3PL (warehousing, transport, VAS)\n"
+        "- 3.5PL (partially managed logistics with strategic input)\n"
+        "- 4PL (fully managed supply chain operations)\n"
+        "- Land transport, air freight, sea freight, warehousing, WMS, VAS, last mile, cross-docking, and relocation."})
+
 # --- DSV Sustainability Vision ---
     if match([
     r"sustainability", r"green logistics", r"sustainable practices", r"environmental policy",
