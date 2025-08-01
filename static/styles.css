@@ -203,7 +203,7 @@ body {
 @media (max-width: 480px) {
   .dsv-logo {
     width: 120px;
-    top: 2.5rem;
+    top: 3rem;
   }
   .quote-card {
     padding: 3rem 1rem 0.75rem;
