@@ -27,17 +27,26 @@ async function sendMessage() {
   }
 }
 
-function appendMessage(sender, text) {
-  const msgBox = document.getElementById("chat-messages");
-  const div = document.createElement("div");
-  div.style.marginBottom = "1.2em"; // Add space between Q&A blocks
+ function appendMessage(sender, text) {
+   const msgBox = document.getElementById("chat-messages");
+-  const div = document.createElement("div");
+-  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+-  msgBox.appendChild(div);
++  // create the line for this Q or A
++  const div = document.createElement("div");
++  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
++  msgBox.appendChild(div);
++
++  // if this was the bot's reply, add a little blank line afterward
++  if (sender === "DSV Bot") {
++    const spacer = document.createElement("div");
++    spacer.style.height = "1em";      // adjust to taste
++    msgBox.appendChild(spacer);
++  }
 
-  const formatted = `<div><strong>${sender}:</strong> ${text}</div>`;
-  div.innerHTML = formatted;
+   msgBox.scrollTop = msgBox.scrollHeight;
+ }
 
-  msgBox.appendChild(div);
-  msgBox.scrollTop = msgBox.scrollHeight;
-}
 
 
 function appendBotMessageAnimated(text) {
