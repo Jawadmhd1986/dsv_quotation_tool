@@ -615,10 +615,10 @@ def normalize(text):
         "Contact 📞 +971 2 555 2900 | 🌐 [dsv.com](https://www.dsv.com)"})
 
     # --- DSV Sustainability Vision ---
-   if match([
+    if match([
     r"sustainability", r"green logistics", r"sustainable practices", r"environmental policy",
     r"carbon footprint", r"eco friendly", r"zero emission goal", r"environment commitment"]):
-       return jsonify({"reply":
+        return jsonify({"reply":
     "DSV is committed to **sustainability and reducing its environmental footprint** across all operations. Initiatives include:\n"
     "- Transition to **electric vehicles (EV)** for last-mile and container transport\n"
     "- Use of **solar energy** and energy-efficient warehouse lighting\n"
