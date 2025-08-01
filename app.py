@@ -707,6 +707,23 @@ def chat():
     if match([r"lean six sigma|warehouse improvement|continuous improvement|kaizen|process efficiency"]):
         return jsonify({"reply": "DSV applies Lean Six Sigma principles in warehouse design and process flow to reduce waste, improve accuracy, and maximize efficiency. We implement 5S, KPI dashboards, and root-cause analysis for continuous improvement."})
 
+# --- Air & Sea Services ---
+    if match([
+    r"\bair and sea\b", r"air & sea", r"air freight and sea freight", r"air and sea freight", 
+    r"freight forwarding", r"global forwarding", r"air freight", r"sea freight",
+    r"dsv.*air", r"dsv.*sea", r"air cargo", r"ocean freight", r"import.*air", r"export.*sea"]):
+        return jsonify({"reply":
+        "DSV provides comprehensive **Air & Sea freight forwarding** services globally and in the UAE:\n\n"
+        "✈️ **Air Freight**:\n"
+        "- Express, standard, and consolidated options\n"
+        "- Charter solutions for urgent cargo\n"
+        "- Abu Dhabi Airport Freezone warehouse integration\n\n"
+        "🚢 **Sea Freight**:\n"
+        "- Full Container Load (FCL) and Less than Container Load (LCL)\n"
+        "- Customs clearance and documentation support\n"
+        "- Direct access to UAE ports via Jebel Ali, Khalifa, and Zayed Port\n\n"
+        "Our team handles end-to-end transport, consolidation, and global forwarding through DSV’s global network."})
+
     # --- chemical quotation ---
     if match([
     r"what.*(need|have).*collect.*chemical.*quote",
