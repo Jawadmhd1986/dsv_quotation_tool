@@ -203,10 +203,10 @@ body {
 @media (max-width: 480px) {
   .dsv-logo {
     width: 120px;
-    top: 1.5rem;
+    top: 2.5rem;
   }
   .quote-card {
-    padding: 1rem 1rem 0.75rem;
+    padding: 3rem 1rem 0.75rem;
     max-width: 320px;
   }
   .btn-generate {
@@ -218,4 +218,12 @@ body {
     bottom: 5rem;
     right: 5%;
   }
+
+  /* 🟦 Add this block: */
+  .chat-toggle {
+    bottom: env(safe-area-inset-bottom, 1.5rem); /* raise above iPhone home bar */
+    right: 1rem;
+    z-index: 2000;
+  }
 }
+
