@@ -603,7 +603,7 @@ def normalize(text):
     r"tell me about dsv", r"dsv overview", r"dsv.*services", r"what (do|does).*dsv.*do",
     r"dsv.*offer", r"dsv.*specialize", r"dsv.*work", r"services.*dsv",
     r"dsv abbreviation", r"dsv stands for", r"what does dsv mean"]):
-    return jsonify({"reply":
+        return jsonify({"reply":
         "DSV stands for **'De Sammensluttede Vognmænd'**, meaning **'The Consolidated Hauliers'** in Danish. "
         "Founded in 1976, DSV is a global logistics leader operating in over 80 countries.\n\n"
         "**DSV Abu Dhabi** operates multiple logistics hubs:\n"
