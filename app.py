@@ -251,16 +251,28 @@ def chat():
         "Pallets are used for racking, picking, and transport. DSV also offers VAS like pallet loading, shrink wrapping, labeling, and stretch film wrapping for safe handling."})
 
     # --- VAS Categories ---
-    if match([r"standard vas", r"normal vas", r"handling charges", r"pallet charges", r"vas for ac", r"vas for non ac", r"vas for open shed"]):
+    if match([
+    r"standard vas", r"standard value added services", r"normal vas", r"normal value added services",
+    r"handling charges", r"pallet charges", r"vas for ac", r"value added services for ac",
+    r"vas for non ac", r"value added services for non ac",
+    r"vas for open shed", r"value added services for open shed"]):
         return jsonify({"reply": "Standard VAS includes:\n- In/Out Handling: 20 AED/CBM\n- Pallet Loading: 12 AED/pallet\n- Documentation: 125 AED/set\n- Packing with pallet: 85 AED/CBM\n- Inventory Count: 3,000 AED/event\n- Case Picking: 2.5 AED/carton\n- Sticker Labeling: 1.5 AED/label\n- Shrink Wrapping: 6 AED/pallet\n- VNA Usage: 2.5 AED/pallet"})
 
-    if match([r"chemical vas", r"vas for chemical", r"hazmat vas", r"dangerous goods vas"]):
+    if match([
+    r"chemical vas", r"chemical value added services", r"vas for chemical", r"value added services for chemical",
+    r"hazmat vas", r"hazmat value added services", r"dangerous goods vas", r"dangerous goods value added services"]):
         return jsonify({"reply": "Chemical VAS includes:\n- Handling (Palletized): 20 AED/CBM\n- Handling (Loose): 25 AED/CBM\n- Documentation: 150 AED/set\n- Packing with pallet: 85 AED/CBM\n- Inventory Count: 3,000 AED/event\n- Inner Bag Picking: 3.5 AED/bag\n- Sticker Labeling: 1.5 AED/label\n- Shrink Wrapping: 6 AED/pallet"})
 
-    if match([r"open yard vas", r"yard equipment", r"forklift rate", r"crane rate", r"container lifting", r"yard charges"]):
+    if match([
+    r"open yard vas", r"open yard value added services", r"yard equipment",
+    r"forklift rate", r"crane rate", r"container lifting", r"yard charges"]):
         return jsonify({"reply": "Open Yard VAS includes:\n- Forklift (3T–7T): 90 AED/hr\n- Forklift (10T): 200 AED/hr\n- Forklift (15T): 320 AED/hr\n- Mobile Crane (50T): 250 AED/hr\n- Mobile Crane (80T): 450 AED/hr\n- Container Lifting: 250 AED/lift\n- Container Stripping (20ft): 1,200 AED/hr"})
 
-    if match([r"\bvas\b", r"\ball vas\b", r"list.*vas", r"show.*vas", r"everything included in vas", r"vas details", r"what.*vas"]):
+    if match([
+    r"\bvas\b", r"\ball vas\b", r"all value added services",
+    r"list.*vas", r"show.*vas", r"everything included in vas", r"everything included in value added services",
+    r"vas details", r"value added services details",
+    r"what.*vas", r"what.*value added services"]):
         return jsonify({"reply": "Which VAS category are you looking for? Please specify:\n- Standard VAS (AC / Non-AC / Open Shed)\n- Chemical VAS\n- Open Yard VAS"})
 
     # --- Handling Math Questions like Packing Calculations ---
@@ -525,10 +537,22 @@ def chat():
     if match([r"\bdg\b", r"dangerous goods", r"hazardous material", r"hazmat", r"hazard class", r"dg storage"]):
         return jsonify({"reply": "Yes, DSV handles **DG (Dangerous Goods)** and hazardous materials in specialized chemical storage areas. We comply with all safety and documentation requirements including:\n- Hazard classification and labeling\n- MSDS (Material Safety Data Sheet) submission\n- Trained staff for chemical handling\n- Temperature-controlled and fire-protected zones\n- Secure access and emergency systems\n\nPlease note: For a DG quotation, we require the **material name, hazard class, CBM, period, and MSDS**."})
 
-    # --- Storage Rate Synonym ---
-    if match([r"ac storage rate|non ac rate|open shed rate|storage cost"]):
-        return jsonify({"reply": "AC: 2.5 AED/CBM/day\nNon-AC: 2.0 AED/CBM/day\nOpen Shed: 1.8 AED/CBM/day. WMS is optional unless it's Open Yard."})
-        
+    # --- Specific Storage Rate Answers ---
+    if match([r"chemical ac", r"ac chemical", r"chemical ac storage", r"chemical ac storage rate"]):
+        return jsonify({"reply": "Chemical AC storage is 3.5 AED/CBM/day. Chemical VAS applies."})
+
+    if match([r"chemical non ac", r"non ac chemical", r"chemical non ac storage", r"chemical non ac rate"]):
+        return jsonify({"reply": "Chemical Non-AC storage is 2.7 AED/CBM/day. Chemical VAS applies."})
+
+    if match([r"standard ac", r"ac standard", r"ac storage only", r"standard ac storage"]):
+        return jsonify({"reply": "Standard AC storage is 2.5 AED/CBM/day. Standard VAS applies."})
+
+    if match([r"standard non ac", r"non ac standard", r"standard non ac storage"]):
+        return jsonify({"reply": "Standard Non-AC storage is 2.0 AED/CBM/day. Standard VAS applies."})
+
+    if match([r"open shed", r"standard open shed", r"open shed storage rate"]):
+        return jsonify({"reply": "Open Shed storage is 1.8 AED/CBM/day. Standard VAS applies."})
+
     # --- Chamber Mapping ---
     if match([r"ch2|chamber 2"]):
         return jsonify({"reply": "Chamber 2 is used by PSN (Federal Authority of Protocol and Strategic Narrative)."})
@@ -546,18 +570,6 @@ def chat():
         return jsonify({"reply": "Do you mean *Chemical AC* or *Chemical Non-AC*? Let me know which one you need the rate for."})
     if match([r"\bac\b$", r"\bac storage\b$", r"only ac"]):
         return jsonify({"reply": "Do you mean *Standard AC* storage or *Chemical AC* storage?"})
-
-    if match([r"chemical ac", r"ac chemical"]):
-        return jsonify({"reply": "Chemical AC storage is 3.5 AED/CBM/day. Chemical VAS applies."})
-
-    if match([r"standard non ac", r"non ac standard"]):
-        return jsonify({"reply": "Standard Non-AC storage is 2.0 AED/CBM/day. Standard VAS applies."})
-
-    if match([r"chemical non ac", r"non ac chemical"]):
-        return jsonify({"reply": "Chemical Non-AC storage is 2.7 AED/CBM/day. Chemical VAS applies."})
-
-    if match([r"open shed", r"standard open shed"]):
-        return jsonify({"reply": "Open Shed storage is 1.8 AED/CBM/day. Standard VAS applies."})
         
     # --- Warehouse Occupancy ---
     if match([r"warehouse occupancy|space available|any space in warehouse|availability.*storage"]):
