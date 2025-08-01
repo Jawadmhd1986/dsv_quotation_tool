@@ -709,10 +709,9 @@ def chat():
 
 # --- Air & Sea Services ---
     if match([
-    r"\bair and sea\b", r"air & sea", r"air freight and sea freight", r"air and sea freight", 
-    r"freight forwarding", r"global forwarding", r"air freight", r"sea freight",
-    r"dsv.*air", r"dsv.*sea", r"air cargo", r"ocean freight", r"import.*air", r"export.*sea"]):
-        return jsonify({"reply":
+    r"air and sea", r"sea and air", r"air & sea", r"air freight and sea freight",
+    r"dsv air and sea", r"dsv sea and air", r"dsv air & sea", r"air ocean", r"air & ocean"]):
+        return jsonify({"reply": 
         "DSV provides comprehensive **Air & Sea freight forwarding** services globally and in the UAE:\n\n"
         "✈️ **Air Freight**:\n"
         "- Express, standard, and consolidated options\n"
