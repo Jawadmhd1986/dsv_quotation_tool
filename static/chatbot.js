@@ -6,6 +6,14 @@ function toggleChat() {
   chatBox.style.display = isChatOpen ? "flex" : "none";
 }
 
+function openBot() {
+  if (!isChatOpen) toggleChat();
+}
+
+function closeBot() {
+  if (isChatOpen) toggleChat();
+}
+
 async function sendMessage() {
   const input = document.getElementById("chat-input");
   const message = input.value.trim();
@@ -29,24 +37,43 @@ async function sendMessage() {
 
 function appendMessage(sender, text) {
   const msgBox = document.getElementById("chat-messages");
-  const div = document.createElement("div");
-  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
-  msgBox.appendChild(div);
+
+  const block = document.createElement("div");
+  block.style.marginBottom = "18px"; // Space between Q&A pairs
+
+  const senderLine = document.createElement("div");
+  senderLine.innerHTML = `<strong>${sender}:</strong>`;
+  block.appendChild(senderLine);
+
+  const textLine = document.createElement("div");
+  textLine.textContent = text;
+  block.appendChild(textLine);
+
+  msgBox.appendChild(block);
   msgBox.scrollTop = msgBox.scrollHeight;
 }
 
 function appendBotMessageAnimated(text) {
   const msgBox = document.getElementById("chat-messages");
-  const div = document.createElement("div");
-  div.innerHTML = `<strong>DSV Bot:</strong> `;
-  msgBox.appendChild(div);
+
+  const block = document.createElement("div");
+  block.style.marginBottom = "18px";
+
+  const senderLine = document.createElement("div");
+  senderLine.innerHTML = `<strong>DSV Bot:</strong>`;
+  block.appendChild(senderLine);
+
+  const textLine = document.createElement("div");
+  block.appendChild(textLine);
+
+  msgBox.appendChild(block);
 
   let i = 0;
-  const speed = 15; // milliseconds per character
+  const speed = 15;
 
   function typeLetter() {
     if (i < text.length) {
-      div.innerHTML += text.charAt(i);
+      textLine.textContent += text.charAt(i);
       i++;
       setTimeout(typeLetter, speed);
       msgBox.scrollTop = msgBox.scrollHeight;
@@ -55,3 +82,12 @@ function appendBotMessageAnimated(text) {
 
   typeLetter();
 }
+
+// Allow Enter key (without shift) to send:
+document.getElementById("chat-input")
+  .addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
