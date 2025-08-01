@@ -15,19 +15,20 @@ body {
   font-family: Arial, sans-serif;
   background: var(--grey-bg);
   height: 100vh;
-  overflow: hidden;
+  overflow: hidden;   /* no page scrolling */
 }
 
-/* Full-screen blue background with extra top padding for logo */
+/* Full-screen blue background */
 .quote-section {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: var(--blue-dsv);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 6rem 2rem 2rem;  /* top | sides | bottom */
+  /* space at top for logo */
+  padding: 6rem 2rem 2rem;
 }
 
 /* Logo floating above the card */
@@ -39,14 +40,15 @@ body {
   width: 140px;
 }
 
-/* White card styling with reduced top padding */
+/* White card styling */
 .quote-card {
   background: var(--white);
   border-radius: 12px;
-  padding: 1.5rem 2rem 1rem;  /* top | sides | bottom */
+  padding: 1.5rem 2rem 1rem;
   width: 100%;
   max-width: 420px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  overflow: visible;  /* no scrolling inside */
 }
 .quote-card h1 {
   margin: 0 0 1rem;
@@ -102,20 +104,21 @@ body {
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   cursor: pointer;
+  z-index: 1500;
 }
 .chat-toggle img {
   width: 36px;
   height: 36px;
 }
 
-/* Chat widget container with max-height */
+/* Chat widget (unchanged) */
 .chat-box {
   position: fixed;
   bottom: 6rem;
   right: 2rem;
   width: 300px;
   max-width: 90%;
-  max-height: 70vh;              /* cap height at 70% of viewport */
+  max-height: 70vh;
   background: var(--white);
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
@@ -145,16 +148,12 @@ body {
   font-size: 1.2rem;
   cursor: pointer;
 }
-
-/* Message list fills remaining space and scrolls */
 .chat-messages {
   flex: 1;
   padding: 0.75rem 1rem;
   background: #f9f9f9;
   overflow-y: auto;
 }
-
-/* Message bubbles */
 .message {
   margin-bottom: 0.6rem;
   clear: both;
@@ -175,8 +174,6 @@ body {
   float: left;
   max-width: 80%;
 }
-
-/* Chat input footer */
 .chat-footer {
   display: flex;
   border-top: 1px solid #ccc;
@@ -199,23 +196,50 @@ body {
   background: var(--blue-dsv-light);
 }
 
-/* Mobile tweaks */
+/* -----------------------------------
+   Mobile (no scrolling anywhere)
+----------------------------------- */
 @media (max-width: 480px) {
-  .dsv-logo {
-    width: 120px;
-    top: 1.5rem;
+  /* push everything down so the logo floats fully above */
+  .quote-section {
+    padding: 5rem 1rem 1rem;
+    height: 100vh;
   }
+  /* smaller logo, sits above card */
+  .dsv-logo {
+    top: 1.5rem;
+    width: 100px;
+  }
+  /* tighter card so it fits entirely */
   .quote-card {
-    padding: 1rem 1rem 0.75rem;
-    max-width: 320px;
+    padding: 0.5rem 1rem 0.5rem;
+    max-width: 90vw;
+    width: 100%;
+    /* no scroll */
+    overflow: visible;
+  }
+  .quote-card h1 {
+    font-size: 1.4rem;
+    margin: 0.5rem 0;
+  }
+  .quote-card label {
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0.2rem;
+  }
+  .quote-card select,
+  .quote-card input {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
   }
   .btn-generate {
+    padding: 0.7rem;
     font-size: 1rem;
-    padding: 0.8rem;
+    margin-top: 1rem;
   }
-  .chat-box {
-    width: 90%;
-    bottom: 5rem;
-    right: 5%;
+  /* raise chat-toggle into the safe‐area */
+  .chat-toggle {
+    bottom: env(safe-area-inset-bottom, 1rem);
+    right: 1rem;
   }
 }
