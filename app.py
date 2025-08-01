@@ -214,6 +214,9 @@ def chat():
         return any(re.search(p, message) for p in patterns)
         
 # --- Containers (All Types + Flexible Unit Recognition) ---
+    if match([r"healthcare|medical storage|pharma warehouse|pharma|pharmaceutical storage"]):
+        return jsonify({"reply": "DSV serves healthcare clients via temperature-controlled, GDP-compliant storage at Abu Dhabi Airport Freezone and Mussafah."})
+
     if match([r"\bcontainers\b", r"tell me about containers", r"container types", r"types of containers", r"container sizes", r"container dimensions"]):
         return jsonify({"reply": "Here are the main container types and their specifications:\n\n📦 **20ft Container**:\n- Length: 6.1m, Width: 2.44m, Height: 2.59m\n- Payload: ~28,000 kg\n- Capacity: ~33 CBM\n\n📦 **40ft Container**:\n- Length: 12.2m, Width: 2.44m, Height: 2.59m\n- Payload: ~30,400 kg\n- Capacity: ~67 CBM\n\n⬆️ **40ft High Cube**:\n- Same as 40ft but height = 2.9m\n- Ideal for voluminous goods\n\n❄️ **Reefer Container (20ft & 40ft)**:\n- Insulated, temperature-controlled (+2°C to –25°C)\n- Used for food, pharma, perishables\n\n🏗 **Open Top Container**:\n- No roof, allows crane loading\n- For tall cargo (e.g. machinery, steel)\n\n🪜 **Flat Rack Container**:\n- No sides or roof\n- Used for oversized loads like vehicles or transformers\n\n📦 **SME Containers**:\n- Custom modular containers used in the UAE for small-scale import/export or temporary storage by SMEs\n\nLet me know if you'd like help choosing the right container for your cargo!"})
 
@@ -224,7 +227,7 @@ def chat():
     if match([r"40\s*(ft|feet|foot)\s*container", r"\bforty\s*(ft|feet|foot)?\s*container"]):
         return jsonify({"reply": "A 40ft container is 12.2m long × 2.44m wide × 2.59m high, capacity ~67 CBM, and payload up to 30,400 kg. Suitable for palletized or bulk shipments."})
 
-    if match([r"(high cube|hc)\s*(container)?", r"40\s*(ft|feet|foot)\s*high cube"]):
+    if match([r"\bhigh cube\b.*container", r"40\s*(ft|feet|foot)\s*high cube", r"high cube container"]):
         return jsonify({"reply": "A 40ft High Cube container is 2.9m tall, 1 foot taller than standard containers. Ideal for bulky or voluminous cargo."})
 
     if match([r"reefer", r"refrigerated container", r"chiller container"]):
@@ -311,151 +314,6 @@ def chat():
     r"forklift rate", r"crane rate", r"container lifting", r"yard charges"]):
         return jsonify({"reply": "Open Yard VAS includes:\n- Forklift (3T–7T): 90 AED/hr\n- Forklift (10T): 200 AED/hr\n- Forklift (15T): 320 AED/hr\n- Mobile Crane (50T): 250 AED/hr\n- Mobile Crane (80T): 450 AED/hr\n- Container Lifting: 250 AED/lift\n- Container Stripping (20ft): 1,200 AED/hr"})
 
-    # --- Handling Math Questions like Packing Calculations ---
-    if match([r"calculate.*packing.*pallet", r"how much.*pallet.*packing", r"cost.*packing.*pallet", r"packing with pallet for \d+ pallet"]):
-        match_pallets = re.search(r"(\d+)\s*pallet", message)
-        if match_pallets:
-            pallets = int(match_pallets.group(1))
-            rate = 85
-            total = pallets * rate
-            return jsonify({"reply": f"Packing with pallet for {pallets} pallets at 85 AED/CBM each = {total:,.2f} AED."})
-                # --- VAS Calculation: Detect quantity and item type ---
-    if match([r"calculate.*(handling|in.?out)", r"how much.*handling", r"cost.*handling.*cbm"]):
-        cbm_match = re.search(r"(\d+)\s*cbm", message)
-        if cbm_match:
-            cbm = int(cbm_match.group(1))
-            rate = 20
-            return jsonify({"reply": f"In/Out Handling for {cbm} CBM at 20 AED/CBM = {cbm * rate:,.2f} AED."})
-
-    if match([r"calculate.*pallet.*load", r"pallet.*loading.*\d+", r"loading.*unloading.*pallet"]):
-        pallet_match = re.search(r"(\d+)\s*pallet", message)
-        if pallet_match:
-            pallets = int(pallet_match.group(1))
-            return jsonify({"reply": f"Pallet loading/unloading for {pallets} pallets at 12 AED/pallet = {pallets * 12:,.2f} AED."})
-
-    if match([r"calculate.*documentation|doc charge|docs.*rate|how much.*doc"]):
-        sets_match = re.search(r"(\d+)\s*(sets|doc)", message)
-        sets = int(sets_match.group(1)) if sets_match else 1
-        return jsonify({"reply": f"Documentation for {sets} set(s) at 125 AED/set = {sets * 125:,.2f} AED."})
-
-    if match([r"calculate.*packing.*pallet", r"pallet.*packing.*\d+", r"how much.*packing"]):
-        pallet_match = re.search(r"(\d+)\s*pallet", message)
-        if pallet_match:
-            pallets = int(pallet_match.group(1))
-            return jsonify({"reply": f"Packing with pallet for {pallets} pallets at 85 AED/CBM = {pallets * 85:,.2f} AED."})
-
-    if match([r"inventory count", r"stock audit", r"inventory event", r"inventory.*charge"]):
-        return jsonify({"reply": "Inventory Count fee is 3,000 AED per event."})
-
-    if match([r"case picking.*\d+", r"carton.*picking", r"how much.*carton"]):
-        carton_match = re.search(r"(\d+)\s*carton", message)
-        if carton_match:
-            cartons = int(carton_match.group(1))
-            return jsonify({"reply": f"Case picking for {cartons} cartons at 2.5 AED/carton = {cartons * 2.5:,.2f} AED."})
-
-    if match([r"label.*sticker.*\d+", r"sticker.*label.*cost", r"label.*qty"]):
-        label_match = re.search(r"(\d+)\s*label", message)
-        if label_match:
-            labels = int(label_match.group(1))
-            return jsonify({"reply": f"Sticker labeling for {labels} labels at 1.5 AED/label = {labels * 1.5:,.2f} AED."})
-
-    if match([r"shrink wrap.*\d+", r"wrap.*pallet", r"how much.*wrap"]):
-        wrap_match = re.search(r"(\d+)\s*pallet", message)
-        if wrap_match:
-            pallets = int(wrap_match.group(1))
-            return jsonify({"reply": f"Shrink wrapping for {pallets} pallets at 6 AED/pallet = {pallets * 6:,.2f} AED."})
-
-    if match([r"vna usage.*\d+", r"very narrow aisle.*pallet", r"vna.*charge"]):
-        pallet_match = re.search(r"(\d+)\s*pallet", message)
-        if pallet_match:
-            pallets = int(pallet_match.group(1))
-            return jsonify({"reply": f"VNA usage for {pallets} pallets at 2.5 AED/pallet = {pallets * 2.5:,.2f} AED."})
-                # --- Chemical VAS Calculation ---
-    if match([r"chemical.*handling.*pallet|palletized.*chemical", r"handling.*chemical.*pallet"]):
-        cbm_match = re.search(r"(\d+)\s*cbm", message)
-        if cbm_match:
-            cbm = int(cbm_match.group(1))
-            return jsonify({"reply": f"Chemical handling (palletized) for {cbm} CBM at 20 AED/CBM = {cbm * 20:,.2f} AED."})
-
-    if match([r"chemical.*handling.*loose|loose.*chemical", r"handling.*chemical.*loose"]):
-        cbm_match = re.search(r"(\d+)\s*cbm", message)
-        if cbm_match:
-            cbm = int(cbm_match.group(1))
-            return jsonify({"reply": f"Chemical handling (loose) for {cbm} CBM at 25 AED/CBM = {cbm * 25:,.2f} AED."})
-
-    if match([r"chemical.*doc|chemical.*documentation|chemical.*paperwork"]):
-        sets_match = re.search(r"(\d+)\s*(sets|doc)", message)
-        sets = int(sets_match.group(1)) if sets_match else 1
-        return jsonify({"reply": f"Chemical documentation for {sets} set(s) at 150 AED/set = {sets * 150:,.2f} AED."})
-
-    if match([r"chemical.*packing.*pallet|chemical.*palletized", r"packing.*chemical.*cbm"]):
-        cbm_match = re.search(r"(\d+)\s*cbm", message)
-        if cbm_match:
-            cbm = int(cbm_match.group(1))
-            return jsonify({"reply": f"Chemical packing with pallet for {cbm} CBM at 85 AED/CBM = {cbm * 85:,.2f} AED."})
-
-    if match([r"chemical.*inventory|chemical.*stock|chemical.*audit"]):
-        return jsonify({"reply": "Chemical inventory count is charged at 3,000 AED per event."})
-
-    if match([r"chemical.*inner bag|inner bag picking|bag picking|bag.*pick.*\d+"]):
-        bag_match = re.search(r"(\d+)\s*bag", message)
-        if bag_match:
-            bags = int(bag_match.group(1))
-            return jsonify({"reply": f"Inner bag picking for {bags} bags at 3.5 AED/bag = {bags * 3.5:,.2f} AED."})
-
-    if match([r"chemical.*label|chemical.*sticker.*label|labeling.*chemical"]):
-        label_match = re.search(r"(\d+)\s*label", message)
-        if label_match:
-            labels = int(label_match.group(1))
-            return jsonify({"reply": f"Chemical sticker labeling for {labels} labels at 1.5 AED/label = {labels * 1.5:,.2f} AED."})
-
-    if match([r"chemical.*wrap|shrink wrap.*chemical|chemical.*shrink"]):
-        pallet_match = re.search(r"(\d+)\s*pallet", message)
-        if pallet_match:
-            pallets = int(pallet_match.group(1))
-            return jsonify({"reply": f"Chemical shrink wrapping for {pallets} pallets at 6 AED/pallet = {pallets * 6:,.2f} AED."})
-                # --- Open Yard VAS Calculation ---
-    if match([r"forklift.*3.*7|3t.*forklift|7t.*forklift"]):
-        hr_match = re.search(r"(\d+)\s*hour", message)
-        if hr_match:
-            hrs = int(hr_match.group(1))
-            return jsonify({"reply": f"Forklift (3T–7T) for {hrs} hour(s) at 90 AED/hr = {hrs * 90:,.2f} AED."})
-
-    if match([r"forklift.*10t|10t.*forklift"]):
-        hr_match = re.search(r"(\d+)\s*hour", message)
-        if hr_match:
-            hrs = int(hr_match.group(1))
-            return jsonify({"reply": f"Forklift (10T) for {hrs} hour(s) at 200 AED/hr = {hrs * 200:,.2f} AED."})
-
-    if match([r"forklift.*15t|15t.*forklift"]):
-        hr_match = re.search(r"(\d+)\s*hour", message)
-        if hr_match:
-            hrs = int(hr_match.group(1))
-            return jsonify({"reply": f"Forklift (15T) for {hrs} hour(s) at 320 AED/hr = {hrs * 320:,.2f} AED."})
-
-    if match([r"crane.*50t|50t.*crane|mobile crane.*50"]):
-        hr_match = re.search(r"(\d+)\s*hour", message)
-        if hr_match:
-            hrs = int(hr_match.group(1))
-            return jsonify({"reply": f"Mobile Crane (50T) for {hrs} hour(s) at 250 AED/hr = {hrs * 250:,.2f} AED."})
-
-    if match([r"crane.*80t|80t.*crane|mobile crane.*80"]):
-        hr_match = re.search(r"(\d+)\s*hour", message)
-        if hr_match:
-            hrs = int(hr_match.group(1))
-            return jsonify({"reply": f"Mobile Crane (80T) for {hrs} hour(s) at 450 AED/hr = {hrs * 450:,.2f} AED."})
-
-    if match([r"container.*lift|container lifting|lift.*container|20ft.*lift|40ft.*lift"]):
-        unit_match = re.search(r"(\d+)\s*(lift|container)", message)
-        lifts = int(unit_match.group(1)) if unit_match else 1
-        return jsonify({"reply": f"{lifts} container lift(s) at 250 AED/lift = {lifts * 250:,.2f} AED."})
-
-    if match([r"container.*strip|stripping.*20ft|20ft.*strip|strip.*container"]):
-        hr_match = re.search(r"(\d+)\s*hour", message)
-        if hr_match:
-            hrs = int(hr_match.group(1))
-            return jsonify({"reply": f"Container Stripping 20ft for {hrs} hour(s) at 1,200 AED/hr = {hrs * 1200:,.2f} AED."})
-
     # --- Storage Rate Matching ---
     if match([r"open yard.*mussafah"]):
         return jsonify({"reply": "Open Yard Mussafah storage is 160 AED/SQM/year. WMS is excluded. VAS includes forklifts, cranes, and container lifts."})
@@ -515,7 +373,7 @@ def chat():
         "Across the facility, DSV offers thousands of pallet positions for ambient, VNA, and selective racking layouts. The exact total depends on rack type and client configuration."})
 # --- Aisle Widths in 21K Warehouse ---
     if match([
-    r"\baisle\b", r"aisle width", r"width of aisle", r"warehouse aisle", 
+    r"\baisle\b", r"aisle width", r"width of aisle", r"aisles", r"warehouse aisle", 
     r"vna aisle", r"how wide.*aisle", r"rack aisle width"]):
         return jsonify({"reply": 
         "Here are the aisle widths used in DSV’s 21K warehouse:\n\n"
@@ -544,7 +402,7 @@ def chat():
         return jsonify({"reply": "For warehouse occupancy, please contact Biju Krishnan at **biju.krishnan@dsv.com**. He’ll assist with availability, allocation, and scheduling a site visit if needed."})
 # --- Open Yard Space Availability ---
     if match([
-    r"open yard.*occupancy", r"space.*open yard", r"open yard.*available", 
+    r"open yard.*occupancy", r"space.*open yard",r"space", r"open yard.*available", 
     r"do we have.*open yard", r"open yard availability", r"open yard.*space", 
     r"yard capacity", r"yard.*vacancy", r"any.*open yard.*space"]):
         return jsonify({"reply": "For open yard occupancy, please contact Antony Jeyaraj at **antony.jeyaraj@dsv.com**. He can confirm available space and assist with pricing or scheduling a visit."})
@@ -582,7 +440,7 @@ def chat():
         return jsonify({"reply": "The chambers in 21K warehouse are:\nCh1 – Khalifa University\nCh2 – PSN\nCh3 – Food clients\nCh4 – MCC, TR, ADNOC\nCh5 – PSN\nCh6 – ZARA, TR\nCh7 – Civil Defense & RMS"})
         
     # --- Warehouse Occupancy ---
-    if match([r"warehouse occupancy|space available|any space in warehouse|availability.*storage"]):
+    if match([r"warehouse occupancy|occupancy|space available|any space in warehouse|availability.*storage"]):
         return jsonify({"reply": "For warehouse occupancy, contact Biju Krishnan at biju.krishnan@dsv.com."})
     if match([r"open yard.*occupancy|yard space.*available|yard capacity|yard.*availability"]):
         return jsonify({"reply": "For open yard occupancy, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})
@@ -637,14 +495,6 @@ def chat():
         "- 📍 **Airport Freezone** – GDP-compliant healthcare and cold chain storage\n\n"
         "Contact 📞 +971 2 555 2900 | 🌐 [dsv.com](https://www.dsv.com)"})
 
-    # --- service ---
-    if match([r"\bwhat is 3pl\b", r"\b3pl\b", r"third party logistics"]):
-        return jsonify({"reply": "3PL (Third Party Logistics) involves outsourcing logistics operations such as warehousing, transportation, picking/packing, and order fulfillment to a provider like DSV."})
-    if match([r"\bwhat is 4pl\b", r"\b4pl\b", r"fourth party logistics"]):
-        return jsonify({"reply": "4PL (Fourth Party Logistics) is a fully integrated supply chain solution where DSV manages all logistics operations, partners, systems, and strategy on behalf of the client. DSV acts as a single point of contact and coordination."})
-    if match([r"3\.5pl", r"three and half pl", r"3pl plus", r"middle of 3pl and 4pl"]):
-        return jsonify({"reply": "3.5PL is an emerging term referring to a hybrid between **3PL and 4PL**:\n- DSV provides operational execution like a 3PL\n- And partial strategic control like a 4PL\nIdeal for clients wanting control with partial outsourcing."})
-
 # --- DSV Sustainability Vision ---
     if match([
     r"sustainability", r"green logistics", r"sustainable practices", r"environmental policy",
@@ -663,12 +513,10 @@ def chat():
         return jsonify({"reply": "DSV provides fast turnaround warehousing for FMCG clients including dedicated racking, SKU control, and high-frequency dispatch."})
     if match([r"insurance|is insurance included|cargo insurance"]):
         return jsonify({"reply": "Insurance is not included by default in quotations. It can be arranged separately upon request."})
-    if match([r"healthcare|medical storage|pharma warehouse|pharmaceutical storage"]):
-        return jsonify({"reply": "DSV serves healthcare clients via temperature-controlled, GDP-compliant storage at Abu Dhabi Airport Freezone and Mussafah."})
 
     # --- Lean Six Sigma ---
-    if match([r"lean six sigma|6 sigma|warehouse process improvement|lean method"]):
-        return jsonify({"reply": "DSV incorporates Lean Six Sigma to improve warehouse efficiency, reduce errors, and optimize process flow with measurable KPIs."})
+    if match([r"lean six sigma|warehouse improvement|continuous improvement|kaizen|process efficiency|6 sigma|warehouse process improvement|lean method"]):
+        return jsonify({"reply": "DSV applies Lean Six Sigma principles in warehouse design and process flow to reduce waste, improve accuracy, and maximize efficiency. We implement 5S, KPI dashboards, and root-cause analysis for continuous improvement."})
 
     # --- Warehouse Activities ---
     if match([r"warehouse activities|inbound process|outbound process|putaway|replenishment|picking|packing|cycle count"]):
@@ -687,18 +535,15 @@ def chat():
         return jsonify({"reply": "Yes, DSV provides full **relocation services**:\n- Machinery shifting\n- Office and warehouse relocations\n- Packing, transport, offloading\n- Insurance and dismantling available\nHandled by our trained team with all safety measures."})
 
     # --- Machinery / Machineries ---
-    if match([r"machinery|machineries|machines used|equipment used"]):
+    if match([r"machinery|machineries|machines used|equipment|equipment used"]):
         return jsonify({"reply": "DSV uses forklifts (3–15T), VNA, reach trucks, pallet jacks, cranes, and container lifters in warehouse and yard operations."})
 
     if match([r"pallet.*bay|how many.*bay.*pallet", r"bay.*standard pallet", r"bay.*euro pallet"]):
         return jsonify({"reply": "Each bay in 21K can accommodate 14 Standard pallets or 21 Euro pallets. This layout maximizes efficiency for various cargo sizes."})
 
-    # --- DSV Ecommerce, Healthcare, Insurance, WMS ---
+    # --- DSV Ecommerce, Insurance, WMS ---
     if match([r"ecommerce|e-commerce|online retail|ecom|dsv online|shop logistics|online order|fulfillment center"]):
         return jsonify({"reply": "DSV provides end-to-end e-commerce logistics including warehousing, order fulfillment, pick & pack, returns handling, last-mile delivery, and integration with Shopify, Magento, and custom APIs. Our Autostore and WMS systems enable fast, accurate processing of online orders from our UAE hubs including KIZAD and Airport Freezone."})
-
-    if match([r"healthcare|pharma client|medical storage|health logistics"]):
-        return jsonify({"reply": "DSV handles healthcare and pharmaceutical logistics with temperature-controlled storage, GDP compliance, and dedicated cold chain delivery. Our Airport Freezone warehouse is optimized for these sectors."})
 
     if match([r"insurance|cargo insurance|storage insurance|are items insured"]):
         return jsonify({"reply": "Insurance is not included by default in DSV storage or transport quotes. It can be arranged upon client request, and is subject to cargo value, category, and terms agreed."})
@@ -709,11 +554,8 @@ def chat():
     if match([r"warehouse activities|warehouse tasks|daily warehouse work"]):
         return jsonify({"reply": "DSV warehouse activities include receiving (inbound), put-away, storage, replenishment, order picking, packing, staging, and outbound dispatch. We also handle inventory audits, cycle counts, and VAS."})
 
-    if match([r"warehouse process|inbound|outbound|putaway|replenishment|dispatch"]):
+    if match([r"warehouse process|inbound|outbound|SOP|Standard Operation Process|putaway|replenishment|dispatch"]):
         return jsonify({"reply": "Typical warehouse processes at DSV: (1) Inbound receiving, (2) Put-away into racks or zones, (3) Order picking or replenishment, (4) Packing & labeling, (5) Outbound dispatch. All steps are WMS-tracked."})
-
-    if match([r"lean six sigma|warehouse improvement|continuous improvement|kaizen|process efficiency"]):
-        return jsonify({"reply": "DSV applies Lean Six Sigma principles in warehouse design and process flow to reduce waste, improve accuracy, and maximize efficiency. We implement 5S, KPI dashboards, and root-cause analysis for continuous improvement."})
 
 # --- Air & Sea Services ---
     if match([
@@ -777,6 +619,15 @@ def chat():
         "Once these details are available, you can proceed to fill the main form to generate a quotation."})
     if match([r"proposal|quotation|quote.*open yard|send me.*quote|how to get quote|need.*quotation"]):
         return jsonify({"reply": "To get a full quotation, please close this chat and fill the details in the main form on the left. The system will generate a downloadable document for you."})
+ # --- service ---
+    if match([r"\bwhat is 2pl\b", r"\b2pl\b" r"second party logistics", r"what is 2pl", r"2pl meaning"]):
+        return jsonify({"reply": "2PL (Second Party Logistics) refers to transport-only logistics providers. DSV’s 2PL services include dedicated trucking, container movement, and distribution across the UAE and GCC using our own fleet."})
+    if match([r"\bwhat is 3pl\b", r"\b3pl\b", r"third party logistics"]):
+        return jsonify({"reply": "3PL (Third Party Logistics) involves outsourcing logistics operations such as warehousing, transportation, picking/packing, and order fulfillment to a provider like DSV."})
+    if match([r"\bwhat is 4pl\b", r"\b4pl\b", r"fourth party logistics"]):
+        return jsonify({"reply": "4PL (Fourth Party Logistics) is a fully integrated supply chain solution where DSV manages all logistics operations, partners, systems, and strategy on behalf of the client. DSV acts as a single point of contact and coordination."})
+    if match([r"\bwhat is 3.5pl\b", r"\b3.5pl\b", r"three and half pl", r"3pl plus", r"middle of 3pl and 4pl"]):
+        return jsonify({"reply": "3.5PL is an emerging term referring to a hybrid between **3PL and 4PL**:\n- DSV provides operational execution like a 3PL\n- And partial strategic control like a 4PL\nIdeal for clients wanting control with partial outsourcing."})
 
     # --- Transportation---
     if match([r"\bfleet\b", r"dsv fleet", r"truck fleet", r"transport fleet", r"fleet info"]):
@@ -858,7 +709,7 @@ def chat():
     if match([r"sub warehouse|m44|m45|al markaz|abu dhabi warehouse total|all warehouses"]):
         return jsonify({"reply": "In addition to the main 21K warehouse, DSV operates sub-warehouses in Abu Dhabi: M44 (5,760 sqm), M45 (5,000 sqm), and Al Markaz (12,000 sqm). Combined with 21K, the total covered warehouse area in Abu Dhabi is approximately 44,000 sqm."})
 
-    if match([r"terms and conditions|quotation policy|billing cycle|operation timing|payment terms|quotation validity"]):
+    if match([r"terms and conditions|quotation policy|T&C|billing cycle|operation timing|payment terms|quotation validity"]):
         return jsonify({"reply": "DSV quotations include the following terms: Monthly billing, final settlement before vacating, 15-day quotation validity, subject to space availability. The depot operates Monday–Friday 8:30 AM to 5:30 PM. Insurance is not included by default. An environmental fee of 0.15% is added to all invoices. Non-moving cargo over 3 months may incur extra storage tariff."})
     # --- QHSE ---   
     if match([r"safety training|warehouse training|fire drill|manual handling|staff safety|employee training|toolbox talk"]):
