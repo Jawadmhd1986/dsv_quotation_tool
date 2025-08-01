@@ -745,9 +745,9 @@ def chat():
         return jsonify({"reply": "DSV complies with UAE summer working hour restrictions. From June 15 to September 15, all outdoor work (including open yard and transport loading) is paused daily between 12:30 PM and 3:30 PM. This ensures staff safety and follows MOHRE guidelines."})
     # --- Client Name Queries ---
     if match([r"chambers.*21k", r"how many.*chambers", r"clients.*warehouse", r"who.*in.*warehouse", r"21k.*clients", r"tell me.*chambers", r"\bchambers\b"]):
-        return jsonify({"reply": "There are 7 chambers in the 21K warehouse:\n- **Chamber 1**: Khalifa University\n- **Chamber 2**: PSN\n- **Chamber 3**: Food clients & fast-moving items\n- **Chamber 4**: MCC, TR, and ADNOC\n- **Chamber 5**: PSN\n- **Chamber 6**: ZARA & TR\n- **Chamber 7**: Civil Defense and RMS"})
+        return jsonify({"reply": "There are 7 chambers in the 21K warehouse with different sizes and rack type, chambers'size start from 1000 sqm upto 5000 sqm which can accomodate upto to total 35000 cbm"})
 
-    if match([r"who is in ch(\d+)|client in ch(\d+)|ch\d+"]):
+    if match([r"who is in ch(\d+)|who is in chamber(\d+)|client in ch(\d+)|ch\d+"]):
         ch_num = re.search(r"ch(\d+)", message)
         if ch_num:
             chamber = int(ch_num.group(1))
