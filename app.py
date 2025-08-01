@@ -490,7 +490,6 @@ def chat():
     r"what.*dsv.*do", 
     r"dsv.*offerings"]):
         return jsonify({"reply": 
-        "DSV stands for **'De Sammensluttede Vognmænd'**, meaning **'The Consolidated Hauliers'** in Danish. Founded in 1976, DSV is a global logistics leader operating in over 80 countries.\n\n"
         "**DSV Abu Dhabi** provides full logistics and supply chain services, including:\n\n"
         "🚚 **2PL** – Road transport, containers, last-mile delivery\n"
         "🏢 **3PL** – Warehousing, inventory, VAS, WMS\n"
