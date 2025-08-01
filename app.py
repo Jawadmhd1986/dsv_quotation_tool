@@ -267,7 +267,7 @@ def chat():
         return jsonify({"reply": "Do you mean *Standard AC*, *Standard Non-AC*, or *Open Shed* storage? Please specify."})
     if match([r"standard ac", r"ac"]):
         return jsonify({"reply": "Standard AC storage is 2.5 AED/CBM/day. Standard VAS applies."})
-        if match([r"non ac", r"non-ac"]):
+    if match([r"non ac", r"non-ac"]):
         return jsonify({"reply": "Standard Non-AC storage is 2 AED/CBM/day. Standard VAS applies."})
     if match([r"\bchemical\b$", r"\bchemical storage\b$", r"only chemical"]):
         return jsonify({"reply": "Do you mean *Chemical AC* or *Chemical Non-AC*? Let me know which one you need the rate for."})
