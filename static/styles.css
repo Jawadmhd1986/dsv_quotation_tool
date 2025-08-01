@@ -41,7 +41,7 @@ body {
 .quote-card {
   background: var(--white);
   border-radius: 12px;
-  padding: 2.5rem 2rem 1.5rem;
+  padding: 1.5rem 2rem 1.5rem;
   width: 100%;
   max-width: 420px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
