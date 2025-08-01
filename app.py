@@ -300,11 +300,9 @@ def chat():
     
     # --- All VAS Categories in One Match ---
     if match([
-    r"\bvas\b", r"\ball vas\b", r"all value added services",
-    r"list.*vas", r"show.*vas", r"everything included in vas",
-    r"everything included in value added services",
-    r"vas details", r"value added services details",
-    r"what.*vas", r"what.*value added services"]):
+    r"\ball vas\b", r"all value added services",
+    r"everything included in vas",
+    r"everything included in value added services",]):
         return jsonify({"reply":
         "**Here are all the Value Added Services (VAS) offered by DSV:**\n\n"
         "📦 **Standard VAS (for AC, Non-AC, Open Shed)**:\n"
