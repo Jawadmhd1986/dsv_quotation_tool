@@ -287,7 +287,7 @@ def chat():
         return jsonify({"reply": "Open Yard KIZAD storage is **125 AED/SQM/year**. WMS is excluded. For availability, contact Antony Jeyaraj at antony.jeyaraj@dsv.com."})    
     
     # --- VAS Categories ---
-    if match([r"^vas$", r"list vas", r"vas details", r"show vas", r"vas details", r"value added services details", r"what vas", r"what value added services"]):
+    if match([r"list vas", r"vas details", r"show vas", r"vas details", r"value added services details", r"what vas", r"what value added services"]):
         return jsonify({"reply": "Which VAS category are you looking for? Please specify:\n- Standard VAS (AC / Non-AC / Open Shed)\n- Chemical VAS\n- Open Yard VAS"})
 
     if match([
