@@ -477,8 +477,24 @@ def chat():
         return jsonify({"reply": "WMS stands for Warehouse Management System. DSV uses INFOR WMS for inventory control, inbound/outbound, and full visibility."})
 
     # --- Services DSV Provides ---
-    if match([r"what.*services.*dsv.*provide", r"what (do|does).*dsv.*do", r"dsv.*offer", r"dsv.*specialize", r"dsv.*work", r"dsv.*services", r"what.*type.*service", r"type.*of.*logistics", r"services.*dsv", r"what.*dsv.*do", r"dsv.*offerings"]):
-        return jsonify({"reply": "DSV provides full logistics services including 2PL (transport & delivery) 3PL (warehousing, transport, VAS) 3.5PL (partially managed logistics with strategic input) 4PL (fully managed supply chain operations) and Land transport, air freight, sea freight, warehousing, WMS, VAS, last mile, cross-docking, and relocation."})
+    if match([
+    r"what.*services.*dsv.*provide", r"what (do|does).*dsv.*do", r"dsv.*offer", 
+    r"dsv.*specialize", r"dsv.*work", r"dsv.*services", 
+    r"what.*type.*service", r"type.*of.*logistics", 
+    r"services.*dsv", r"what.*dsv.*do", r"dsv.*offerings"]):
+        return jsonify({"reply": 
+        "DSV provides full logistics and supply chain solutions across the UAE and globally:\n\n"
+        "🚚 **2PL (Transport & Delivery)**:\n"
+        "- Road transport across UAE & GCC (flatbeds, reefers, city trucks)\n"
+        "- Container movement and port logistics\n\n"
+        "🏢 **3PL (Warehousing & VAS)**:\n"
+        "- Ambient, cold, and frozen storage\n"
+        "- Value-added services: packing, labeling, palletizing, documentation\n"
+        "- WMS (INFOR) with real-time visibility\n\n"
+        "🔗 **3.5PL (Hybrid Managed Logistics)**:\n"
+        "- Warehousing + transport + partial strategic oversight\n\n"
+        "🧠 **4PL (Full Supply Chain Management)**:\n"
+        "- DSV manages all logistics, vendors, WMS, and transport on your behalf"})
 
     # --- What does DSV mean ---
     if match([
