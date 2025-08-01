@@ -289,41 +289,6 @@ def chat():
     # --- VAS Categories ---
     if match([r"^vas$", r"list vas", r"vas details", r"show vas", r"vas details", r"value added services details", r"what vas", r"what value added services"]):
         return jsonify({"reply": "Which VAS category are you looking for? Please specify:\n- Standard VAS (AC / Non-AC / Open Shed)\n- Chemical VAS\n- Open Yard VAS"})
-    
-    # --- All VAS Categories in One Match ---
-    if match([
-    r"\ball vas\b", r"all value added services",
-    r"everything included in vas",
-    r"everything included in value added services",]):
-        return jsonify({"reply":
-        "**Here are all the Value Added Services (VAS) offered by DSV:**\n\n"
-        "📦 **Standard VAS (for AC, Non-AC, Open Shed)**:\n"
-        "- In/Out Handling: 20 AED/CBM\n"
-        "- Pallet Loading: 12 AED/pallet\n"
-        "- Documentation: 125 AED/set\n"
-        "- Packing with Pallet: 85 AED/CBM\n"
-        "- Inventory Count: 3,000 AED/event\n"
-        "- Case Picking: 2.5 AED/carton\n"
-        "- Sticker Labeling: 1.5 AED/label\n"
-        "- Shrink Wrapping: 6 AED/pallet\n"
-        "- VNA Usage: 2.5 AED/pallet\n\n"
-        "🧪 **Chemical VAS (for Chemical AC / Non-AC)**:\n"
-        "- Handling (Palletized): 20 AED/CBM\n"
-        "- Handling (Loose): 25 AED/CBM\n"
-        "- Documentation: 150 AED/set\n"
-        "- Packing with Pallet: 85 AED/CBM\n"
-        "- Inventory Count: 3,000 AED/event\n"
-        "- Inner Bag Picking: 3.5 AED/bag\n"
-        "- Sticker Labeling: 1.5 AED/label\n"
-        "- Shrink Wrapping: 6 AED/pallet\n\n"
-        "🚛 **Open Yard VAS (Mussafah & KIZAD)**:\n"
-        "- Forklift (3T–7T): 90 AED/hr\n"
-        "- Forklift (10T): 200 AED/hr\n"
-        "- Forklift (15T): 320 AED/hr\n"
-        "- Mobile Crane (50T): 250 AED/hr\n"
-        "- Mobile Crane (80T): 450 AED/hr\n"
-        "- Container Lifting: 250 AED/lift\n"
-        "- Container Stripping (20ft): 1,200 AED/hr"})
 
     if match([
     r"standard vas", r"standard", r"standard value added services", r"normal vas", r"normal value added services",
