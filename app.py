@@ -140,74 +140,73 @@ def chat():
     data = request.get_json()
     message = data.get("message", "").lower().strip()
 
-def normalize(text):
-    text = text.lower().strip()
+    def normalize(text):
+        text = text.lower().strip()
 
     # Common chat language
-    text = re.sub(r"\bu\b", "you", text)
-    text = re.sub(r"\bur\b", "your", text)
-    text = re.sub(r"\br\b", "are", text)
-    text = re.sub(r"\bpls\b", "please", text)
-    text = re.sub(r"\bthx\b", "thanks", text)
-    text = re.sub(r"\binfo\b", "information", text)
+        text = re.sub(r"\bu\b", "you", text)
+        text = re.sub(r"\bur\b", "your", text)
+        text = re.sub(r"\br\b", "are", text)
+        text = re.sub(r"\bpls\b", "please", text)
+        text = re.sub(r"\bthx\b", "thanks", text)
+        text = re.sub(r"\binfo\b", "information", text)
 
     # Logistics & warehouse short forms
-    text = re.sub(r"\bwh\b", "warehouse", text)
-    text = re.sub(r"\bw\/h\b", "warehouse", text)
-    text = re.sub(r"\binv\b", "inventory", text)
-    text = re.sub(r"\btemp\b", "temperature", text)
-    text = re.sub(r"\btemp zone\b", "temperature zone", text)
-    text = re.sub(r"\bwms system\b", "wms", text)
+        text = re.sub(r"\bwh\b", "warehouse", text)
+        text = re.sub(r"\bw\/h\b", "warehouse", text)
+        text = re.sub(r"\binv\b", "inventory", text)
+        text = re.sub(r"\btemp\b", "temperature", text)
+        text = re.sub(r"\btemp zone\b", "temperature zone", text)
+        text = re.sub(r"\bwms system\b", "wms", text)
 
     # Transportation & locations
-    text = re.sub(r"\brak\b", "ras al khaimah", text)
-    text = re.sub(r"\babudhabi\b", "abu dhabi", text)
-    text = re.sub(r"\babudhabi\b", "abu dhabi", text)
-    text = re.sub(r"\bdxb\b", "dubai", text)
+        text = re.sub(r"\brak\b", "ras al khaimah", text)
+        text = re.sub(r"\babudhabi\b", "abu dhabi", text)
+        text = re.sub(r"\babudhabi\b", "abu dhabi", text)
+        text = re.sub(r"\bdxb\b", "dubai", text)
 
     # Industry abbreviations
-    text = re.sub(r"\bo&g\b", "oil and gas", text)
-    text = re.sub(r"\bdg\b", "dangerous goods", text)
-    text = re.sub(r"\bfmcg\b", "fast moving consumer goods", text)
+        text = re.sub(r"\bo&g\b", "oil and gas", text)
+        text = re.sub(r"\bdg\b", "dangerous goods", text)
+        text = re.sub(r"\bfmcg\b", "fast moving consumer goods", text)
 
     # Quotation & VAS
-    text = re.sub(r"\bdoc\b", "documentation", text)
-    text = re.sub(r"\bdocs\b", "documentation", text)
-    text = re.sub(r"\bmsds\b", "material safety data sheet", text)
-    text = re.sub(r"\bvas\b", "value added services", text)
+        text = re.sub(r"\bdoc\b", "documentation", text)
+        text = re.sub(r"\bdocs\b", "documentation", text)
+        text = re.sub(r"\bmsds\b", "material safety data sheet", text)
+        text = re.sub(r"\bvas\b", "value added services", text)
 
     # E-commerce variations
-    text = re.sub(r"\be[\s\-]?commerce\b", "ecommerce", text)
-    text = re.sub(r"\bshop logistics\b", "ecommerce", text)
+        text = re.sub(r"\be[\s\-]?commerce\b", "ecommerce", text)
+        text = re.sub(r"\bshop logistics\b", "ecommerce", text)
 
     # Logistics models
-    text = re.sub(r"\b3\.5pl\b", "three and half pl", text)
-    text = re.sub(r"\b2pl\b", "second party logistics", text)
-    text = re.sub(r"\b3pl\b", "third party logistics", text)
-    text = re.sub(r"\b4pl\b", "fourth party logistics", text)
+        text = re.sub(r"\b3\.5pl\b", "three and half pl", text)
+        text = re.sub(r"\b2pl\b", "second party logistics", text)
+        text = re.sub(r"\b3pl\b", "third party logistics", text)
+        text = re.sub(r"\b4pl\b", "fourth party logistics", text)
 
     # Fleet & vehicle types
-    text = re.sub(r"\breefer\b", "refrigerated truck", text)
-    text = re.sub(r"\bchiller\b", "refrigerated truck", text)
-    text = re.sub(r"\bcity truck\b", "small truck", text)
-    text = re.sub(r"\bev truck\b", "electric truck", text)
+        text = re.sub(r"\breefer\b", "refrigerated truck", text)
+        text = re.sub(r"\bchiller\b", "refrigerated truck", text)
+        text = re.sub(r"\bcity truck\b", "small truck", text)
+        text = re.sub(r"\bev truck\b", "electric truck", text)
 
     # Fire system
-    text = re.sub(r"\bfm200\b", "fm 200", text)
+        text = re.sub(r"\bfm200\b", "fm 200", text)
 
     # Misc business terms
-    text = re.sub(r"\bkitting\b", "kitting and assembly", text)
-    text = re.sub(r"\btagging\b", "labeling", text)
-    text = re.sub(r"\basset tagging\b", "asset labeling", text)
-    text = re.sub(r"\btransit store\b", "transit warehouse", text)
-    text = re.sub(r"\basset mgmt\b", "asset management", text)
-    text = re.sub(r"\bmidday break\b", "summer break", text)
+        text = re.sub(r"\bkitting\b", "kitting and assembly", text)
+        text = re.sub(r"\btagging\b", "labeling", text)
+        text = re.sub(r"\basset tagging\b", "asset labeling", text)
+        text = re.sub(r"\btransit store\b", "transit warehouse", text)
+        text = re.sub(r"\basset mgmt\b", "asset management", text)
+        text = re.sub(r"\bmidday break\b", "summer break", text)
 
     # Strip non-alphanumeric except spaces
-    text = re.sub(r"[^a-z0-9\s]", "", text)
+        text = re.sub(r"[^a-z0-9\s]", "", text)
 
-    return text
-
+        return text
 
     message = normalize(message)
 
