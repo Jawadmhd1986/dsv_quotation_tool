@@ -252,7 +252,26 @@ def chat():
         "🟦 **Standard Pallet**:\n- Size: 1.2m × 1.0m\n- Load capacity: ~1,000 kg\n- Fits **14 pallets per bay**\n\n"
         "🟨 **Euro Pallet**:\n- Size: 1.2m × 0.8m\n- Load capacity: ~800 kg\n- Fits **21 pallets per bay**\n\n"
         "Pallets are used for racking, picking, and transport. DSV also offers VAS like pallet loading, shrink wrapping, labeling, and stretch film wrapping for safe handling."})
-   
+
+    # --- All Storage Rates at Once ---
+    if match([
+    r"all.*storage.*rates", r"complete.*storage.*rate", r"list.*storage.*fees",
+    r"storage.*rate.*overview", r"summary.*storage.*rates",
+    r"show.*all.*storage.*charges", r"storage.*rates.*all", r"rates for all storage"]):
+        return jsonify({"reply": 
+        "**Here are the current DSV Abu Dhabi storage rates:**\n\n"
+        "**📦 Standard Storage:**\n"
+        "- AC: 2.5 AED/CBM/day\n"
+        "- Non-AC: 2.0 AED/CBM/day\n"
+        "- Open Shed: 1.8 AED/CBM/day\n\n"
+        "**🧪 Chemical Storage:**\n"
+        "- Chemical AC: 3.5 AED/CBM/day\n"
+        "- Chemical Non-AC: 2.7 AED/CBM/day\n\n"
+        "**🏗 Open Yard Storage:**\n"
+        "- KIZAD: 125 AED/SQM/year\n"
+        "- Mussafah: 160 AED/SQM/year\n\n"
+        "*WMS fee applies to indoor storage unless excluded. For full quotation, fill out the form.*"})
+
     # --- Storage Rate Initial Question ---
     if match([r"storage rate[s]?$", r"\brates\b", r"storage", r"storage cost", r"how much.*storage", r"quotation.*storage only"]):
         return jsonify({"reply": "Which type of storage are you asking about? Standard, Chemicals, or Open Yard?"})
@@ -321,7 +340,7 @@ def chat():
         return jsonify({"reply": "Open Yard KIZAD storage is 125 AED/SQM/year. WMS excluded. VAS includes forklift 90–320 AED/hr, crane 250–450 AED/hr."})
    
     # --- 21K Warehouse  ---
-    if match([r"rack height|rack levels|pallets per bay|rack system"]):
+    if match([r"rack height|rack levels|pallets per bay|racking"]):
         return jsonify({"reply": "21K warehouse racks are 12m tall with 6 pallet levels. Each bay holds 14 Standard pallets or 21 Euro pallets."})
     if match([r"\b21k\b", r"tell me about 21k", r"what is 21k", r"21k warehouse", r"21k dsv", r"main warehouse", r"mussafah.*21k"]):
         return jsonify({"reply": "21K is DSV’s main warehouse in Mussafah, Abu Dhabi. It is 21,000 sqm with a clear height of 15 meters. The facility features:\n- 3 rack types: Selective, VNA, and Drive-in\n- Rack height: 12m with 6 pallet levels\n- Aisle widths: Selective (2.95–3.3m), VNA (1.95m), Drive-in (2.0m)\n- 7 chambers used by clients like ADNOC, ZARA, PSN, and Civil Defense\n- Fully equipped with fire systems, access control, and RMS for document storage."})
@@ -353,7 +372,7 @@ def chat():
     # --- 21K Warehouse Racking Info ---
     if match([
     r"\brack\b", r"\bracks\b", r"warehouse rack", r"warehouse racks", r"rack types",
-    r"types of racks", r"racking system", r"racking layout", r"rack height",
+    r"types of racks", r"racking system", r"rack system", r"racking layout", r"rack height",
     r"rack.*info", r"rack.*design", r"21k.*rack", r"rack.*21k", r"pallet levels"]):
         return jsonify({"reply":
         "The 21K warehouse in Mussafah uses 3 racking systems:\n\n"
@@ -539,7 +558,7 @@ def chat():
         return jsonify({"reply": "DSV applies Lean Six Sigma principles in warehouse design and process flow to reduce waste, improve accuracy, and maximize efficiency. We implement 5S, KPI dashboards, and root-cause analysis for continuous improvement."})
 
     # --- Warehouse Activities ---
-    if match([r"warehouse activities|inbound process|outbound process|putaway|replenishment|picking|packing|cycle count"]):
+    if match([r"warehouse activities|inbound process|outbound process|wh process|warehouse process|SOP|operation process|putaway|replenishment|picking|packing|cycle count"]):
         return jsonify({"reply": "Warehouse activities include:\n- Inbound: receiving, inspection, putaway\n- Outbound: picking, packing, dispatch\n- Replenishment, cycle counting, returns, VAS, and system updates via WMS."})
     if match([r"warehouse temp|temperature.*zone|storage temperature|cold room|freezer|ambient temp|warehouse temperature"]):
         return jsonify({"reply": "DSV provides 3 temperature zones:\n- **Ambient**: +18°C to +25°C\n- **Cold Room**: +2°C to +8°C\n- **Freezer**: –22°C\nThese zones are used for FMCG, pharmaceuticals, and temperature-sensitive products."})
@@ -760,7 +779,7 @@ def chat():
     if match([r"summer break|midday break|working hours summer|12.*3.*break|uae heat ban|no work afternoon|hot season schedule"]):
         return jsonify({"reply": "DSV complies with UAE summer working hour restrictions. From June 15 to September 15, all outdoor work (including open yard and transport loading) is paused daily between 12:30 PM and 3:30 PM. This ensures staff safety and follows MOHRE guidelines."})
     # --- Client Name Queries ---
-    if match([r"chambers.*21k", r"how many.*chambers", r"clients.*warehouse", r"\bchambers\b"]):
+    if match([r"chambers.*21k", r"how many.*chambers", r"warehouse.*layout", r"wh.*layout", r"warehouse.*structure", r"wh.*layout", r"\bchambers\b"]):
         return jsonify({"reply": "There are 7 chambers in the 21K warehouse with different sizes and rack type, chambers'size start from 1000 sqm upto 5000 sqm which can accomodate upto to total 35000 cbm"})
 
     if match([r"who is in ch(\d+)|who is in chamber(\d+)|21K clients|warehouse clients|WH clients|client in ch(\d+)|ch\d+"]):
