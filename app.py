@@ -385,7 +385,7 @@ def chat():
 # --- Warehouse Area / Size ---
     if match([
     r"\barea\b", r"warehouse area", r"warehouses area", r"warehouse size", r"warehouses size",
-    r"how big.*warehouse", r"storage area", r"warehouse total sqm", r"warehouse.*dimensions"]):
+    r"how big.*warehouse", r"storage area",r"facilities",r"warehouses", r"warehouse total sqm", r"warehouse.*dimensions"]):
         return jsonify({"reply": 
         "DSV Abu Dhabi has approximately **44,000 sqm** of total warehouse space, distributed as follows:\n"
         "- **21K Warehouse (Mussafah)**: 21,000 sqm\n"
@@ -481,6 +481,7 @@ def chat():
     r"what.*service[s]?.*dsv.*provide",
     r"what (do|does).*dsv.*do",
     r"what (do|does).*they.*do",
+    r"what (do|does).*they.*serve",
     r"what (do|does).*they.*offer", 
     r"what.*service[s].*they.*provide",
     r"dsv.*offer", 
@@ -653,7 +654,7 @@ def chat():
         return jsonify({"reply": "3.5PL is an emerging term referring to a hybrid between **3PL and 4PL**:\n- DSV provides operational execution like a 3PL\n- And partial strategic control like a 4PL\nIdeal for clients wanting control with partial outsourcing."})
 
     # --- Transportation---
-    if match([r"\bfleet\b", r"dsv fleet", r"truck fleet", r"transport fleet", r"fleet info"]):
+    if match([r"\bfleet\b", r"\bdsv fleet\b",r"\bdsv transportation\b", r"truck fleet", r"transport fleet", r"fleet info"]):
         return jsonify({"reply": "DSV operates a large fleet in the UAE including:\n- Flatbed trailers\n- Box trucks\n- Double trailers\n- Refrigerated trucks (chiller/freezer)\n- Lowbeds\n- Tippers\n- Small city delivery trucks\nFleet vehicles support all types of transport including full truckload (FTL), LTL, and container movements."})
     if match([r"truck types", r"trucks", r"transportation types", r"dsv trucks", r"transport.*available", r"types of transport", r"trucking services"]):
         return jsonify({"reply": "DSV provides local and GCC transportation using:\n- Flatbeds for general cargo\n- Lowbeds for heavy equipment\n- Tippers for construction bulk\n- Box trucks for secure goods\n- Refrigerated trucks for temperature-sensitive cargo\n- Double trailers for long-haul\n- Vans and city trucks for last-mile delivery."})
