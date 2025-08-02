@@ -255,7 +255,7 @@ def chat():
 
     # --- All Storage Rates at Once ---
     if match([
-    r"all.*storage.*rates", r"complete.*storage.*rate", r"all.*rate", r"list.*storage.*fees",
+    r"\ball\b",r"all.*storage.*rates", r"complete.*storage.*rate", r"all.*rate", r"list.*storage.*fees",
     r"storage.*rate.*overview", r"summary.*storage.*rates",
     r"show.*all.*storage.*charges", r"storage.*rates.*all", r"rates for all storage"]):
         return jsonify({"reply": 
