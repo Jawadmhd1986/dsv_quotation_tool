@@ -509,7 +509,7 @@ def chat():
 
     # --- What does DSV mean ---
     if match([
-    r"\bdsv\b", r"about dsv", r"who is dsv", r"what is dsv", r"dsv info", r"dsv abu dhabi",
+    r"\bdsv\b(?!.*fleet)", r"about dsv", r"who is dsv", r"what is dsv", r"dsv info", r"dsv abu dhabi",
     r"tell me about dsv", r"dsv overview", r"dsv abbreviation", r"dsv stands for", r"what does dsv mean"]):
         return jsonify({"reply":
         "DSV stands for **'De Sammensluttede Vognmænd'**, meaning **'The Consolidated Hauliers'** in Danish. "
@@ -654,6 +654,21 @@ def chat():
         return jsonify({"reply": "3.5PL is an emerging term referring to a hybrid between **3PL and 4PL**:\n- DSV provides operational execution like a 3PL\n- And partial strategic control like a 4PL\nIdeal for clients wanting control with partial outsourcing."})
 
     # --- Transportation---
+    if match([
+    r"\bfleet\b", r"dsv.*fleet", r"fleet.*dsv",
+    r"\bdsv transportation\b", r"truck fleet", r"transport fleet", r"fleet info",
+    r"what.*fleet.*dsv", r"dsv.*trucks", r"types of fleet"]):
+        return jsonify({"reply": 
+        "DSV operates a large fleet in the UAE including:\n\n"
+        "- 🚛 Flatbed trailers\n"
+        "- 📦 Box trucks\n"
+        "- 🚚 Double trailers\n"
+        "- ❄️ Refrigerated trucks (chiller/freezer)\n"
+        "- 🏗 Lowbeds\n"
+        "- 🪨 Tippers\n"
+        "- 🏙 Small city delivery trucks\n\n"
+        "Fleet vehicles support all types of transport including full truckload (FTL), LTL, and container movements."})
+
     if match([r"\bfleet\b", r"\bdsv fleet\b",r"\bdsv transportation\b", r"truck fleet", r"transport fleet", r"fleet info"]):
         return jsonify({"reply": "DSV operates a large fleet in the UAE including:\n- Flatbed trailers\n- Box trucks\n- Double trailers\n- Refrigerated trucks (chiller/freezer)\n- Lowbeds\n- Tippers\n- Small city delivery trucks\nFleet vehicles support all types of transport including full truckload (FTL), LTL, and container movements."})
     if match([r"truck types", r"trucks", r"transportation types", r"dsv trucks", r"transport.*available", r"types of transport", r"trucking services"]):
