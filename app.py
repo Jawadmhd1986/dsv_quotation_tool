@@ -253,60 +253,6 @@ def chat():
         "🟨 **Euro Pallet**:\n- Size: 1.2m × 0.8m\n- Load capacity: ~800 kg\n- Fits **21 pallets per bay**\n\n"
         "Pallets are used for racking, picking, and transport. DSV also offers VAS like pallet loading, shrink wrapping, labeling, and stretch film wrapping for safe handling."})
 
-# --- DSV UAE Divisions & Locations Overview ---
-    if match([
-    r"dsv.*uae", r"dsv.*locations.*uae", r"dsv.*in.*uae", r"dsv.*emirates", 
-    r"dsv.*facilities.*uae", r"dsv.*sites.*uae", r"dsv.*divisions.*uae"]):
-        return jsonify({"reply": 
-        "**DSV UAE** operates logistics hubs across multiple Emirates:\n\n"
-        "🏢 **Abu Dhabi (Main Operations)**:\n"
-        "- 21K Warehouse (21,000 sqm, 7 chambers)\n"
-        "- M44 / M45 (sub-warehouses in Mussafah)\n"
-        "- Al Markaz (Hameem – 12,000 sqm regional site)\n"
-        "- KIZAD Open Yard (360,000 sqm heavy cargo yard)\n"
-        "- Airport Freezone (GDP-certified for healthcare)\n\n"
-        "🚚 **Other Emirates:**\n"
-        "- Dubai: Air & Sea coordination via Jebel Ali & DWC\n"
-        "- Sharjah: SME and courier clients\n"
-        "- Northern Emirates: Long-haul fleet transport\n\n"
-        "Each site is integrated via WMS, VAS, and project logistics teams."})
-
-# --- DSV Divisions / Global Business Units ---
-    if match([
-    r"dsv.*divisions", r"dsv.*business units", r"what are dsv.*divisions", r"dsv.*structure", 
-    r"divisions of dsv", r"dsv.*department", r"dsv.*groups", r"dsv.*teams"]):
-        return jsonify({"reply": 
-        "DSV operates under three main global divisions:\n\n"
-        "1️⃣ **DSV Air & Sea** – Freight forwarding by air and ocean\n"
-        "2️⃣ **DSV Road** – Land transportation and fleet\n"
-        "3️⃣ **DSV Solutions** – Contract logistics, warehousing, 3PL/4PL\n\n"
-        "In the UAE, all divisions are active and managed under DSV Solutions PJSC (Abu Dhabi HQ)."})
-
-# --- DSV UAE Air & Sea Details ---
-    if match([
-    r"air sea division", r"air & sea division", r"dsv air sea uae", r"air sea abu dhabi", 
-    r"air sea freight uae", r"air sea forwarding uae", r"air sea.*dsv", r"dsv.*air.*sea"]):
-        return jsonify({"reply": 
-        "**DSV Air & Sea UAE** provides end-to-end forwarding via:\n\n"
-        "✈️ **Air Freight**:\n"
-        "- Standard, express, and charter cargo\n"
-        "- Connected to Abu Dhabi Airport Freezone for healthcare & pharma\n\n"
-        "🚢 **Sea Freight**:\n"
-        "- FCL / LCL via Jebel Ali, Khalifa Port, and Zayed Port\n"
-        "- Import/export clearance & project forwarding\n\n"
-        "Operations are fully integrated with warehousing, transport, and WMS visibility."})
-
-# --- DSV UAE Contact Info Block ---
-    if match([
-    r"dsv.*contact.*uae", r"dsv.*abu dhabi.*contact", r"dsv.*phone.*uae", 
-    r"how to reach dsv uae", r"dsv.*email.*uae", r"contact dsv.*uae"]):
-        return jsonify({"reply": 
-        "**DSV Abu Dhabi (Head Office):**\n"
-        "📍 Mussafah M19, 21K Warehouse\n"
-        "📞 +971 2 555 2900\n"
-        "📧 uae.sales@dsv.com\n\n"
-        "For storage or quotation requests, please fill out the form on this page."})
-
     # --- All Storage Rates at Once ---
     if match([
     r"\ball\b",r"all.*storage.*rates", r"complete.*storage.*rate", r"all.*rate", r"list.*storage.*fees",
