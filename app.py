@@ -499,8 +499,8 @@ def chat():
     if match([
     r"what.*service[s]?.*dsv.*provide",
     r"what (do|does).*dsv.*do",
+    r"what.*they.*do",
     r"what (do|does).*they.*do",
-    r"what (do|does).*they.*serve",
     r"what (do|does).*they.*offer", 
     r"what.*service[s].*they.*provide",
     r"dsv.*offer", 
