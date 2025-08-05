@@ -678,12 +678,12 @@ def chat():
     "5PL is ideal for businesses needing full end-to-end digital control across multiple logistics layers, particularly in global e-commerce or high-volume industries."})
     if match([r"\b2\.5pl\b", r"\btwo and half pl\b", r"what is 2\.5pl", r"2pl plus", r"middle of 2pl and 3pl"]):
         return jsonify({"reply":
-        "2.5PL refers to a hybrid model between **2PL (transport only)** and **3PL (logistics provider with warehousing and VAS)**.\n\n"
-        "In this model, the service provider offers basic **transportation with limited logistics support** like:\n"
-        "- Vehicle tracking\n"
-        "- Documentation support\n"
-        "- Simple storage or consolidation\n\n"
-        "It’s an informal term sometimes used in the UAE to describe providers who go slightly beyond standard transport but are not full 3PLs."})
+    "2.5PL refers to a hybrid model between **2PL (transport only)** and **3PL (logistics provider with warehousing and VAS)**.\n\n"
+    "In this model, the service provider offers basic **transportation with limited logistics support** like:\n"
+    "- Vehicle tracking\n"
+    "- Documentation support\n"
+    "- Simple storage or consolidation\n\n"
+    "It’s an informal term sometimes used in the UAE to describe providers who go slightly beyond standard transport but are not full 3PLs."})
 
     # --- Transportation---
     if match([
