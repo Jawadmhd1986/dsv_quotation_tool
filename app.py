@@ -671,6 +671,11 @@ def chat():
         return jsonify({"reply": "4PL (Fourth Party Logistics) is a fully integrated supply chain solution where DSV manages all logistics operations, partners, systems, and strategy on behalf of the client. DSV acts as a single point of contact and coordination."})
     if match([r"\bwhat is 3.5pl\b", r"\b3.5pl\b", r"three and half pl", r"3pl plus", r"middle of 3pl and 4pl"]):
         return jsonify({"reply": "3.5PL is an emerging term referring to a hybrid between **3PL and 4PL**:\n- DSV provides operational execution like a 3PL\n- And partial strategic control like a 4PL\nIdeal for clients wanting control with partial outsourcing."})
+    if match([r"\b5pl\b", r"\bfifth party logistics\b", r"what is 5pl", r"5pl meaning", r"explain 5pl"]):
+        return jsonify({"reply":
+    "5PL (Fifth Party Logistics) refers to a provider that **manages the entire supply chain network** on behalf of the client, including multiple 3PL/4PL providers. \n\n"
+    "It focuses on **complete strategic orchestration** of logistics using data-driven platforms, artificial intelligence, automation, and integrated digital ecosystems.\n\n"
+    "5PL is ideal for businesses needing full end-to-end digital control across multiple logistics layers, particularly in global e-commerce or high-volume industries."})
 
     # --- Transportation---
     if match([
