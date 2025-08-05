@@ -660,7 +660,7 @@ def chat():
         "3️⃣ **Storage Volume** – In CBM/day, CBM/month, or CBM/year for warehousing; in SQM for open yard\n"
         "4️⃣ **Throughput Volumes (IN/OUT)** – Daily or monthly volume in CBM to determine handling pattern and frequency\n\n"
         "Once these details are available, you can proceed to fill the main form to generate a quotation."})
-    if match([r"proposal|quotation|quote.*open yard|send me.*quote|how to get quote|need.*quotation"]):
+    if match([r"proposal|quotation|offer|quote.*open yard|proposal.*open yard|send me.*quote|how to get quote|need.*quotation"]):
         return jsonify({"reply": "To get a full quotation, please close this chat and fill the details in the main form on the left. The system will generate a downloadable document for you."})
  # --- service ---
     if match([r"\bwhat is 2pl\b", r"\b2pl\b", r"second party logistics", r"what is 2pl", r"2pl meaning"]):
