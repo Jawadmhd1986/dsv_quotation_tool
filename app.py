@@ -204,7 +204,7 @@ def chat():
         text = re.sub(r"\bmidday break\b", "summer break", text)
 
     # Strip non-alphanumeric except spaces
-        text = re.sub(r"[^a-z0-9\s]", "", text)
+        text = re.sub(r"[^a-z0-9\s\.]", "", text)
 
         return text
 
