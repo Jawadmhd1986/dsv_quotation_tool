@@ -676,10 +676,8 @@ def chat():
     "5PL (Fifth Party Logistics) refers to a provider that **manages the entire supply chain network** on behalf of the client, including multiple 3PL/4PL providers. \n\n"
     "It focuses on **complete strategic orchestration** of logistics using data-driven platforms, artificial intelligence, automation, and integrated digital ecosystems.\n\n"
     "5PL is ideal for businesses needing full end-to-end digital control across multiple logistics layers, particularly in global e-commerce or high-volume industries."})
-    
-# --- 2.5PL (Hybrid Model Between 2PL and 3PL) ---
     if match([r"\bwhat is 2.5pl\b", r"\b2.5pl\b", r"two and half pl", r"2pl plus", r"middle of 2pl and 3pl"]):
-        return jsonify({"reply": "2.5PL refers to a hybrid model between **2PL and **3PL:\n- In this model the provider offers limited logistics support beyond transport such as Vehicle tracking Documentation handling Basic storage or consolidation:\n- This is an informal term used in the UAE to describe transport providers offering partial logistics support without full 3PL scope."})
+        return jsonify({"reply": "2.5PL is a hybrid between **2PL and 3PL**:\n- Offers transport services like 2PL\n- Adds basic logistics support such as tracking, documentation, or simple consolidation\nCommonly used in the UAE to describe transport providers offering limited 3PL features."})
 
 # --- 6PL (Sixth Party Logistics) ---
     if match([
