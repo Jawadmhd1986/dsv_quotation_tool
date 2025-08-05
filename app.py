@@ -529,8 +529,8 @@ def chat():
 
     # --- What does DSV mean ---
     if match([
-    r"\bdsv\b(?!.*fleet)", r"about dsv", r"who is dsv", r"what is dsv", r"dsv info", r"dsv abu dhabi",
-    r"tell me about dsv", r"dsv overview", r"dsv abbreviation", r"dsv stands for", r"what does dsv mean"]):
+    r"\bdsv\b(?!.*(fleet|wms))", r"about dsv", r"who is dsv", r"what is dsv", r"dsv info(?!.*wms)", r"dsv abu dhabi(?!.*wms)",
+    r"tell me about dsv(?!.*wms)", r"dsv overview(?!.*wms)", r"dsv abbreviation", r"dsv stands for", r"what does dsv mean(?!.*wms)"]):
         return jsonify({"reply":
         "DSV stands for **'De Sammensluttede Vognmænd'**, meaning **'The Consolidated Hauliers'** in Danish. "
         "Founded in 1976, DSV is a global logistics leader operating in over 80 countries."})
