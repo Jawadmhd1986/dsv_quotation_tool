@@ -661,7 +661,7 @@ def chat():
     r"client.*gave.*sqm.*how.*cbm",
     r"how.*cbm.*(if|when).*client.*(gives|provides).*sqm",
     r"i have.*sqm.*need.*cbm"]):
-        return jsonify({"reply": "The client should ideally provide the volume in CBM. But if only SQM is given, estimate it using **1 SQM ≈ 1.8 CBM** for warehousing purposes."})
+        return jsonify({"reply": "If the client doesn’t provide CBM, you can estimate it using the rule: **1 SQM ≈ 1.8 CBM** for standard racked warehouse storage."})
 
     if match([
     r"(what.*collect.*client.*quotation)", r"(what.*info.*client.*quote)", 
