@@ -588,8 +588,18 @@ def chat():
     if match([r"insurance|cargo insurance|storage insurance|are items insured"]):
         return jsonify({"reply": "Insurance is not included by default in DSV storage or transport quotes. It can be arranged upon client request, and is subject to cargo value, category, and terms agreed."})
 
-    if match([r"\bwms\b|warehouse management system|inventory software|tracking system|dsv.*system"]):
-        return jsonify({"reply": "DSV uses the INFOR Warehouse Management System (WMS) to manage inventory, inbound/outbound flows, and order tracking. It supports real-time dashboards and client integration."})
+    # --- What is WMS / What WMS system DSV uses ---
+    if match([
+    r"\bwms\b",
+    r"what.*wms.*system.*dsv.*use",
+    r"which.*wms.*system",
+    r"what.*warehouse.*system.*dsv.*use",
+    r"dsv.*wms.*system",
+    r"wms.*used.*by.*dsv",
+    r"wms.*software.*dsv",
+    r"inventory.*tracking.*system",
+    r"dsv.*inventory.*system"]):
+        return jsonify({"reply": "DSV uses the **INFOR Warehouse Management System (WMS)** to manage inventory, inbound/outbound flows, and order tracking. It supports real-time dashboards, barcode scanning, and integrates with client ERP systems."})
 
     if match([r"warehouse activities|warehouse tasks|daily warehouse work"]):
         return jsonify({"reply": "DSV warehouse activities include receiving (inbound), put-away, storage, replenishment, order picking, packing, staging, and outbound dispatch. We also handle inventory audits, cycle counts, and VAS."})
