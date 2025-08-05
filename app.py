@@ -676,17 +676,18 @@ def chat():
     "5PL (Fifth Party Logistics) refers to a provider that **manages the entire supply chain network** on behalf of the client, including multiple 3PL/4PL providers. \n\n"
     "It focuses on **complete strategic orchestration** of logistics using data-driven platforms, artificial intelligence, automation, and integrated digital ecosystems.\n\n"
     "5PL is ideal for businesses needing full end-to-end digital control across multiple logistics layers, particularly in global e-commerce or high-volume industries."})
-    # --- 2.5PL (Hybrid Logistics) ---
+    # --- 2.5PL (Hybrid Model Between 2PL and 3PL) ---
     if match([
-    r"\b2\.5pl\b", r"2\.5 pl", r"\btwo and a half pl\b", r"\btwo and half pl\b", 
-    r"what is 2\.5pl", r"what is two and a half pl", r"middle of 2pl and 3pl", r"2pl plus"]):
+    r"\b2\.5pl\b", r"2\.5 pl", r"\btwo and a half pl\b", r"\btwo and half pl\b",
+    r"what is 2\.5pl", r"what is two and a half pl", r"2pl plus", r"hybrid.*2pl.*3pl", r"middle.*2pl.*3pl"]):
         return jsonify({"reply":
-        "**2.5PL** refers to a hybrid logistics model between **2PL (transport only)** and **3PL (with warehousing & VAS)**.\n\n"
-        "✅ Typical services include:\n"
-        "- Transport + vehicle tracking\n"
-        "- Simple documentation handling\n"
-        "- Light storage or consolidation\n\n"
-        "📌 *This term is sometimes used in the UAE for providers who go beyond pure transport, but aren’t full 3PLs.*"})
+        "**2.5PL** refers to a hybrid model between **2PL (transport only)** and **3PL (logistics with warehousing and VAS)**.\n\n"
+        "📦 In this model, the provider offers limited logistics support beyond transport, such as:\n"
+        "- Vehicle tracking\n"
+        "- Documentation handling\n"
+        "- Basic storage or consolidation\n\n"
+        "📌 This is an informal term used in the UAE to describe transport providers offering partial logistics support without full 3PL scope."})
+
 # --- 6PL (Sixth Party Logistics) ---
     if match([
     r"\b6pl\b", r"\bsixth party logistics\b", r"what is 6pl", 
