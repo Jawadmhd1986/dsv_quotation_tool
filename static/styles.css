@@ -14,7 +14,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: var(--grey-bg);
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100); /* 👈 fix mobile 100vh bug */
   overflow: hidden;
 }
 
@@ -231,4 +231,5 @@ body {
     z-index: 2000;
   }
 }
+
 
