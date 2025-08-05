@@ -654,15 +654,14 @@ def chat():
     r"(convert|calculate|estimate).*cbm.*(from|using).*sqm",
     r"(sqm|sq\.?m).*to.*cbm",
     r"cbm.*(from|based on|calculated from).*sqm",
-    r"(volume|storage volume).*only.*sqm",
     r"(client|customer).*only.*(sqm|sq\.?m)",
     r"(only|just).*sqm.*not.*cbm",
     r"no.*cbm.*(provided|available)",
     r"given.*sqm.*want.*cbm",
     r"client.*gave.*sqm.*how.*cbm",
-    r"how much cbm.*(if|when).*client.*(gives|provides).*sqm",
+    r"how.*cbm.*(if|when).*client.*(gives|provides).*sqm",
     r"i have.*sqm.*need.*cbm"]):
-        return jsonify({"reply": "The client should ideally provide the required warehouse volume in CBM. However, if only SQM is given, you can estimate that **1 SQM ≈ 1.8 CBM** for warehousing purposes."})
+        return jsonify({"reply": "The client should ideally provide the volume in CBM. But if only SQM is given, estimate it using **1 SQM ≈ 1.8 CBM** for warehousing purposes."})
 
     if match([
     r"(what.*collect.*client.*quotation)", r"(what.*info.*client.*quote)", 
