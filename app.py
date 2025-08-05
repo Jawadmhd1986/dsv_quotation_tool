@@ -15,7 +15,7 @@ def generate():
     storage_type = request.form["storage_type"]
     volume = float(request.form["volume"])
     days = int(request.form["days"])
-    include_wms = request.form["wms"] == "Yes"
+    include_ = request.form[""] == "Yes"
     email = request.form.get("email", "")
     today_str = datetime.today().strftime("%d %b %Y")
 
@@ -476,7 +476,7 @@ def chat():
         return jsonify({"reply": "DSV handles **breakbulk and heavy logistics** including:\n- Oversized cargo (machinery, steel, transformers)\n- Lowbed trailer and crane support\n- Project logistics & site delivery\n- DG compliance and route planning\n- Full UAE & GCC transport coordination"})
     if match([r"last mile", r"last mile delivery", r"final mile", r"city delivery"]):
         return jsonify({"reply": "DSV offers **last-mile delivery** services across the UAE using small city trucks and vans. These are ideal for e-commerce, retail, and healthcare shipments requiring fast and secure delivery to final destinations. Deliveries are WMS-tracked and coordinated by our OCC team for full visibility."})
-    if match([r"\binventory\b", r"inventory management", r"inventory control", r"inventory system", r"stock tracking"]):
+    if match([r"\binventory\b", r"inventory management", r"what wms syatem", r"inventory control", r"inventory system", r"stock tracking"]):
         return jsonify({"reply": "DSV uses INFOR WMS to manage all inventory activities. It provides:\n- Real-time stock visibility\n- Bin-level tracking\n- Batch/serial number control\n- Expiry tracking (for pharma/FMCG)\n- Integration with your ERP system"})
     if match([r"cross dock", r"cross docking", r"cross-dock", r"crossdock facility"]):
         return jsonify({"reply": "Yes, DSV supports **cross-docking** for fast-moving cargo:\n- Receive → Sort → Dispatch (no storage)\n- Ideal for FMCG, e-commerce, and retail\n- Reduces lead time and handling\n- Available at Mussafah and KIZAD hubs"})
