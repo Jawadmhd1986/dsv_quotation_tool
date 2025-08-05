@@ -12,10 +12,10 @@ def index():
 
 @app.route("/generate", methods=["POST"])
 def generate():
-    storage_type = request.form["storage_type"]
-    volume = float(request.form["volume"])
-    days = int(request.form["days"])
-    include_ = request.form[""] == "Yes"
+    storage_type = request.form.get("storage_type", "")
+    volume = float(request.form.get("volume", 0))
+    days = int(request.form.get("days", 0))
+    include_wms = request.form.get("wms", "No") == "Yes"
     email = request.form.get("email", "")
     today_str = datetime.today().strftime("%d %b %Y")
 
