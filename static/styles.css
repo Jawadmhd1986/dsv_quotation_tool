@@ -208,7 +208,7 @@ body {
 @media (max-width: 480px) {
   .dsv-logo {
     width: 120px;
-    top: 3rem;
+    top: 2rem;
   }
   .quote-card {
     padding: 3rem 1rem 0.75rem;
@@ -231,5 +231,6 @@ body {
     z-index: 2000;
   }
 }
+
 
 
