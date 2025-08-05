@@ -677,16 +677,8 @@ def chat():
     "It focuses on **complete strategic orchestration** of logistics using data-driven platforms, artificial intelligence, automation, and integrated digital ecosystems.\n\n"
     "5PL is ideal for businesses needing full end-to-end digital control across multiple logistics layers, particularly in global e-commerce or high-volume industries."})
     # --- 2.5PL (Hybrid Model Between 2PL and 3PL) ---
-    if match([
-    r"\b2\.5pl\b", r"2\.5 pl", r"\btwo and a half pl\b", r"\btwo and half pl\b",
-    r"what is 2\.5pl", r"what is two and a half pl", r"2pl plus", r"hybrid.*2pl.*3pl", r"middle.*2pl.*3pl"]):
-        return jsonify({"reply":
-        "**2.5PL** refers to a hybrid model between **2PL (transport only)** and **3PL (logistics with warehousing and VAS)**.\n\n"
-        "📦 In this model, the provider offers limited logistics support beyond transport, such as:\n"
-        "- Vehicle tracking\n"
-        "- Documentation handling\n"
-        "- Basic storage or consolidation\n\n"
-        "📌 This is an informal term used in the UAE to describe transport providers offering partial logistics support without full 3PL scope."})
+    if match([r"\bwhat is 2.5pl\b", r"\b2.5pl\b", r"what is 2.5pl", r"2.5pl meaning"]):
+        return jsonify({"reply": "2.5PL** refers to a hybrid model between **2PL (transport only)** and **3PL (logistics with warehousing and VAS), 📦 In this model, the provider offers limited logistics support beyond transport, such as Vehicle tracking, Documentation handling, Basic storage or consolidation. This is an informal term used in the UAE to describe transport providers offering partial logistics support without full 3PL scope."})
 
 # --- 6PL (Sixth Party Logistics) ---
     if match([
