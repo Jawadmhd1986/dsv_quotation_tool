@@ -676,23 +676,40 @@ def chat():
     "5PL (Fifth Party Logistics) refers to a provider that **manages the entire supply chain network** on behalf of the client, including multiple 3PL/4PL providers. \n\n"
     "It focuses on **complete strategic orchestration** of logistics using data-driven platforms, artificial intelligence, automation, and integrated digital ecosystems.\n\n"
     "5PL is ideal for businesses needing full end-to-end digital control across multiple logistics layers, particularly in global e-commerce or high-volume industries."})
-    # --- 2.5PL Hybrid Logistics ---
+    # --- 2.5PL (Hybrid Logistics) ---
     if match([
-    r"\b2\.5pl\b", 
-    r"\btwo and half pl\b", 
-    r"\btwo point five pl\b", 
-    r"what is 2\.5pl", 
-    r"what is two and half pl", 
-    r"2pl plus", 
-    r"2\.5 pl", 
-    r"middle of 2pl and 3pl"]):
+    r"\b2\.5pl\b", r"2\.5 pl", r"\btwo and a half pl\b", r"\btwo and half pl\b", 
+    r"what is 2\.5pl", r"what is two and a half pl", r"middle of 2pl and 3pl", r"2pl plus"]):
         return jsonify({"reply":
-        "**2.5PL** refers to a hybrid model between **2PL (transport only)** and **3PL (logistics provider with warehousing and VAS)**.\n\n"
-        "In this model, the service provider offers basic **transportation with limited logistics support**, such as:\n"
-        "- Vehicle tracking\n"
-        "- Documentation support\n"
-        "- Simple storage or consolidation\n\n"
-        "It’s an informal term sometimes used in the UAE to describe providers who go slightly beyond standard transport but are not full 3PLs."})
+        "**2.5PL** refers to a hybrid logistics model between **2PL (transport only)** and **3PL (with warehousing & VAS)**.\n\n"
+        "✅ Typical services include:\n"
+        "- Transport + vehicle tracking\n"
+        "- Simple documentation handling\n"
+        "- Light storage or consolidation\n\n"
+        "📌 *This term is sometimes used in the UAE for providers who go beyond pure transport, but aren’t full 3PLs.*"})
+# --- 6PL (Sixth Party Logistics) ---
+    if match([
+    r"\b6pl\b", r"\bsixth party logistics\b", r"what is 6pl", 
+    r"explain 6pl", r"6pl meaning", r"define 6pl"]):
+        return jsonify({"reply":
+        "**6PL (Sixth Party Logistics)** is an **emerging concept** in supply chain strategy.\n\n"
+        "It refers to a logistics model that integrates:\n"
+        "- AI-based decision making\n"
+        "- Big data analytics\n"
+        "- Autonomous systems\n"
+        "- Full digital orchestration across 3PL/4PL/5PL layers\n\n"
+        "📌 *It's not yet widely adopted but represents the future of smart, fully automated logistics.*"})
+# --- 1PL (First Party Logistics) ---
+    if match([
+    r"\b1pl\b", r"\bfirst party logistics\b", r"what is 1pl", 
+    r"explain 1pl", r"1pl meaning", r"define 1pl"]):
+        return jsonify({"reply":
+        "**1PL (First Party Logistics)** refers to the **owner of the goods** who handles all logistics themselves.\n\n"
+        "This means the company manages:\n"
+        "- Warehousing\n"
+        "- Transportation\n"
+        "- Inventory & dispatch\n\n"
+        "**No outsourcing** is involved — everything is done in-house by the product owner."})
 
     # --- Transportation---
     if match([
