@@ -529,8 +529,9 @@ def chat():
 
     # --- What does DSV mean ---
     if match([
-    r"\bdsv\b(?!.*(fleet|wms))", r"about dsv", r"who is dsv", r"what is dsv", r"dsv info(?!.*wms)", r"dsv abu dhabi(?!.*wms)",
-    r"tell me about dsv(?!.*wms)", r"dsv overview(?!.*wms)", r"dsv abbreviation", r"dsv stands for", r"what does dsv mean(?!.*wms)"]):
+    r"\bdsv\b(?!.*(fleet|wms))", r"about dsv(?!.*wms)", r"who is dsv(?!.*wms)", r"what is dsv(?!.*wms)", 
+    r"dsv info(?!.*wms)", r"dsv abu dhabi(?!.*wms)", r"tell me about dsv(?!.*wms)", r"dsv overview(?!.*wms)", 
+    r"dsv abbreviation", r"dsv stands for", r"what does dsv mean(?!.*wms)"]):
         return jsonify({"reply":
         "DSV stands for **'De Sammensluttede Vognmænd'**, meaning **'The Consolidated Hauliers'** in Danish. "
         "Founded in 1976, DSV is a global logistics leader operating in over 80 countries."})
@@ -592,13 +593,15 @@ def chat():
     if match([
     r"\bwms\b",
     r"what.*wms.*system.*dsv.*use",
-    r"which.*wms.*system",
-    r"what.*warehouse.*system.*dsv.*use",
+    r"what wms system dsv use",
+    r"what wms system",
     r"dsv.*wms.*system",
+    r"which.*wms.*system",
     r"wms.*used.*by.*dsv",
     r"wms.*software.*dsv",
     r"inventory.*tracking.*system",
-    r"dsv.*inventory.*system"]):
+    r"dsv.*inventory.*system",
+    r"what is wms"]):
         return jsonify({"reply": "DSV uses the **INFOR Warehouse Management System (WMS)** to manage inventory, inbound/outbound flows, and order tracking. It supports real-time dashboards, barcode scanning, and integrates with client ERP systems."})
 
     if match([r"warehouse activities|warehouse tasks|daily warehouse work"]):
