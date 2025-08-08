@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ message: text })
       });
       const { reply } = await res.json();
-      appendMessage('bot', reply, true);
+      const hasHTML = /<[^>]+>/.test(reply);
+      appendMessage('bot', reply, !hasHTML);
     } catch {
       appendMessage('bot', 'Sorry, something went wrong.');
     }
@@ -56,12 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
     msgsEl.scrollTop = msgsEl.scrollHeight;
 
     if (!typewriter) {
-      bubble.textContent = text;
+      bubble.innerHTML = text;
     } else {
       let i = 0;
       (function typeChar() {
         if (i < text.length) {
-          bubble.textContent += text.charAt(i++);
+          bubble.innerHTML += text.charAt(i++);
           msgsEl.scrollTop = msgsEl.scrollHeight;
           setTimeout(typeChar, 15);
         }
