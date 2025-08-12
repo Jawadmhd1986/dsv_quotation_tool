@@ -47,7 +47,6 @@
         <label for="commodity">Commodity</label>
         <input type="text" id="commodity" name="commodity" placeholder="e.g., Furniture / Machinery" required>
 
-
         <button type="submit" class="btn-generate">
           Generate
         </button>
@@ -76,5 +75,21 @@
 
   <!-- Chat logic -->
   <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+
+  <!-- (kept exactly as you had it) demo block -->
+  <div class="chat-window">
+    <div class="message bot">
+      <div class="message-text">DSV operates a large fleet in the UAE including:
+- 🛻 Flatbed trailers
+- 📦 Box trucks
+- 🚚 Double trailers
+- ❄️ Reefer trucks (chiller/freezer)
+- 🏗️ Lowbeds
+- 🪣 Tippers
+- 🚐 Small city delivery trucks
+
+Fleet vehicles support all types of transport including full truckload (FTL), LTL, and container movements.</div>
+    </div>
+  </div>
 </body>
 </html>
