@@ -241,4 +241,6 @@ body {
     width: 92vw;
     max-height: calc(100dvh - 6vh);
   }
+.chat-window { display: none !important; }
 }
+
