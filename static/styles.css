@@ -201,4 +201,25 @@ body {
     bottom: env(safe-area-inset-bottom, 1.8rem);
     right: 1rem; z-index: 2000;
   }
+/* Mobile fullscreen chat fix */
+@media (max-width: 768px) {
+  .chat-box.open {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* full height */
+    max-height: none;
+    border-radius: 0;
+    z-index: 3000; /* ensure it's above all */
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+  }
 }
+
+}
+
+
